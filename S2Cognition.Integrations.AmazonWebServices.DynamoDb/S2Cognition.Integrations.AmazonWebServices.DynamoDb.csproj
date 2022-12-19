@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AWSSDK.DynamoDBv2" Version="3.7.101.9" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\S2Cognition.Integrations.AmazonWebServices.Core\S2Cognition.Integrations.AmazonWebServices.Core.csproj" />
+  </ItemGroup>
+
+</Project>
