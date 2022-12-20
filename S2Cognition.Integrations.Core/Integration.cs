@@ -8,10 +8,16 @@ public interface IIntegration<in T>
     Task Initialize(T configuration);
 }
 
-internal class Integration<T> : IIntegration<T>
+public class Integration<T> : IIntegration<T>
     where T : IConfiguration
 {
     private T? _configuration = default;
+    protected readonly IServiceProvider _ioc;
+
+    public Integration(IServiceProvider serviceProvider)
+    {
+        _ioc = serviceProvider;
+    }
 
     protected T Configuration
     {

@@ -11,6 +11,11 @@ public interface IAmazonWebServicesIntegration : IIntegration<AmazonWebServicesC
 
 internal class AmazonWebServicesIntegration : Integration<AmazonWebServicesConfiguration>, IAmazonWebServicesIntegration
 {
+    internal AmazonWebServicesIntegration(IServiceProvider serviceProvider)
+        : base(serviceProvider)
+    {
+    }
+
     private AmazonCloudWatchLogsClient CloudWatchLogsClient
     {
         get
@@ -24,10 +29,6 @@ internal class AmazonWebServicesIntegration : Integration<AmazonWebServicesConfi
 
             return new AmazonCloudWatchLogsClient(Configuration.AccessKey, Configuration.SecretKey, cloudwatchConfig);
         }
-    }
-
-    public void GetSomething()
-    {
     }
 }
 /*

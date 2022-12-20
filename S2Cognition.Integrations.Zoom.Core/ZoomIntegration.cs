@@ -15,6 +15,11 @@ internal class ZoomIntegration : Integration<ZoomConfiguration>, IZoomIntegratio
 {
     private ZoomAuthenticationResponse? _authenticationToken = null;
 
+    internal ZoomIntegration(IServiceProvider serviceProvider)
+        : base(serviceProvider)
+    {
+    }
+
     public override async Task Initialize(ZoomConfiguration configuration)
     {
         await base.Initialize(configuration);

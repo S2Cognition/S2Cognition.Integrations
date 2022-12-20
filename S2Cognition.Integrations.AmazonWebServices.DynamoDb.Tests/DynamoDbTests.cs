@@ -1,10 +1,12 @@
 using Amazon.DynamoDBv2.DataModel;
 using Microsoft.Extensions.DependencyInjection;
+using S2Cognition.Integrations.AmazonWebServices.Core;
+using S2Cognition.Integrations.AmazonWebServices.Core.Tests;
 using S2Cognition.Integrations.AmazonWebServices.DynamoDb.Data;
 using S2Cognition.Integrations.Core.Tests;
 using Shouldly;
 
-namespace S2Cognition.Integrations.AmazonWebServices.Core.Tests;
+namespace S2Cognition.Integrations.AmazonWebServices.DynamoDb.Tests;
 
 public class DynamoDbTests : UnitTestBase
 {
@@ -14,6 +16,9 @@ public class DynamoDbTests : UnitTestBase
     protected override async Task IocSetup(IServiceCollection sc)
     {
         sc.AddAmazonWebServicesDynamoDbIntegration();
+        sc.AddFakeAmazonWebServices();
+        sc.AddFakeAmazonWebServicesDynamoDb();
+
         await Task.CompletedTask;
     }
 

@@ -1,45 +1,62 @@
-﻿using Amazon;
-using Amazon.DynamoDBv2;
-using Amazon.DynamoDBv2.DataModel;
-using Amazon.DynamoDBv2.DocumentModel;
+﻿using Microsoft.Extensions.DependencyInjection;
+using S2Cognition.Integrations.AmazonWebServices.Core.Data;
 using S2Cognition.Integrations.AmazonWebServices.DynamoDb.Data;
 using S2Cognition.Integrations.Core;
 
-namespace S2Cognition.Integrations.AmazonWebServices.Core;
+namespace S2Cognition.Integrations.AmazonWebServices.DynamoDb;
 
 public interface IAmazonWebServicesDynamoDbIntegration : IIntegration<AmazonWebServicesDynamoDbConfiguration>
 {
     Task Create<T>(T data);
-    Task<T> Read<T>(T data);
+    Task<T?> Read<T>(T data);
 }
 
-internal class AmazonWebServicesDynamoDbIntegration : Integration<AmazonWebServicesDynamoDbConfiguration>, IAmazonWebServicesDynamoDbIntegration
+public class AmazonWebServicesDynamoDbIntegration : Integration<AmazonWebServicesDynamoDbConfiguration>, IAmazonWebServicesDynamoDbIntegration
 {
-    private async Task<DynamoDBContext> DbContext()
+    public AmazonWebServicesDynamoDbIntegration(IServiceProvider serviceProvider)
+        : base(serviceProvider)
     {
-        var clientConfig = new AmazonDynamoDBConfig();
-        if (!String.IsNullOrWhiteSpace(Configuration.ServiceUrl))
-            clientConfig.ServiceURL = Configuration.ServiceUrl;
+    }
 
-        if (!String.IsNullOrWhiteSpace(Configuration.AwsRegion))
-            clientConfig.RegionEndpoint = RegionEndpoint.GetBySystemName(Configuration.AwsRegion);
+    private IAwsDynamoDbContext? _context = null;
+    private async Task<IAwsDynamoDbContext> DbContext()
+    {
+        if (_context == null)
+        {
+            var clientConfigFactory = _ioc.GetRequiredService<IAwsDynamoDbConfigFactory>();
+            var clientConfig = clientConfigFactory.Create();
 
-        var client = new AmazonDynamoDBClient(clientConfig);
+            if (!String.IsNullOrWhiteSpace(Configuration.ServiceUrl))
+                clientConfig.ServiceURL = Configuration.ServiceUrl;
 
-        return await Task.FromResult(new DynamoDBContext(client));
+            if (!String.IsNullOrWhiteSpace(Configuration.AwsRegion))
+            {
+                var regionUtil = _ioc.GetRequiredService<IAwsRegionFactory>();
+                clientConfig.RegionEndpoint = await regionUtil.Create(Configuration.AwsRegion);
+            }
+
+            var clientFactory = _ioc.GetRequiredService<IAwsDynamoDbClientFactory>();
+            var client = clientFactory.Create(clientConfig);
+
+            var contextFactory = _ioc.GetRequiredService<IAwsDynamoDbContextFactory>();
+            _context = contextFactory.Create(client);
+        }
+
+        return await Task.FromResult(_context);
     }
 
     public async Task Create<T>(T data)
     {
-        using var context = await DbContext();
-        await context.SaveAsync(data);
+        var context = await DbContext();
+        await context.Save(data);
     }
 
-    public async Task<T> Read<T>(T data)
+    public async Task<T?> Read<T>(T data)
     {
-        using var context = await DbContext();
-        return await context.LoadAsync(data);
+        var context = await DbContext();
+        return await context.Load(data);
     }
+
     /*
 using System;
 using System.Collections.Generic;
@@ -387,28 +404,4 @@ private static void TestBatchWrite()
     }
 }
     */
-}
-
-// Converts the complex type DimensionType to string and vice-versa.
-public class EnumToNumberConverter<T> : IPropertyConverter
-    where T : Enum
-{
-    public DynamoDBEntry ToEntry(object value)
-    {
-        return new Primitive
-        {
-            Type = DynamoDBEntryType.Numeric,
-            Value = (int)value
-        };
-    }
-
-    public object FromEntry(DynamoDBEntry entry)
-    {
-        if (entry is Primitive primitive)
-        {
-            return (T)primitive.Value;
-        }
-
-        return default;
-    }
 }

@@ -24,6 +24,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\S2Cognition.Integrations.AmazonWebServices.Core.Tests\S2Cognition.Integrations.AmazonWebServices.Core.Tests.csproj" />
     <ProjectReference Include="..\S2Cognition.Integrations.AmazonWebServices.Core\S2Cognition.Integrations.AmazonWebServices.Core.csproj" />
     <ProjectReference Include="..\S2Cognition.Integrations.AmazonWebServices.DynamoDb\S2Cognition.Integrations.AmazonWebServices.DynamoDb.csproj" />
     <ProjectReference Include="..\S2Cognition.Integrations.Core.Tests\S2Cognition.Integrations.Core.Tests.csproj" />
