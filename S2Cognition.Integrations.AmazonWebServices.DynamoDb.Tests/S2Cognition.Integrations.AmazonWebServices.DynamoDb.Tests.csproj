@@ -9,7 +9,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="AWSSDK.DynamoDBv2" Version="3.7.101.9" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.3.2" />
     <PackageReference Include="Shouldly" Version="4.1.0" />
     <PackageReference Include="xunit" Version="2.4.2" />
@@ -28,6 +27,15 @@
     <ProjectReference Include="..\S2Cognition.Integrations.AmazonWebServices.Core\S2Cognition.Integrations.AmazonWebServices.Core.csproj" />
     <ProjectReference Include="..\S2Cognition.Integrations.AmazonWebServices.DynamoDb\S2Cognition.Integrations.AmazonWebServices.DynamoDb.csproj" />
     <ProjectReference Include="..\S2Cognition.Integrations.Core.Tests\S2Cognition.Integrations.Core.Tests.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="AWSSDK.Core">
+      <HintPath>..\..\aws-sdk-net\sdk\src\Core\bin\Debug\netstandard2.0\AWSSDK.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="AWSSDK.DynamoDBv2">
+      <HintPath>..\..\aws-sdk-net\sdk\src\Services\DynamoDBv2\bin\Debug\netstandard2.0\AWSSDK.DynamoDBv2.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
 </Project>

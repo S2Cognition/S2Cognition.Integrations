@@ -8,11 +8,16 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="AWSSDK.DynamoDBv2" Version="3.7.101.9" />
+    <ProjectReference Include="..\S2Cognition.Integrations.AmazonWebServices.Core\S2Cognition.Integrations.AmazonWebServices.Core.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\S2Cognition.Integrations.AmazonWebServices.Core\S2Cognition.Integrations.AmazonWebServices.Core.csproj" />
+    <Reference Include="AWSSDK.Core">
+      <HintPath>..\..\aws-sdk-net\sdk\src\Core\bin\Debug\netstandard2.0\AWSSDK.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="AWSSDK.DynamoDBv2">
+      <HintPath>..\..\aws-sdk-net\sdk\src\Services\DynamoDBv2\bin\Debug\netstandard2.0\AWSSDK.DynamoDBv2.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
 </Project>

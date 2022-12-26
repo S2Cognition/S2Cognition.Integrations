@@ -5,7 +5,7 @@ namespace S2Cognition.Integrations.AmazonWebServices.DynamoDb.Data;
 
 public interface IAwsDynamoDbConfig
 {
-    string? ServiceURL { get; set; }
+    string? ServiceUrl { get; set; }
     IAwsRegionEndpoint? RegionEndpoint { get; set; }
     AmazonDynamoDBConfig Native { get; }
 }

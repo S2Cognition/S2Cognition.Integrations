@@ -8,16 +8,17 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="AWSSDK.CloudWatch" Version="3.7.101.10" />
-    <PackageReference Include="AWSSDK.CloudWatchLogs" Version="3.7.102.11" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Folder Include="Models\" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\S2Cognition.Integrations.Core\S2Cognition.Integrations.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="AWSSDK.Core">
+      <HintPath>..\..\aws-sdk-net\sdk\src\Core\bin\Debug\netstandard2.0\AWSSDK.Core.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
 </Project>

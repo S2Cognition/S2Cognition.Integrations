@@ -1,6 +1,5 @@
 using Amazon.DynamoDBv2.DataModel;
 using Microsoft.Extensions.DependencyInjection;
-using S2Cognition.Integrations.AmazonWebServices.Core;
 using S2Cognition.Integrations.AmazonWebServices.Core.Tests;
 using S2Cognition.Integrations.AmazonWebServices.DynamoDb.Data;
 using S2Cognition.Integrations.Core.Tests;
@@ -60,7 +59,7 @@ public class DynamoDbTests : UnitTestBase
     }
 
     [Fact]
-    public async Task EnsureCanInsertNewItem()
+    public async Task EnsureCanInsertNewTypedItem()
     {
         var id = 1000;
         var name = "Item Name";
@@ -79,6 +78,42 @@ public class DynamoDbTests : UnitTestBase
             RowState = rowState
         };
         await _sut.Create(newRow);
+
+        var queryRow = new TestTable
+        {
+            Id = id
+        };
+        var result = await _sut.Read(queryRow);
+
+        result.ShouldNotBeNull();
+        result.Id.ShouldBe(id);
+        result.Name.ShouldBe(name);
+        result.Notes.ShouldBe(notes);
+        result.UpdatedOn.ShouldBe(updatedOn);
+        result.UpdatedBy.ShouldBe(updatedBy);
+        result.RowState.ShouldBe(rowState);
+    }
+
+    [Fact]
+    public async Task EnsureCanInsertNewUntypedItem()
+    {
+        var id = 1000;
+        var name = "Item Name";
+        var notes = "Item Notes";
+        var updatedOn = DateTime.UtcNow;
+        var updatedBy = 213;
+        var rowState = RowStatuses.Normal;
+
+        object newRow = new TestTable
+        {
+            Id = id,
+            Name = name,
+            Notes = notes,
+            UpdatedOn = updatedOn,
+            UpdatedBy = updatedBy,
+            RowState = rowState
+        };
+        await _sut.Create(typeof(TestTable), newRow);
 
         var queryRow = new TestTable
         {

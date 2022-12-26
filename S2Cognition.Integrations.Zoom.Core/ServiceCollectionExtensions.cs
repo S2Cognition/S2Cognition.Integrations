@@ -4,8 +4,10 @@ namespace S2Cognition.Integrations.Zoom.Core;
 
 public static class ServiceCollectionExtensions
 {
-    public static void AddZoomIntegration(this IServiceCollection sc)
+    public static IServiceCollection AddZoomIntegration(this IServiceCollection sc)
     {
         sc.AddScoped<IZoomIntegration, ZoomIntegration>();
+
+        return sc;
     }
 }

@@ -19,5 +19,24 @@ public class FakeAwsDynamoDbContext : IAwsDynamoDbContext
 
         await Task.CompletedTask;
     }
+
+    public async Task Save(Type dataType, object data)
+    {
+        if (data != null)
+            _data.Add(data);
+
+        await Task.CompletedTask;
+    }
+
+    public async Task Save(Type dataType, IEnumerable<object> data)
+    {
+        if (data != null)
+        {
+            foreach (var item in data)
+                await Save(dataType, item);
+        }
+
+        await Task.CompletedTask;
+    }
 }
 

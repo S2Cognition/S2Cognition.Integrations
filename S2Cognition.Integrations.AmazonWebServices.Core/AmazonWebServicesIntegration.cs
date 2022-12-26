@@ -1,6 +1,4 @@
-﻿using Amazon;
-using Amazon.CloudWatchLogs;
-using S2Cognition.Integrations.AmazonWebServices.Core.Data;
+﻿using S2Cognition.Integrations.AmazonWebServices.Core.Data;
 using S2Cognition.Integrations.Core;
 
 namespace S2Cognition.Integrations.AmazonWebServices.Core;
@@ -16,20 +14,20 @@ internal class AmazonWebServicesIntegration : Integration<AmazonWebServicesConfi
     {
     }
 
-    private AmazonCloudWatchLogsClient CloudWatchLogsClient
-    {
-        get
-        {
-            var region = RegionEndpoint.GetBySystemName(Configuration.AwsRegion);
-
-            var cloudwatchConfig = new AmazonCloudWatchLogsConfig
-            {
-                RegionEndpoint = region
-            };
-
-            return new AmazonCloudWatchLogsClient(Configuration.AccessKey, Configuration.SecretKey, cloudwatchConfig);
-        }
-    }
+    //private AmazonCloudWatchLogsClient CloudWatchLogsClient
+    //{
+    //    get
+    //    {
+    //        var region = RegionEndpoint.GetBySystemName(Configuration.AwsRegion);
+    //
+    //        var cloudwatchConfig = new AmazonCloudWatchLogsConfig
+    //        {
+    //            RegionEndpoint = region
+    //        };
+    //
+    //        return new AmazonCloudWatchLogsClient(Configuration.AccessKey, Configuration.SecretKey, cloudwatchConfig);
+    //    }
+    //}
 }
 /*
 using Amazon;

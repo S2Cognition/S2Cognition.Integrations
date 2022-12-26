@@ -27,4 +27,10 @@
     <ProjectReference Include="..\S2Cognition.Integrations.Core.Tests\S2Cognition.Integrations.Core.Tests.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Reference Include="AWSSDK.Core">
+      <HintPath>..\..\aws-sdk-net\sdk\src\Core\bin\Debug\netstandard2.0\AWSSDK.Core.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
 </Project>

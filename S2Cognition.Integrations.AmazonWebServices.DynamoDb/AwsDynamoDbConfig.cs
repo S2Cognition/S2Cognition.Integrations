@@ -6,15 +6,36 @@ namespace S2Cognition.Integrations.AmazonWebServices.DynamoDb;
 
 public class AwsDynamoDbConfig : IAwsDynamoDbConfig
 {
-    public string? ServiceURL { get; set; }
-    public IAwsRegionEndpoint? RegionEndpoint { get; set; }
+    private string? _serviceUrl;
+    public string? ServiceUrl
+    {
+        get => _serviceUrl;
+
+        set
+        {
+            _serviceUrl = value;
+            _config.ServiceURL = value;
+        }
+    }
+
+    private IAwsRegionEndpoint? _regionEndpoint; 
+    public IAwsRegionEndpoint? RegionEndpoint
+    {
+        get => _regionEndpoint;
+
+        set
+        {
+            _regionEndpoint = value;
+            _config.RegionEndpoint = value?.Native;
+        }
+    }
 
     private readonly AmazonDynamoDBConfig _config;
     public AmazonDynamoDBConfig Native => _config;
 
     public AwsDynamoDbConfig()
     {
-        _config = new AmazonDynamoDBConfig();
+        _config = new AmazonDynamoDBConfig { ServiceURL = ServiceUrl, RegionEndpoint = RegionEndpoint?.Native };
     }
 }
 

@@ -14,6 +14,7 @@ public class AwsRegionFactory : IAwsRegionFactory
 public class AwsRegionEndpoint : IAwsRegionEndpoint
 {
     private readonly RegionEndpoint _region;
+    public RegionEndpoint Native => _region;
 
     public AwsRegionEndpoint(RegionEndpoint region)
     {

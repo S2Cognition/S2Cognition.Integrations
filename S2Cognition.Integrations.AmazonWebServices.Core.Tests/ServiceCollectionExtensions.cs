@@ -5,10 +5,12 @@ namespace S2Cognition.Integrations.AmazonWebServices.Core.Tests;
 
 public static class ServiceCollectionExtensions
 {
-    public static void AddFakeAmazonWebServices(this IServiceCollection sc)
+    public static IServiceCollection AddFakeAmazonWebServices(this IServiceCollection sc)
     {
-        sc.AddScoped<IAwsRegionFactory, FakeAwsRegionFactory>();
-        sc.AddScoped<IAwsRegionEndpoint, FakeAwsRegionEndpoint>();
+        sc.AddSingleton<IAwsRegionFactory, FakeAwsRegionFactory>()
+            .AddScoped<IAwsRegionEndpoint, FakeAwsRegionEndpoint>();
+
+        return sc;
     }
 }
 

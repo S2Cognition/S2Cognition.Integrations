@@ -5,7 +5,7 @@ namespace S2Cognition.Integrations.Core.Tests;
 
 public static class ServiceCollectionExtensions
 {
-    public static void AddFakeHttpClient(this IServiceCollection sc)
+    public static IServiceCollection AddFakeHttpClient(this IServiceCollection sc)
     {
         var client = new FakeHttpClient();
         sc.AddSingleton<IFakeHttpClient>(client);
@@ -18,5 +18,7 @@ public static class ServiceCollectionExtensions
             client.EnsureDisposed();
             return client;
         });
+
+        return sc;
     }
 }

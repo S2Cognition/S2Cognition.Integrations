@@ -4,11 +4,12 @@ namespace S2Cognition.Integrations.AmazonWebServices.Core.Data;
 
 public static class ServiceCollectionExtensions
 {
-    public static void AddAmazonWebServicesIntegration(this IServiceCollection sc)
+    public static IServiceCollection AddAmazonWebServicesIntegration(this IServiceCollection sc)
     {
-        sc.AddScoped<IAmazonWebServicesIntegration, AmazonWebServicesIntegration>();
+        sc.AddSingleton<IAmazonWebServicesIntegration, AmazonWebServicesIntegration>()
+            .AddSingleton<IAwsRegionFactory, AwsRegionFactory>()
+            .AddScoped<IAwsRegionEndpoint, AwsRegionEndpoint>();
 
-        sc.AddScoped<IAwsRegionFactory, AwsRegionFactory>();
-        sc.AddScoped<IAwsRegionEndpoint, AwsRegionEndpoint>();
+        return sc;
     }
 }
