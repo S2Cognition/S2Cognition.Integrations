@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Aws Alarm Monitor Property Inspector</title>
+    <link rel="stylesheet" href="PropertyInspector.css" >
+</head>
+<body>
+    <div class="sdpi-wrapper" >
+		<div class="sdpi-item" id="AwsAccessKeyId" type="field" >
+    <div class="sdpi-item-label" >Access Key Id</div>
+    <input id="txtAwsAccessKeyId" class="sdpi-item-value" type="text" placeholder="Access Key Id" onKeyUp="setSettings(event.target.value, 'AwsAccessKeyId')" required />
+</div>
+<div class="sdpi-item" id="AwsAccessKeySecret" type="field" >
+    <div class="sdpi-item-label" >Access Key Secret</div>
+    <input id="txtAwsAccessKeySecret" class="sdpi-item-value" type="text" placeholder="Access Key Secret" onKeyUp="setSettings(event.target.value, 'AwsAccessKeySecret')" required />
+</div>
+<div class="sdpi-item" id="AwsRegion" type="field" >
+    <div class="sdpi-item-label" >Region</div>
+    <input id="txtAwsRegion" class="sdpi-item-value" type="text" placeholder="Region" onKeyUp="setSettings(event.target.value, 'AwsRegion')" required />
+</div>
+<div class="sdpi-item" id="AwsAlarmName" type="field" >
+    <div class="sdpi-item-label" >Alarm Name</div>
+    <input id="txtAwsAlarmName" class="sdpi-item-value" type="text" placeholder="Alarm Name" onKeyUp="setSettings(event.target.value, 'AwsAlarmName')" required />
+</div>
+    </div>
+    <script src="PropertyInspector.js" ></script>
+</body>
+</html>

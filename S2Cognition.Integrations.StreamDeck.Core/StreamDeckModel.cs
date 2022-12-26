@@ -1,6 +1,5 @@
 ﻿namespace S2Cognition.Integrations.StreamDeck.Core;
 
-public class Class1
+public abstract class StreamDeckModel
 {
-
 }

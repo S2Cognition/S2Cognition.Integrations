@@ -7,12 +7,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="ThirdParty\" />
+    <PackageReference Include="StreamDeckLib" Version="0.5.2040" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="StreamDeckLib" Version="0.5.2040" />
-    <PackageReference Include="StreamDeckLib.Config" Version="0.5.2040" />
+    <ProjectReference Include="..\S2Cognition.Integrations.StreamDeck.Core\S2Cognition.Integrations.StreamDeck.Core.csproj" />
   </ItemGroup>
 
 </Project>
