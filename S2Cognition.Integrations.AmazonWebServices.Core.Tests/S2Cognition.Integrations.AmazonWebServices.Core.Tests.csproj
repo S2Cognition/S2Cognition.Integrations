@@ -29,7 +29,7 @@
 
   <ItemGroup>
     <Reference Include="AWSSDK.Core">
-      <HintPath>..\..\aws-sdk-net\sdk\src\Core\bin\Debug\netstandard2.0\AWSSDK.Core.dll</HintPath>
+      <HintPath>..\S2Cognition.Integrations.AmazonWebServices.Core\ThirdParty\AWSSDK.Core.dll</HintPath>
     </Reference>
   </ItemGroup>
 
