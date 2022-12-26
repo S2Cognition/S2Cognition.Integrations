@@ -2,7 +2,7 @@
 using S2Cognition.Integrations.AmazonWebServices.Core.Data;
 using S2Cognition.Integrations.AmazonWebServices.DynamoDb.Data;
 
-namespace S2Cognition.Integrations.AmazonWebServices.DynamoDb;
+namespace S2Cognition.Integrations.AmazonWebServices.DynamoDb.Models;
 
 public class AwsDynamoDbConfig : IAwsDynamoDbConfig
 {
@@ -18,7 +18,7 @@ public class AwsDynamoDbConfig : IAwsDynamoDbConfig
         }
     }
 
-    private IAwsRegionEndpoint? _regionEndpoint; 
+    private IAwsRegionEndpoint? _regionEndpoint;
     public IAwsRegionEndpoint? RegionEndpoint
     {
         get => _regionEndpoint;

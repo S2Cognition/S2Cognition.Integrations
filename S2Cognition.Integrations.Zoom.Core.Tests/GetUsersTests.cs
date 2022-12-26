@@ -1,8 +1,3 @@
-using Microsoft.Extensions.DependencyInjection;
-using S2Cognition.Integrations.Core.Tests;
-using S2Cognition.Integrations.Zoom.Core.Data;
-using Shouldly;
-
 namespace S2Cognition.Integrations.Zoom.Core.Tests;
 
 public class GetUsersTests : UnitTestBase

@@ -1,7 +1,7 @@
 ﻿using Amazon.DynamoDBv2;
 using S2Cognition.Integrations.AmazonWebServices.DynamoDb.Data;
 
-namespace S2Cognition.Integrations.AmazonWebServices.DynamoDb;
+namespace S2Cognition.Integrations.AmazonWebServices.DynamoDb.Models;
 
 public class AwsDynamoDbClient : IAwsDynamoDbClient
 {

@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using S2Cognition.Integrations.Core.Models;
 
 namespace S2Cognition.Integrations.Core;
 

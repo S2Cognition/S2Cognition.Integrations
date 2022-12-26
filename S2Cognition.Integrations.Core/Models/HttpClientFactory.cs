@@ -2,7 +2,7 @@
 using System.Text.Json;
 using SystemHttpClient = System.Net.Http.HttpClient;
 
-namespace S2Cognition.Integrations.Core;
+namespace S2Cognition.Integrations.Core.Models;
 
 public interface IHttpClientFactory
 {

@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using S2Cognition.Integrations.Core.Tests.Fakes;
 using System.Diagnostics.CodeAnalysis;
 
 namespace S2Cognition.Integrations.Core.Tests;

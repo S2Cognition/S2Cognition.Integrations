@@ -3,7 +3,7 @@ using Amazon.DynamoDBv2.DataModel;
 using Amazon.DynamoDBv2.Model;
 using S2Cognition.Integrations.AmazonWebServices.DynamoDb.Data;
 
-namespace S2Cognition.Integrations.AmazonWebServices.DynamoDb;
+namespace S2Cognition.Integrations.AmazonWebServices.DynamoDb.Models;
 
 public class AwsDynamoDbContext : IAwsDynamoDbContext
 {

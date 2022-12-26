@@ -1,6 +1,7 @@
 ﻿using System.Text.Json;
+using S2Cognition.Integrations.Core.Models;
 
-namespace S2Cognition.Integrations.Core.Tests;
+namespace S2Cognition.Integrations.Core.Tests.Fakes;
 
 public interface IFakeHttpClient
 {

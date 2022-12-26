@@ -2,7 +2,7 @@
 using S2Cognition.Integrations.AmazonWebServices.Core.Data;
 using S2Cognition.Integrations.AmazonWebServices.DynamoDb.Data;
 
-namespace S2Cognition.Integrations.AmazonWebServices.DynamoDb.Tests;
+namespace S2Cognition.Integrations.AmazonWebServices.DynamoDb.Tests.Fakes;
 
 public class FakeAwsDynamoDbConfig : IAwsDynamoDbConfig
 {

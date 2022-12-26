@@ -1,11 +1,15 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using S2Cognition.Integrations.Core;
+using S2Cognition.Integrations.Core.Models;
 using S2Cognition.Integrations.Zoom.Core.Data;
 using S2Cognition.Integrations.Zoom.Core.Models;
 using System.Text.Json;
 
 namespace S2Cognition.Integrations.Zoom.Core;
 
+/// <summary>
+/// 
+/// </summary>
 public interface IZoomIntegration : IIntegration<ZoomConfiguration>
 {
     Task<GetUsersResponse?> GetUsers();
@@ -15,7 +19,7 @@ internal class ZoomIntegration : Integration<ZoomConfiguration>, IZoomIntegratio
 {
     private ZoomAuthenticationResponse? _authenticationToken = null;
 
-    internal ZoomIntegration(IServiceProvider serviceProvider)
+    public ZoomIntegration(IServiceProvider serviceProvider)
         : base(serviceProvider)
     {
     }

@@ -1,7 +1,7 @@
 ﻿using Amazon.DynamoDBv2.DataModel;
 using Amazon.DynamoDBv2.DocumentModel;
 
-namespace S2Cognition.Integrations.AmazonWebServices.DynamoDb;
+namespace S2Cognition.Integrations.AmazonWebServices.DynamoDb.Models;
 
 // Converts the complex type DimensionType to string and vice-versa.
 public class EnumToNumberConverter<T> : IPropertyConverter
@@ -27,7 +27,7 @@ public class EnumToNumberConverter<T> : IPropertyConverter
 
     public object? FromEntry(DynamoDBEntry entry)
     {
-        if ((entry is Primitive primitive) && (primitive.Value != null))
+        if (entry is Primitive primitive && primitive.Value != null)
             return (T)primitive.Value;
 
         return null;

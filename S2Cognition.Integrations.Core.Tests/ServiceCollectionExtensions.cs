@@ -1,5 +1,7 @@
 ﻿using FakeItEasy;
 using Microsoft.Extensions.DependencyInjection;
+using S2Cognition.Integrations.Core.Models;
+using S2Cognition.Integrations.Core.Tests.Fakes;
 
 namespace S2Cognition.Integrations.Core.Tests;
 

@@ -2,6 +2,7 @@ using Amazon.DynamoDBv2.DataModel;
 using Microsoft.Extensions.DependencyInjection;
 using S2Cognition.Integrations.AmazonWebServices.Core.Tests;
 using S2Cognition.Integrations.AmazonWebServices.DynamoDb.Data;
+using S2Cognition.Integrations.AmazonWebServices.DynamoDb.Models;
 using S2Cognition.Integrations.Core.Tests;
 using Shouldly;
 

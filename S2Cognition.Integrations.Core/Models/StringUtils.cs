@@ -1,6 +1,6 @@
 ﻿using System.Text;
 
-namespace S2Cognition.Integrations.Core;
+namespace S2Cognition.Integrations.Core.Models;
 
 public interface IStringUtils
 {
