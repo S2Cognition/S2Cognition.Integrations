@@ -4,8 +4,6 @@ using S2Cognition.Integrations.Monday.Core.Models;
 using S2Cognition.Integrations.Monday.Core.Models.Mutations;
 using S2Cognition.Integrations.Monday.Core.Models.Responses;
 using Shouldly;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace S2Cognition.Integrations.Monday.Core.Tests.Internal;
 
