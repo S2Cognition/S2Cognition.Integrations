@@ -33,7 +33,7 @@ public class DynamoDbTests : UnitTestBase
         };
 
         _sut = _ioc.GetRequiredService<IAmazonWebServicesDynamoDbIntegration>();
-        await _sut.Initialize(_configuration);
+        await Task.CompletedTask;
     }
 
     public enum RowStatuses
@@ -62,6 +62,8 @@ public class DynamoDbTests : UnitTestBase
     [Fact]
     public async Task EnsureCanInsertNewTypedItem()
     {
+        await _sut.Initialize(_configuration);
+
         var id = 1000;
         var name = "Item Name";
         var notes = "Item Notes";
@@ -98,6 +100,8 @@ public class DynamoDbTests : UnitTestBase
     [Fact]
     public async Task EnsureCanInsertNewUntypedItem()
     {
+        await _sut.Initialize(_configuration);
+
         var id = 1000;
         var name = "Item Name";
         var notes = "Item Notes";
@@ -129,5 +133,17 @@ public class DynamoDbTests : UnitTestBase
         result.UpdatedOn.ShouldBe(updatedOn);
         result.UpdatedBy.ShouldBe(updatedBy);
         result.RowState.ShouldBe(rowState);
+    }
+
+    [Fact]
+    public async Task EnsureCheckingForInitializationReturnsExpectedResults()
+    {
+        var isInitialized = await _sut.IsInitialized();
+        isInitialized.ShouldBeFalse();
+
+        await _sut.Initialize(_configuration);
+        
+        isInitialized = await _sut.IsInitialized();
+        isInitialized.ShouldBeTrue();
     }
 }

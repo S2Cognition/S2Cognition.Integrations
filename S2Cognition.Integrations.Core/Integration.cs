@@ -6,12 +6,14 @@ public interface IIntegration<in T>
     where T : IConfiguration
 {
     Task Initialize(T configuration);
+    Task<bool> IsInitialized();
 }
 
 public class Integration<T> : IIntegration<T>
     where T : IConfiguration
 {
     private T? _configuration = default;
+    private bool _isInitialized = false;
     protected readonly IServiceProvider _ioc;
 
     public Integration(IServiceProvider serviceProvider)
@@ -33,6 +35,12 @@ public class Integration<T> : IIntegration<T>
     public virtual async Task Initialize(T configuration)
     {
         _configuration = configuration;
+        _isInitialized = true;
         await Task.CompletedTask;
+    }
+
+    public async Task<bool> IsInitialized()
+    {
+        return await Task.FromResult(_isInitialized);
     }
 }

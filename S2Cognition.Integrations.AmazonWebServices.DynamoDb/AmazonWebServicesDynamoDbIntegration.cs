@@ -10,6 +10,7 @@ public interface IAmazonWebServicesDynamoDbIntegration : IIntegration<AmazonWebS
     Task Create<T>(T data);
     Task Create(Type dataType, object data);
     Task Create(Type dataType, IEnumerable<object> data);
+    
     Task<T?> Read<T>(T data);
 }
 
