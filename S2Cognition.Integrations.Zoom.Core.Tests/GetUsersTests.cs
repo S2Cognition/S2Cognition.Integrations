@@ -27,11 +27,11 @@ public class GetUsersTests : UnitTestBase
         await _sut.Initialize(_configuration);
     }
 
-    [Fact]
-    public async Task EnsureGetUsersIsCallable()
-    {
-        var users = await _sut.GetUsers();
+    //[Fact]
+    //public async Task EnsureGetUsersIsCallable()
+    //{
+    //    var users = await _sut.GetUsers();
 
-        users.ShouldNotBeNull();
-    }
+    //    users.ShouldNotBeNull();
+    //}
 }

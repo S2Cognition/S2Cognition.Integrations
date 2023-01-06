@@ -1,9 +1,26 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net7.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
   </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\S2Cognition.Integrations.Core\S2Cognition.Integrations.Core.csproj" />
+  </ItemGroup>
+
+	<ItemGroup>
+		<Folder Include="ThirdParty\" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Reference Include="AWSSDK.CloudWatch">
+		  <HintPath>ThirdParty\AWSSDK.CloudWatch.dll</HintPath>
+		</Reference>
+		<Reference Include="AWSSDK.Core">
+		  <HintPath>..\S2Cognition.Integrations.AmazonWebServices.Core\ThirdParty\AWSSDK.Core.dll</HintPath>
+		</Reference>
+	</ItemGroup>
 
 </Project>

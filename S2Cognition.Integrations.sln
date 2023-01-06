@@ -86,7 +86,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "S2Cognition.Integrations.Am
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "S2Cognition.Integrations.AmazonWebServices.CloudWatch.Tests", "S2Cognition.Integrations.AmazonWebServices.CloudWatch.Tests\S2Cognition.Integrations.AmazonWebServices.CloudWatch.Tests.csproj", "{6CD63EB4-D685-4D89-8D5A-3F3EAB9D8A90}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LocalDev", "LocalDev\LocalDev.csproj", "{9B81DA32-189D-431F-975F-20821C8293D2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LocalDev", "LocalDev\LocalDev.csproj", "{9B81DA32-189D-431F-975F-20821C8293D2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
