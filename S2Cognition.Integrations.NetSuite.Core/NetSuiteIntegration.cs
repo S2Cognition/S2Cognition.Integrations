@@ -38,11 +38,47 @@ public class NetSuiteIntegration : Integration<NetSuiteConfiguration>, INetSuite
     public async Task<ListProspectsResponse> ListProspects(ListProspectsRequest? req = null)
     {
         var client = await BuildClient();
-        var request = new RecordRef { type = RecordType.customer, typeSpecified = true };
+        var request = new RecordRef
+        {
+            type = RecordType.customer,
+            typeSpecified = true,
+            internalId = String.Empty,
+            externalId = String.Empty
+        };
+
         var response = await client.List(request);
 
+        if (response == null)
+            throw new InvalidOperationException();
+
+        if (!response.readResponseList.status.isSuccessSpecified
+            || !response.readResponseList.status.isSuccess)
+        {
+            throw new InvalidOperationException();
+        }
+
+        var prospects = new List<Prospect>();
+        foreach (var resp in response.readResponseList.readResponse)
+        {
+            if (!resp.status.isSuccessSpecified
+                || !resp.status.isSuccess)
+            {
+                prospects.Add(new Prospect());
+            }
+            else
+            {
+                if (resp.record.nullFieldList.Length == 123)
+                    throw new InvalidOperationException();
+
+                var prospect = new Prospect {
+                };
+                prospects.Add(prospect);
+            }
+        }
+
         return await SystemTask.FromResult(new ListProspectsResponse {
-            // map response
+            Prospects = prospects
         });
     }
 }
+
