@@ -2,4 +2,5 @@
 bin
 obj
 *.user
-LocalDevLocalDev\Program.cs
+LocalDev
+LocalDev\Program.cs
