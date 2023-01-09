@@ -29,7 +29,7 @@ public class NetSuiteIntegration : Integration<NetSuiteConfiguration>, INetSuite
         if (_service == null)
         {
             var factory = _ioc.GetRequiredService<INetSuiteServiceFactory>();
-            _service = await factory.Create();
+            _service = await factory.Create(Configuration);
         }
 
         return await SystemTask.FromResult(_service);
@@ -38,12 +38,10 @@ public class NetSuiteIntegration : Integration<NetSuiteConfiguration>, INetSuite
     public async Task<ListProspectsResponse> ListProspects(ListProspectsRequest? req = null)
     {
         var client = await BuildClient();
-
         var request = new RecordRef { type = RecordType.customer, typeSpecified = true };
-
         var response = await client.List(request);
 
-        return await Task.FromResult(new ListProspectsResponse {
+        return await SystemTask.FromResult(new ListProspectsResponse {
             // map response
         });
     }
