@@ -26,24 +26,26 @@ try
     }
 
     $buildConfiguration = "Release"
-    $nugetPackageFolder = ".\Nupkgs\*.nupkg"
+    $nugetPackageFolder = ".\Nupkgs";
+    $nugetFileGlob = "*.nupkg"
 
-    $includePackages = @("S2Cognition.Integrations.AmazonWebServices.CloudWatch*.nupkg", `
-                "S2Cognition.Integrations.AmazonWebServices.Core*.nupkg", `
-                "S2Cognition.Integrations.AmazonWebServices.DynamoDb*.nupkg", `
-                "S2Cognition.Integrations.Core*.nupkg", `
-                "S2Cognition.Integrations.Google.Analytics*.nupkg", `
-                "S2Cognition.Integrations.Google.Core*.nupkg", `
-                "S2Cognition.Integrations.Microsoft.AzureDevOps*.nupkg", `
-                "S2Cognition.Integrations.Microsoft.Core*.nupkg", `
-                "S2Cognition.Integrations.Monday.Core*.nupkg", `
-                "S2Cognition.Integrations.NetSuite.Core*.nupkg", `
-                "S2Cognition.Integrations.StreamDeck.AwsAlarmMonitor*.nupkg", `
-                "S2Cognition.Integrations.StreamDeck.AzdoPipelineMonitor*.nupkg", `
-                "S2Cognition.Integrations.StreamDeck.Core*.nupkg", `
-                "S2Cognition.Integrations.Zoom.Core*.nupkg", `
-                "S2Cognition.Integrations.Zoom.Phones*.nupkg" `
-                )
+    $includePackages = @(
+        "S2Cognition.Integrations.Core*.nupkg", `
+        "S2Cognition.Integrations.AmazonWebServices.Core*.nupkg", `
+        "S2Cognition.Integrations.AmazonWebServices.CloudWatch*.nupkg", `
+        "S2Cognition.Integrations.AmazonWebServices.DynamoDb*.nupkg", `
+        "S2Cognition.Integrations.Google.Core*.nupkg", `
+        "S2Cognition.Integrations.Google.Analytics*.nupkg", `
+        "S2Cognition.Integrations.Microsoft.Core*.nupkg", `
+        "S2Cognition.Integrations.Microsoft.AzureDevOps*.nupkg", `
+        "S2Cognition.Integrations.Monday.Core*.nupkg", `
+        "S2Cognition.Integrations.NetSuite.Core*.nupkg", `
+        "S2Cognition.Integrations.StreamDeck.Core*.nupkg", `
+        "S2Cognition.Integrations.StreamDeck.AwsAlarmMonitor*.nupkg", `
+        "S2Cognition.Integrations.StreamDeck.AzdoPipelineMonitor*.nupkg", `
+        "S2Cognition.Integrations.Zoom.Core*.nupkg", `
+        "S2Cognition.Integrations.Zoom.Phones*.nupkg" `
+    )
 
     Write-Host
     Write-Host "Building Projects"
@@ -68,7 +70,14 @@ try
         Write-Host
         Write-Host "Deleting old packages"
     
-        Get-ChildItem $nugetPackageFolder | Remove-Item -Force
+        if(Test-Path -Path $nugetPackageFolder)
+        {
+            Get-ChildItem "$nugetPackageFolder\$nugetFileGlob" | Remove-Item -Force
+        }
+        else
+        {
+            New-Item -ItemType Directory $nugetPackageFolder
+        }
 
         Write-Host
         Write-Host "Creating Nuget Packages" 
@@ -76,7 +85,7 @@ try
         $versionJson = Get-Content .\build\version.json  -Raw | ConvertFrom-Json 
         $versionMajor = $versionJson.Version.VersionMajor
         $versionMinor = $versionJson.Version.VersionMinor
-        $versionPatch = [int]$versionJson.Version.VersionPatch + 1
+        $versionPatch = [int]$versionJson.Version.VersionPatch
         $newVersion = "$versionMajor.$versionMinor.$versionPatch"
         
         Write-Host
@@ -96,7 +105,7 @@ try
         Write-Host
         Write-Host "Pushing Nuget Packages"
 
-        $packages = Get-ChildItem $nugetPackageFolder -Include $includePackages 
+        $packages = Get-ChildItem "$nugetPackageFolder\$nugetFileGlob" -Include $includePackages 
         foreach($package in $packages)
         {
             Write-Host $package
@@ -108,7 +117,7 @@ try
             throw "Nuget package push failed."
         }
 
-        $versionJson.Version.VersionPatch = [string]$versionPatch
+        $versionJson.Version.VersionPatch = [string]($versionPatch + 1)
         $versionJson | ConvertTo-Json -Depth 4 | Out-File ./build/version.json  
     }
 }

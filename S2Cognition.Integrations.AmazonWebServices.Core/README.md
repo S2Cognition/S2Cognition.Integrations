@@ -1,0 +1,1 @@
+﻿Subproject of https://github.com/S2Cognition/S2Cognition.Integrations
