@@ -1,26 +1,61 @@
+param (
+	[String] $apikey = $null,
+    [Switch] $pushNuget = $false,
+    [Switch] $help = $false
+)
 
 pushd .
 
 try
 {
-    $buildConfiguration = "Release"
-
-    $versionJson = Get-Content version.json  -Raw | ConvertFrom-Json 
-    $versionMajor = $versionJson.Version.VersionMajor
-    $versionMinor = $versionJson.Version.VersionMinor
-    $versionPatch = [int]$versionJson.Version.VersionPatch + 1
-
-    $newVersion = "$versionMajor.$versionMinor.$versionPatch"
-
-    Write-Host "Creating version: $newVersion"
-
     cd ..
-    
+
+    if($help) {
+        Write-Host 
+        Write-Host "-help:"
+        Write-Host "    .\buildAll.ps1"
+        Write-Host 
+        Write-Host "        -apiKey"
+        Write-Host "            The script will accept the ApiKey for the push to Nuget."
+        Write-Host "        -pushNuget"
+        Write-Host "            If supplied, will increment the version of the generated Nuget packages"
+        Write-Host "            and push the generated packages to Nuget."
+        Write-Host "        -help"
+        Write-Host "            Display help for options available to the script."
+        exit;
+    }
+
+    $buildConfiguration = "Release"
+    $nugetPackageFolder = ".\Nupkgs\*.nupkg"
+
+    $includePackages = @("S2Cognition.Integrations.AmazonWebServices.CloudWatch*.nupkg", `
+                "S2Cognition.Integrations.AmazonWebServices.Core*.nupkg", `
+                "S2Cognition.Integrations.AmazonWebServices.DynamoDb*.nupkg", `
+                "S2Cognition.Integrations.Core*.nupkg", `
+                "S2Cognition.Integrations.Google.Analytics*.nupkg", `
+                "S2Cognition.Integrations.Google.Core*.nupkg", `
+                "S2Cognition.Integrations.Microsoft.AzureDevOps*.nupkg", `
+                "S2Cognition.Integrations.Microsoft.Core*.nupkg", `
+                "S2Cognition.Integrations.Monday.Core*.nupkg", `
+                "S2Cognition.Integrations.NetSuite.Core*.nupkg", `
+                "S2Cognition.Integrations.StreamDeck.AwsAlarmMonitor*.nupkg", `
+                "S2Cognition.Integrations.StreamDeck.AzdoPipelineMonitor*.nupkg", `
+                "S2Cognition.Integrations.StreamDeck.Core*.nupkg", `
+                "S2Cognition.Integrations.Zoom.Core*.nupkg", `
+                "S2Cognition.Integrations.Zoom.Phones*.nupkg" `
+                )
+
+    Write-Host
+    Write-Host "Building Projects"
+
     dotnet build  --configuration $buildConfiguration
     if($? -eq 0)
     {
         throw "Build failed."
     }
+
+    Write-Host
+    Write-Host "Testing Projects"
 
     dotnet test --configuration $buildConfiguration 
     if($? -eq 0)
@@ -28,20 +63,54 @@ try
         throw "Tests failed."
     }
 
-    dotnet pack --configuration $buildConfiguration --no-build -p:PackageVersion=$newVersion
-    if($? -eq 0)
+    if($pushNuget)
     {
-        throw "Nuget packaging failed."
+        Write-Host
+        Write-Host "Deleting old packages"
+    
+        Get-ChildItem $nugetPackageFolder | Remove-Item -Force
+
+        Write-Host
+        Write-Host "Creating Nuget Packages" 
+
+        $versionJson = Get-Content .\build\version.json  -Raw | ConvertFrom-Json 
+        $versionMajor = $versionJson.Version.VersionMajor
+        $versionMinor = $versionJson.Version.VersionMinor
+        $versionPatch = [int]$versionJson.Version.VersionPatch + 1
+        $newVersion = "$versionMajor.$versionMinor.$versionPatch"
+        
+        Write-Host
+        Write-Host "Creating version: $newVersion"
+
+        if([String]::IsNullOrWhiteSpace($apikey))
+        {
+            $apiKey =  read-host "Enter API Key"
+        }
+
+        dotnet pack --configuration $buildConfiguration --no-build -p:PackageVersion=$newVersion --output ./Nupkgs
+        if($? -eq 0)
+        {
+            throw "Nuget packaging failed."
+        }
+
+        Write-Host
+        Write-Host "Pushing Nuget Packages"
+
+        $packages = Get-ChildItem $nugetPackageFolder -Include $includePackages 
+        foreach($package in $packages)
+        {
+            Write-Host $package
+            dotnet nuget push $package --api-key $apikey --source https://api.nuget.org/v3/index.json  --skip-duplicate --no-symbols 
+        }
+
+        if($? -eq 0)
+        {
+            throw "Nuget package push failed."
+        }
+
+        $versionJson.Version.VersionPatch = [string]$versionPatch
+        $versionJson | ConvertTo-Json -Depth 4 | Out-File ./build/version.json  
     }
-
-    #dotnet push --configuration $buildConfiguration --no-build -p:PackageVersion=$newVersion
-    #if($? -eq 0)
-    #{
-    #    throw "Nuget package push failed."
-    #}
-
-    $versionJson.Version.VersionPatch = [string]$versionPatch
-    $versionJson | ConvertTo-Json -Depth 4 | Out-File ./build/version.json  
 }
 finally
 {
