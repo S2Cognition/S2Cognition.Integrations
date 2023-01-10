@@ -26,6 +26,7 @@ public class AwsDynamoDbContext : IAwsDynamoDbContext
         return default;
     }
 
+#if AWS_SUPPORTS_NONGENERIC_DYNAMODB
     public async Task Save(Type dataType, object data)
     {
         await _context.SaveAsync(dataType, data);
@@ -37,6 +38,7 @@ public class AwsDynamoDbContext : IAwsDynamoDbContext
         batchWrite.AddPutItems(data);
         await batchWrite.ExecuteAsync();
     }
+#endif
 
     public async Task Save<T>(T? data)
     {

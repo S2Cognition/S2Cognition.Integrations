@@ -8,8 +8,11 @@ namespace S2Cognition.Integrations.AmazonWebServices.DynamoDb;
 public interface IAmazonWebServicesDynamoDbIntegration : IIntegration<AmazonWebServicesDynamoDbConfiguration>
 {
     Task Create<T>(T data);
+
+#if AWS_SUPPORTS_NONGENERIC_DYNAMODB
     Task Create(Type dataType, object data);
     Task Create(Type dataType, IEnumerable<object> data);
+#endif 
     
     Task<T?> Read<T>(T data);
 }
@@ -54,6 +57,7 @@ public class AmazonWebServicesDynamoDbIntegration : Integration<AmazonWebService
         await context.Save(data);
     }
 
+#if AWS_SUPPORTS_NONGENERIC_DYNAMODB
     public async Task Create(Type dataType, object data)
     {
         var context = await DbContext();
@@ -65,6 +69,7 @@ public class AmazonWebServicesDynamoDbIntegration : Integration<AmazonWebService
         var context = await DbContext();
         await context.Save(dataType, data);
     }
+#endif
 
     public async Task<T?> Read<T>(T data)
     {

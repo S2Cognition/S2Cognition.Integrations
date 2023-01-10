@@ -97,6 +97,7 @@ public class DynamoDbTests : UnitTestBase
         result.RowState.ShouldBe(rowState);
     }
 
+#if AWS_SUPPORTS_NONGENERIC_DYNAMODB
     [Fact]
     public async Task EnsureCanInsertNewUntypedItem()
     {
@@ -134,6 +135,7 @@ public class DynamoDbTests : UnitTestBase
         result.UpdatedBy.ShouldBe(updatedBy);
         result.RowState.ShouldBe(rowState);
     }
+#endif
 
     [Fact]
     public async Task EnsureCheckingForInitializationReturnsExpectedResults()

@@ -6,4 +6,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="AWSSDK.CloudWatch" Version="3.7.102.15" />
+  </ItemGroup>
+
 </Project>
