@@ -8,6 +8,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="AWSSDK.DynamoDBv2" Version="3.7.101.21" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\S2Cognition.Integrations.AmazonWebServices.Core\S2Cognition.Integrations.AmazonWebServices.Core.csproj" />
   </ItemGroup>
 
@@ -18,10 +22,6 @@
     <Reference Include="AWSSDK.DynamoDBv2">
       <HintPath>ThirdParty\AWSSDK.DynamoDBv2.dll</HintPath>
     </Reference>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="ThirdParty\" />
   </ItemGroup>
 
 </Project>
