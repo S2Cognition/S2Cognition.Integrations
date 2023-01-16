@@ -21,7 +21,7 @@ public class MondayUserTests : MondayTests
             });
         }
 
-        A.CallTo(() => _graphQlClient.SendQueryAsync<GetUsersResponse>(A<GraphQLRequest>._, default))
+        A.CallTo(() => _graphQlClient.SendQueryAsync<GetUsersResponse>(A<GraphQLRequest>._))
             .Returns(new GraphQLResponse<GetUsersResponse>
             {
                 Data = new GetUsersResponse

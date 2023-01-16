@@ -10,7 +10,7 @@ public class MondaySystemTests : MondayTests
 {
     private void FakeRateLimit()
     {
-        A.CallTo(() => _graphQlClient.SendMutationAsync<GetComplexityResponse>(A<GraphQLRequest>._, default))
+        A.CallTo(() => _graphQlClient.SendMutationAsync<GetComplexityResponse>(A<GraphQLRequest>._))
             .Returns(new GraphQLResponse<GetComplexityResponse>
             {
                 Data = new GetComplexityResponse(new Complexity { After = 1234 })
@@ -19,7 +19,7 @@ public class MondaySystemTests : MondayTests
 
     private void FakeComplexity()
     {
-        A.CallTo(() => _graphQlClient.SendMutationAsync<GetComplexityResponse>(A<GraphQLRequest>._, default))
+        A.CallTo(() => _graphQlClient.SendMutationAsync<GetComplexityResponse>(A<GraphQLRequest>._))
             .Returns(new GraphQLResponse<GetComplexityResponse>
             {
                 Data = new GetComplexityResponse(new Complexity { })

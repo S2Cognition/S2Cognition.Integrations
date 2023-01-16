@@ -11,7 +11,7 @@ public class MondayTeamTests : MondayTests
 {
     private void FakeGetTeamsRequest()
     {
-        A.CallTo(() => _graphQlClient.SendMutationAsync<GetTeamsResponse>(A<GraphQLRequest>._, default))
+        A.CallTo(() => _graphQlClient.SendMutationAsync<GetTeamsResponse>(A<GraphQLRequest>._))
             .Returns(new GraphQLResponse<GetTeamsResponse>
             {
                 Data = new GetTeamsResponse(new[] { new Team { Id = _random.NextUInt64() } })
@@ -20,7 +20,7 @@ public class MondayTeamTests : MondayTests
 
     private void FakeGetTeamRequest(ulong id)
     {
-        A.CallTo(() => _graphQlClient.SendMutationAsync<GetTeamsResponse>(A<GraphQLRequest>._, default))
+        A.CallTo(() => _graphQlClient.SendMutationAsync<GetTeamsResponse>(A<GraphQLRequest>._))
             .Returns(new GraphQLResponse<GetTeamsResponse>
             {
                 Data = new GetTeamsResponse(new[] { new Team { Id = id } })

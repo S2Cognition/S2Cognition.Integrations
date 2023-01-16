@@ -41,7 +41,7 @@ internal class ZoomIntegration : Integration<ZoomConfiguration>, IZoomIntegratio
         var clientFactory = ioc.GetRequiredService<IHttpClientFactory>();
         var stringUtils = ioc.GetRequiredService<IStringUtils>();
 
-        using var client = clientFactory.CreateClient();
+        using var client = clientFactory.Create();
         client.SetAuthorization(stringUtils.ToBase64($"{Configuration.ClientId}:{Configuration.ClientSecret}"));
 
         var route = $"https://zoom.us/oauth/token?grant_type=account_credentials&account_id={Configuration.AccountId}";
@@ -61,7 +61,7 @@ internal class ZoomIntegration : Integration<ZoomConfiguration>, IZoomIntegratio
 
         var clientFactory = ioc.GetRequiredService<IHttpClientFactory>();
 
-        using var client = clientFactory.CreateClient();
+        using var client = clientFactory.Create();
         client.SetAuthorization(accessToken, AuthorizationType.Bearer);
 
         var route = $"https://api.zoom.us/v2/users";

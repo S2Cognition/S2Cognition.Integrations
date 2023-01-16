@@ -12,7 +12,7 @@ public class MondayUpdatesTests : MondayTests
 {
     private void FakeCreateUpdateRequest()
     {
-        A.CallTo(() => _graphQlClient.SendMutationAsync<CreateUpdateResponse>(A<GraphQLRequest>._, default))
+        A.CallTo(() => _graphQlClient.SendMutationAsync<CreateUpdateResponse>(A<GraphQLRequest>._))
             .Returns(new GraphQLResponse<CreateUpdateResponse>
             {
                 Data = new CreateUpdateResponse(new Update { Id = _random.NextUInt64() })

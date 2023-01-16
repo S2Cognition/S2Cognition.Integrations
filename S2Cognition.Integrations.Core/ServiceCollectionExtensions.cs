@@ -8,7 +8,9 @@ public static class ServiceCollectionExtensions
     public static IServiceCollection AddIntegrationUtilities(this IServiceCollection sc)
     {
         sc.AddSingleton<IHttpClientFactory, HttpClientFactory>()
-            .AddSingleton<IStringUtils, StringUtils>();
+            .AddSingleton<IGraphQlHttpClientFactory, GraphQlHttpClientFactory>()
+            .AddSingleton<IStringUtils, StringUtils>()
+            .AddSingleton<IDateTime, DateTimeUtils>();
 
         return sc;
     }

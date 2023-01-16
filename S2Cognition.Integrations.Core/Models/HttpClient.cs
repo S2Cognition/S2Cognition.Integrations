@@ -6,12 +6,12 @@ namespace S2Cognition.Integrations.Core.Models;
 
 public interface IHttpClientFactory
 {
-    IHttpClient CreateClient();
+    IHttpClient Create();
 }
 
 internal class HttpClientFactory : IHttpClientFactory
 {
-    public IHttpClient CreateClient()
+    public IHttpClient Create()
     {
         return new HttpClient();
     }
@@ -37,6 +37,11 @@ public class HttpClient : IHttpClient
 
     public HttpClient()
     {
+    }
+
+    ~HttpClient()
+    {
+        Dispose(false);
     }
 
     public void SetAuthorization(string auth, AuthorizationType? authType = AuthorizationType.Basic)
