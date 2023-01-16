@@ -12,7 +12,7 @@ public class MondayGroupsTests : MondayTests
 {
     private void FakeGetGroupsResponse(ulong boardId)
     {
-        A.CallTo(() => _graphQlClient.SendMutationAsync<GetGroupsResponse>(A<GraphQLRequest>._, default))
+        A.CallTo(() => _graphQlClient.SendMutationAsync<GetGroupsResponse>(A<GraphQLRequest>._))
             .Returns(new GraphQLResponse<GetGroupsResponse>
             {
                 Data = new GetGroupsResponse(new[] {
@@ -30,7 +30,7 @@ public class MondayGroupsTests : MondayTests
 
     private void FakeCreateGroupResponse(string name)
     {
-        A.CallTo(() => _graphQlClient.SendMutationAsync<CreateGroupResponse>(A<GraphQLRequest>._, default))
+        A.CallTo(() => _graphQlClient.SendMutationAsync<CreateGroupResponse>(A<GraphQLRequest>._))
             .Returns(new GraphQLResponse<CreateGroupResponse>
             {
                 Data = new CreateGroupResponse(new Group

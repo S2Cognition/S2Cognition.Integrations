@@ -12,7 +12,7 @@ public class MondayColumnTests : MondayTests
 {
     private void FakeCreateColumnResponse(string name)
     {
-        A.CallTo(() => _graphQlClient.SendMutationAsync<CreateColumnResponse>(A<GraphQLRequest>._, default))
+        A.CallTo(() => _graphQlClient.SendMutationAsync<CreateColumnResponse>(A<GraphQLRequest>._))
             .Returns(new GraphQLResponse<CreateColumnResponse>
             {
                 Data = new CreateColumnResponse(new Column

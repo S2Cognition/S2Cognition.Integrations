@@ -1,4 +1,6 @@
-﻿using S2Cognition.Integrations.Core.Data;
+﻿using Microsoft.Extensions.DependencyInjection;
+using S2Cognition.Integrations.Core.Data;
+using S2Cognition.Integrations.Core.Models;
 
 namespace S2Cognition.Integrations.Core;
 
@@ -12,9 +14,12 @@ public interface IIntegration<in T>
 public class Integration<T> : IIntegration<T>
     where T : IConfiguration
 {
-    private T? _configuration = default;
-    private bool _isInitialized = false;
     protected readonly IServiceProvider _ioc;
+
+    private T? _configuration = default;
+    private IDateTime? _dateTime = default;
+
+    private bool _isInitialized = false;
 
     public Integration(IServiceProvider serviceProvider)
     {
@@ -29,6 +34,15 @@ public class Integration<T> : IIntegration<T>
                 throw new InvalidOperationException("Integration has not been initialized");
 
             return _configuration;
+        }
+    }
+
+    protected IDateTime DateTime
+    {
+        get
+        {
+            _dateTime ??= _ioc.GetRequiredService<IDateTime>();
+            return _dateTime;
         }
     }
 

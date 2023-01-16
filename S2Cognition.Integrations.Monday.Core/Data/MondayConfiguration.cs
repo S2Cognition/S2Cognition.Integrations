@@ -1,10 +1,13 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using S2Cognition.Integrations.Core.Data;
 
 namespace S2Cognition.Integrations.Monday.Core.Data;
 
-public class MondayConfiguration
+public class MondayConfiguration : Configuration
 {
-    public MondayConfiguration(IServiceProvider ioc)
+    public string ApiKey { get; set; } = String.Empty;
+
+    public MondayConfiguration(IServiceProvider serviceProvider)
+        : base(serviceProvider)
     { 
     }
 }

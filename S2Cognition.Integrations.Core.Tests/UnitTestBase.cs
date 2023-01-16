@@ -14,7 +14,7 @@ public class UnitTestBase : IDisposable
     {
         var sc = new ServiceCollection();
         sc.AddIntegrationUtilities();
-        sc.AddFakeHttpClient();
+        sc.AddFakeHttpClients();
         IocSetup(sc).Wait();
 
         _ioc = sc.BuildServiceProvider();

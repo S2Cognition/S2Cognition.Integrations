@@ -1,6 +1,7 @@
 using FakeItEasy;
 using GraphQL;
 using GraphQL.Client.Abstractions;
+using S2Cognition.Integrations.Core.Models;
 using S2Cognition.Integrations.Monday.Core.Models;
 using S2Cognition.Integrations.Monday.Core.Models.Requests;
 using S2Cognition.Integrations.Monday.Core.Models.Responses;
@@ -14,16 +15,16 @@ namespace S2Cognition.Integrations.Monday.Core.Tests.Internal;
 public class QueryOptionsTests
 {
     private readonly MondayClient _mondayClient;
-    private readonly IGraphQLClient _graphQlClient;
+    private readonly IGraphQlHttpClient _graphQlClient;
     private GraphQLRequest _latestGraphQlRequest = A.Fake<GraphQLRequest>();
 
     public QueryOptionsTests()
     {
-        _graphQlClient = A.Fake<IGraphQLClient>();
+        _graphQlClient = A.Fake<IGraphQlHttpClient>();
         _mondayClient = A.Fake<MondayClient>(_ => _.WithArgumentsForConstructor(new object[] { _graphQlClient }));
 
         // setup fake graphql client responses:
-        A.CallTo(() => _graphQlClient.SendQueryAsync<GetBoardItemsResponse>(A<GraphQLRequest>.Ignored, A<CancellationToken>.Ignored))
+        A.CallTo(() => _graphQlClient.SendQueryAsync<GetBoardItemsResponse>(A<GraphQLRequest>.Ignored))
             .ReturnsLazily(async (_) =>
             {
                 if (_.Arguments[0] is not GraphQLRequest latestGraphQlRequest)
@@ -40,7 +41,7 @@ public class QueryOptionsTests
                 });
             });
 
-        A.CallTo(() => _graphQlClient.SendQueryAsync<GetItemsResponse>(A<GraphQLRequest>.Ignored, A<CancellationToken>.Ignored))
+        A.CallTo(() => _graphQlClient.SendQueryAsync<GetItemsResponse>(A<GraphQLRequest>.Ignored))
             .ReturnsLazily(async (_) =>
             {
                 if (_.Arguments[0] is not GraphQLRequest latestGraphQlRequest)
@@ -57,7 +58,7 @@ public class QueryOptionsTests
                 });
             });
 
-        A.CallTo(() => _graphQlClient.SendQueryAsync<GetUsersResponse>(A<GraphQLRequest>.Ignored, A<CancellationToken>.Ignored))
+        A.CallTo(() => _graphQlClient.SendQueryAsync<GetUsersResponse>(A<GraphQLRequest>.Ignored))
             .ReturnsLazily(async (_) =>
             {
                 if (_.Arguments[0] is not GraphQLRequest latestGraphQlRequest)
@@ -75,7 +76,7 @@ public class QueryOptionsTests
                 });
             });
 
-        A.CallTo(() => _graphQlClient.SendQueryAsync<GetBoardsResponse>(A<GraphQLRequest>.Ignored, A<CancellationToken>.Ignored))
+        A.CallTo(() => _graphQlClient.SendQueryAsync<GetBoardsResponse>(A<GraphQLRequest>.Ignored))
             .ReturnsLazily(async (_) =>
             {
                 if (_.Arguments[0] is not GraphQLRequest latestGraphQlRequest)
@@ -92,7 +93,7 @@ public class QueryOptionsTests
                 });
             });
 
-        A.CallTo(() => _graphQlClient.SendMutationAsync<GetGroupsResponse>(A<GraphQLRequest>.Ignored, A<CancellationToken>.Ignored))
+        A.CallTo(() => _graphQlClient.SendMutationAsync<GetGroupsResponse>(A<GraphQLRequest>.Ignored))
             .ReturnsLazily(async (_) =>
             {
                 if (_.Arguments[0] is not GraphQLRequest latestGraphQlRequest)
@@ -111,7 +112,7 @@ public class QueryOptionsTests
                 });
             });
 
-        A.CallTo(() => _graphQlClient.SendMutationAsync<GetBoardTagsResponse>(A<GraphQLRequest>.Ignored, A<CancellationToken>.Ignored))
+        A.CallTo(() => _graphQlClient.SendMutationAsync<GetBoardTagsResponse>(A<GraphQLRequest>.Ignored))
             .ReturnsLazily(async (_) =>
             {
                 if (_.Arguments[0] is not GraphQLRequest latestGraphQlRequest)
@@ -130,7 +131,7 @@ public class QueryOptionsTests
                 });
             });
 
-        A.CallTo(() => _graphQlClient.SendMutationAsync<GetTagsResponse>(A<GraphQLRequest>.Ignored, A<CancellationToken>.Ignored))
+        A.CallTo(() => _graphQlClient.SendMutationAsync<GetTagsResponse>(A<GraphQLRequest>.Ignored))
             .ReturnsLazily(async (_) =>
             {
                 if (_.Arguments[0] is not GraphQLRequest latestGraphQlRequest)
@@ -147,7 +148,7 @@ public class QueryOptionsTests
                 });
             });
 
-        A.CallTo(() => _graphQlClient.SendMutationAsync<GetTeamsResponse>(A<GraphQLRequest>.Ignored, A<CancellationToken>.Ignored))
+        A.CallTo(() => _graphQlClient.SendMutationAsync<GetTeamsResponse>(A<GraphQLRequest>.Ignored))
             .ReturnsLazily(async (_) =>
             {
                 if (_.Arguments[0] is not GraphQLRequest latestGraphQlRequest)

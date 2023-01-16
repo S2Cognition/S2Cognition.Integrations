@@ -1,8 +1,7 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using S2Cognition.Integrations.Core.Tests.Fakes;
+﻿using S2Cognition.Integrations.Core.Tests.Fakes;
 using S2Cognition.Integrations.Zoom.Core.Models;
 
-namespace S2Cognition.Integrations.Zoom.Core.Tests;
+namespace S2Cognition.Integrations.Zoom.Core.Tests.Fakes;
 
 public class FakeZoomIntegration : IZoomIntegration
 {

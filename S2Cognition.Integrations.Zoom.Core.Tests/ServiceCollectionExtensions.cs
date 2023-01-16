@@ -1,4 +1,6 @@
-﻿namespace S2Cognition.Integrations.Zoom.Core.Tests;
+﻿using S2Cognition.Integrations.Zoom.Core.Tests.Fakes;
+
+namespace S2Cognition.Integrations.Zoom.Core.Tests;
 
 public static class ServiceCollectionExtensions
 {
