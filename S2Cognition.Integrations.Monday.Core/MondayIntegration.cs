@@ -5,7 +5,6 @@ using S2Cognition.Integrations.Core.Models;
 using S2Cognition.Integrations.Monday.Core.Data;
 using S2Cognition.Integrations.Monday.Core.Models;
 using S2Cognition.Integrations.Monday.Core.Models.Options;
-using System.Net.Http.Headers;
 
 namespace S2Cognition.Integrations.Monday.Core;
 
