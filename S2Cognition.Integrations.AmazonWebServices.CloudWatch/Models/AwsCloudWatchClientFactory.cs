@@ -8,6 +8,22 @@ namespace S2Cognition.Integrations.AmazonWebServices.CloudWatch.Models
         {
             return new AwsCloudWatchClient(config);
         }
+
+        //public class AwsCloudWatchClientFactory : IAwsCloudWatchClientFactory
+        //{
+        //    public IAwsCloudWatchClient Create()
+        //    {
+        //        return new AwsCloudWatchClient();
+        //    }
+        //}
+
+        //public class FakeAwsCloudWatchClientFactory : IAwsCloudWatchClientFactory
+        //{
+        //    public IAwsCloudWatchClient Create()
+        //    {
+        //        return new FakeAwsCloudWatchClient();
+        //    }
+        //}
     }
 
 }
