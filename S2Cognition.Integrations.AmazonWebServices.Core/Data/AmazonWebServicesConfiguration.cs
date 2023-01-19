@@ -8,8 +8,8 @@ public class AmazonWebServicesConfiguration : Configuration
     public string SecretKey { get; set; } = string.Empty;
     public string AwsRegion { get; set; } = string.Empty;
 
-    public AmazonWebServicesConfiguration(IServiceProvider serviceProvider)
-        : base(serviceProvider)
+    public AmazonWebServicesConfiguration(IServiceProvider ioc)
+        : base(ioc)
     {
     }
 }

@@ -4,6 +4,11 @@ namespace S2Cognition.Integrations.Zoom.Core.Models;
 
 internal class ZoomGetUsersPagedResponse
 {
+    // Should be internal.   However, System.Text.Json.JsonSerializer doesn't have a good way to see internals yet.
+    public ZoomGetUsersPagedResponse()
+    { 
+    }
+    
     [JsonPropertyName("page_count")]
     public int? PageCount { get; set; }
 

@@ -7,18 +7,41 @@ namespace S2Cognition.Integrations.Core.Tests;
 
 public static class ServiceCollectionExtensions
 {
+    public static IServiceCollection AddFakeClients(this IServiceCollection sc)
+    {
+        return sc.AddFakeHttpClient()
+            .AddFakeGraphQlHttpClient();
+    }
+
     public static IServiceCollection AddFakeHttpClient(this IServiceCollection sc)
     {
-        var client = new FakeHttpClient();
-        sc.AddSingleton<IFakeHttpClient>(client);
+        var httpClient = new FakeHttpClient();
+        sc.AddSingleton<IFakeHttpClient>(httpClient);
 
-        var factory = A.Fake<IHttpClientFactory>();
-        sc.AddSingleton<IHttpClientFactory>(factory);
+        var httpClientFactory = A.Fake<IHttpClientFactory>();
+        sc.AddSingleton(httpClientFactory);
 
-        A.CallTo(() => factory.CreateClient()).ReturnsLazily(_ =>
+        A.CallTo(() => httpClientFactory.Create()).ReturnsLazily(_ =>
         {
-            client.EnsureDisposed();
-            return client;
+            httpClient.EnsureDisposed();
+            return httpClient;
+        });
+
+        return sc;
+    }
+
+    public static IServiceCollection AddFakeGraphQlHttpClient(this IServiceCollection sc)
+    {
+        var graphQlHttpClient = new FakeGraphQlHttpClient();
+        sc.AddSingleton<IFakeGraphQlHttpClient>(graphQlHttpClient);
+
+        var graphQlHttpClientFactory = A.Fake<IGraphQlHttpClientFactory>();
+        sc.AddSingleton(graphQlHttpClientFactory);
+
+        A.CallTo(() => graphQlHttpClientFactory.Create()).ReturnsLazily(_ =>
+        {
+            graphQlHttpClient.EnsureDisposed();
+            return graphQlHttpClient;
         });
 
         return sc;

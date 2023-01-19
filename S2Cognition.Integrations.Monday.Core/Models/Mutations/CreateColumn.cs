@@ -3,7 +3,7 @@
 /// <summary>
 ///     Create a new column in board mutation.
 /// </summary>
-public class CreateColumn
+internal class CreateColumn
 {
     /// <summary>
     ///     The board's unique identifier.
@@ -25,7 +25,7 @@ public class CreateColumn
     /// </summary>
     public string? Defaults { get; set; }
 
-    public CreateColumn(ulong boardId, string name, ColumnTypes columnType)
+    internal CreateColumn(ulong boardId, string name, ColumnTypes columnType)
     {
         BoardId = boardId;
         Name = name;

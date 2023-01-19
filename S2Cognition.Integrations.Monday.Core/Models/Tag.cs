@@ -6,7 +6,7 @@ namespace S2Cognition.Integrations.Monday.Core.Models;
 ///     Monday.com tags are objects that help you group items from different groups or different boards throughout your
 ///     account by a consistent keyword. Tag entities are created and presented through the “Tags” column.
 /// </summary>
-public class Tag
+internal class Tag
 {
     /// <summary>
     ///     The tag's unique identifier.

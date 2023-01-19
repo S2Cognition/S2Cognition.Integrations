@@ -1,10 +1,10 @@
 namespace S2Cognition.Integrations.StreamDeck.AzdoPipelineMonitor;
 
-public class AzdoPipelineMonitorService
+internal class AzdoPipelineMonitorService
 {
     private bool _initialized = false;
 
-    public AzdoPipelineMonitorService()
+    internal AzdoPipelineMonitorService()
     {
         _initialized = false;
     }

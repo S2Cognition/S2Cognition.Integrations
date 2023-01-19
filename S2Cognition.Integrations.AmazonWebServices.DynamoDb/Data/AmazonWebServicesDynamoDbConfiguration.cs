@@ -6,8 +6,8 @@ namespace S2Cognition.Integrations.AmazonWebServices.DynamoDb.Data
     {
         public string ServiceUrl { get; set; } = string.Empty;
 
-        public AmazonWebServicesDynamoDbConfiguration(IServiceProvider serviceProvider)
-            : base(serviceProvider)
+        public AmazonWebServicesDynamoDbConfiguration(IServiceProvider ioc)
+            : base(ioc)
         {
         }
     }

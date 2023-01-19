@@ -1,12 +1,12 @@
-using S2Cognition.Integrations.StreamDeck.Core;
+using S2Cognition.Integrations.StreamDeck.Core.Models;
 using StreamDeckLib;
 
 namespace S2Cognition.Integrations.StreamDeck.AzdoPipelineMonitor;
 
 [ActionUuid(Uuid = "S2Cognition.Integrations.StreamDeck.AzdoPipelineMonitor")]
-public partial class AzdoPipelineMonitorAction : StreamDeckAction<AzdoPipelineMonitorModel>
+internal partial class AzdoPipelineMonitorAction : StreamDeckAction<AzdoPipelineMonitorModel>
 {
-    public AzdoPipelineMonitorAction()
+    internal AzdoPipelineMonitorAction()
         : base(30)
     {
         Initialize().Wait();

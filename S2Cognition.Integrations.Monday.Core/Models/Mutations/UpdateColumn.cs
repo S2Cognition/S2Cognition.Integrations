@@ -3,7 +3,7 @@
 /// <summary>
 ///     Change an item's column value mutation.
 /// </summary>
-public class UpdateColumn
+internal class UpdateColumn
 {
     /// <summary>
     ///     The board's unique identifier.
@@ -25,7 +25,7 @@ public class UpdateColumn
     /// </summary>
     public string Value { get; set; }
 
-    public UpdateColumn(ulong boardId, ulong itemId, string columnId, string value)
+    internal UpdateColumn(ulong boardId, ulong itemId, string columnId, string value)
     {
         BoardId = boardId;
         ItemId = itemId;

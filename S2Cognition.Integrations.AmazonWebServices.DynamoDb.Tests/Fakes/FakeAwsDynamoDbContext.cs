@@ -1,8 +1,8 @@
-﻿using S2Cognition.Integrations.AmazonWebServices.DynamoDb.Data;
+﻿using S2Cognition.Integrations.AmazonWebServices.DynamoDb.Models;
 
 namespace S2Cognition.Integrations.AmazonWebServices.DynamoDb.Tests.Fakes;
 
-public class FakeAwsDynamoDbContext : IAwsDynamoDbContext
+internal class FakeAwsDynamoDbContext : IAwsDynamoDbContext
 {
     private readonly ICollection<object> _data = new List<object>();
 
@@ -20,6 +20,7 @@ public class FakeAwsDynamoDbContext : IAwsDynamoDbContext
         await Task.CompletedTask;
     }
 
+#if AWS_SUPPORTS_NONGENERIC_DYNAMODB
     public async Task Save(Type dataType, object data)
     {
         if (data != null)
@@ -38,5 +39,5 @@ public class FakeAwsDynamoDbContext : IAwsDynamoDbContext
 
         await Task.CompletedTask;
     }
+#endif
 }
-

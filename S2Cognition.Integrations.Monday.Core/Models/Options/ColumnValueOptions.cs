@@ -2,7 +2,7 @@
 
 namespace S2Cognition.Integrations.Monday.Core.Models.Options;
 
-public interface IColumnValuesOptions : IBaseOptions
+internal interface IColumnValuesOptions : IBaseOptions
 {
     bool IncludeTitle { get; set; }
     bool IncludeValue { get; set; }
@@ -11,7 +11,7 @@ public interface IColumnValuesOptions : IBaseOptions
     bool IncludeAdditionalInfo { get; set; }
 }
 
-public class ColumnValueOptions : BaseOptions, IColumnValuesOptions
+internal class ColumnValueOptions : BaseOptions, IColumnValuesOptions
 {
     public bool IncludeTitle { get; set; }
     public bool IncludeValue { get; set; }
@@ -19,12 +19,12 @@ public class ColumnValueOptions : BaseOptions, IColumnValuesOptions
     public bool IncludeText { get; set; }
     public bool IncludeAdditionalInfo { get; set; }
 
-    public ColumnValueOptions()
+    internal ColumnValueOptions()
         : this(RequestMode.Default)
     {
     }
 
-    public ColumnValueOptions(RequestMode mode)
+    internal ColumnValueOptions(RequestMode mode)
         : base("column_value")
     {
         switch (mode)

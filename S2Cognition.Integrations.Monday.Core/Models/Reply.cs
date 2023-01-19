@@ -7,7 +7,7 @@ namespace S2Cognition.Integrations.Monday.Core.Models;
 /// <summary>
 ///     A reply for an update.
 /// </summary>
-public class Reply
+internal class Reply
 {
     /// <summary>
     ///     The reply's unique identifier.
