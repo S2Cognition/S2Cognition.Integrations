@@ -3,7 +3,7 @@
 /// <summary>
 ///     Create a new tag or get it if it already exists mutation.
 /// </summary>
-public class CreateTag
+internal class CreateTag
 {
     /// <summary>
     ///     The new tag's name
@@ -15,7 +15,7 @@ public class CreateTag
     /// </summary>
     public ulong BoardId { get; set; }
 
-    public CreateTag(string name, ulong boardId)
+    internal CreateTag(string name, ulong boardId)
     {
         Name = name;
         BoardId = boardId;

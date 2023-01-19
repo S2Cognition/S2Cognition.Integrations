@@ -3,7 +3,7 @@
 /// <summary>
 ///     The state of the board. (all / active / archived / deleted)
 /// </summary>
-public enum BoardStateTypes
+internal enum BoardStateTypes
 {
     /// <summary>
     ///     [Default State]

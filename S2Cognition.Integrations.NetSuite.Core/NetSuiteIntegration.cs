@@ -2,8 +2,6 @@
 using Oracle.NetSuite;
 using S2Cognition.Integrations.Core;
 using S2Cognition.Integrations.NetSuite.Core.Data;
-using S2Cognition.Integrations.NetSuite.Core.Data.Requests;
-using S2Cognition.Integrations.NetSuite.Core.Data.Responses;
 using S2Cognition.Integrations.NetSuite.Core.Models;
 
 using SystemTask = System.Threading.Tasks.Task;
@@ -15,12 +13,12 @@ public interface INetSuiteIntegration : IIntegration<NetSuiteConfiguration>
     Task<ListProspectsResponse> ListProspects(ListProspectsRequest? req = null);
 }
 
-public class NetSuiteIntegration : Integration<NetSuiteConfiguration>, INetSuiteIntegration
+internal class NetSuiteIntegration : Integration<NetSuiteConfiguration>, INetSuiteIntegration
 {
     private INetSuiteService? _service = null;
 
-    public NetSuiteIntegration(IServiceProvider serviceProvider)
-        : base(serviceProvider)
+    internal NetSuiteIntegration(IServiceProvider ioc)
+        : base(ioc)
     {
     }
 

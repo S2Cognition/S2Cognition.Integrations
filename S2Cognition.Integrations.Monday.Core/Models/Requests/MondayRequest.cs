@@ -1,12 +1,12 @@
 ﻿namespace S2Cognition.Integrations.Monday.Core.Models.Requests;
 
-public interface IMondayRequest
+internal interface IMondayRequest
 {
     bool CalculateComplexity { get; set; }
     bool ProcessQuery { get; set; }
 }
 
-public interface IMondayResult
+internal interface IMondayResult
 {
     int? Complexity { get; }
 }

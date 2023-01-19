@@ -7,7 +7,7 @@ namespace S2Cognition.Integrations.Monday.Core.Models;
 ///     Every user in monday.com is a part of an account (i.e an organization) and could be a member or a guest in that
 ///     account.
 /// </summary>
-public class User
+internal class User
 {
     /// <summary>
     ///     The user's unique identifier.

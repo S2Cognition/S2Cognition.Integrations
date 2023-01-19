@@ -11,8 +11,12 @@ public interface IGraphQlHttpClientFactory
     IGraphQlHttpClient Create();
 }
 
-public class GraphQlHttpClientFactory : IGraphQlHttpClientFactory
+internal class GraphQlHttpClientFactory : IGraphQlHttpClientFactory
 {
+    internal GraphQlHttpClientFactory()
+    { 
+    }
+    
     public IGraphQlHttpClient Create()
     {
         return new GraphQlHttpClient();
@@ -29,7 +33,7 @@ public interface IGraphQlHttpClient : IDisposable
     Task<GraphQLResponse<T>> SendMutationAsync<T>(GraphQLRequest request);
 }
 
-public class GraphQlHttpClient : IGraphQlHttpClient
+internal class GraphQlHttpClient : IGraphQlHttpClient
 {
     public string? BaseUrl
     {
@@ -104,7 +108,7 @@ public class GraphQlHttpClient : IGraphQlHttpClient
         }
     }
 
-    public GraphQlHttpClient()
+    internal GraphQlHttpClient()
     {
     }
 
@@ -143,4 +147,3 @@ public class GraphQlHttpClient : IGraphQlHttpClient
         GC.SuppressFinalize(this);
     }
 }
-

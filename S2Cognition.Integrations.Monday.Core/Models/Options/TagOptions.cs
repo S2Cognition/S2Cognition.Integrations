@@ -2,23 +2,23 @@
 
 namespace S2Cognition.Integrations.Monday.Core.Models.Options;
 
-public interface ITagOptions : IBaseOptions
+internal interface ITagOptions : IBaseOptions
 {
     bool IncludeName { get; set; }
     bool IncludeColor { get; set; }
 }
 
-public class TagOptions : BaseOptions, ITagOptions
+internal class TagOptions : BaseOptions, ITagOptions
 {
     public bool IncludeName { get; set; }
     public bool IncludeColor { get; set; }
 
-    public TagOptions()
+    internal TagOptions()
         : this(RequestMode.Default)
     {
     }
 
-    public TagOptions(RequestMode mode)
+    internal TagOptions(RequestMode mode)
        : base("tag")
     {
         switch (mode)

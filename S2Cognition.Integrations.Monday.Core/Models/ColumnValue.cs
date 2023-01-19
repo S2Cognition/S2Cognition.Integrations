@@ -5,7 +5,7 @@ namespace S2Cognition.Integrations.Monday.Core.Models;
 /// <summary>
 ///     The value of an items column
 /// </summary>
-public class ColumnValue
+internal class ColumnValue
 {
     /// <summary>
     ///     The column's unique identifier.

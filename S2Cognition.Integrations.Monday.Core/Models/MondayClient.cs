@@ -16,7 +16,7 @@ namespace S2Cognition.Integrations.Monday.Core.Models;
 /// <summary>
 ///     Creates client for accessing Monday's endpoints.
 /// </summary>
-public class MondayClient
+internal class MondayClient
 {
     private readonly IGraphQlHttpClient _graphQlHttpClient;
     private readonly OptionsBuilder _optionsBuilder;
@@ -25,7 +25,7 @@ public class MondayClient
     ///     Creates client for accessing Monday's endpoints.
     /// </summary>
     /// <param name="apiKey">The version 2 key.</param>
-    public MondayClient(IGraphQlHttpClient graphQlClient)
+    internal MondayClient(IGraphQlHttpClient graphQlClient)
     {
         _graphQlHttpClient = graphQlClient;
         _optionsBuilder = new OptionsBuilder();

@@ -2,7 +2,7 @@
 
 namespace S2Cognition.Integrations.Monday.Core.Models.Options;
 
-public interface IReplyOptions : IBaseOptions
+internal interface IReplyOptions : IBaseOptions
 {
     bool IncludeCreatorId { get; set; }
     bool IncludeCreator { get; set; }
@@ -16,7 +16,7 @@ public interface IReplyOptions : IBaseOptions
     ReplyOptions? RepliesOptions { get; set; }
 }
 
-public class ReplyOptions : BaseOptions, IReplyOptions
+internal class ReplyOptions : BaseOptions, IReplyOptions
 {
     public bool IncludeCreatorId { get; set; }
     public bool IncludeCreator { get; set; }
@@ -29,12 +29,12 @@ public class ReplyOptions : BaseOptions, IReplyOptions
     public UserOptions? CreatorOptions { get; set; }
     public ReplyOptions? RepliesOptions { get; set; }
 
-    public ReplyOptions()
+    internal ReplyOptions()
         : this(RequestMode.Default)
     {
     }
 
-    public ReplyOptions(RequestMode mode)
+    internal ReplyOptions(RequestMode mode)
        : base("reply", "replies")
     {
         switch (mode)

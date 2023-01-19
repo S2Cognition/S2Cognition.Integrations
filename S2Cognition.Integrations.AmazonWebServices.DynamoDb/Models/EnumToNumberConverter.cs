@@ -4,7 +4,7 @@ using Amazon.DynamoDBv2.DocumentModel;
 namespace S2Cognition.Integrations.AmazonWebServices.DynamoDb.Models;
 
 // Converts the complex type DimensionType to string and vice-versa.
-public class EnumToNumberConverter<T> : IPropertyConverter
+internal class EnumToNumberConverter<T> : IPropertyConverter
     where T : Enum
 {
     public DynamoDBEntry ToEntry(object? value)

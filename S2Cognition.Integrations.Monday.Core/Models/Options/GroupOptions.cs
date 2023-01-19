@@ -2,7 +2,7 @@
 
 namespace S2Cognition.Integrations.Monday.Core.Models.Options;
 
-public interface IGroupOptions : IBaseOptions
+internal interface IGroupOptions : IBaseOptions
 {
     bool IncludeTitle { get; set; }
     bool IncludeColor { get; set; }
@@ -10,19 +10,19 @@ public interface IGroupOptions : IBaseOptions
     bool IncludeIsDeleted { get; set; }
 }
 
-public class GroupOptions : BaseOptions, IGroupOptions
+internal class GroupOptions : BaseOptions, IGroupOptions
 {
     public bool IncludeTitle { get; set; }
     public bool IncludeColor { get; set; }
     public bool IncludeIsArchived { get; set; }
     public bool IncludeIsDeleted { get; set; }
 
-    public GroupOptions()
+    internal GroupOptions()
         : this(RequestMode.Default)
     {
     }
 
-    public GroupOptions(RequestMode mode)
+    internal GroupOptions(RequestMode mode)
        : base("group")
     {
         switch (mode)
@@ -68,14 +68,14 @@ public class GroupOptions : BaseOptions, IGroupOptions
     }
 }
 
-public class TopGroupOptions : GroupOptions
+internal class TopGroupOptions : GroupOptions
 {
-    public TopGroupOptions()
+    internal TopGroupOptions()
         : this(RequestMode.Default)
     {
     }
 
-    public TopGroupOptions(RequestMode mode)
+    internal TopGroupOptions(RequestMode mode)
         : base(mode)
     {
         NameSingular = "top_group";

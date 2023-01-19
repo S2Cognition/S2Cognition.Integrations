@@ -1,9 +1,9 @@
 ﻿using Amazon.DynamoDBv2;
-using S2Cognition.Integrations.AmazonWebServices.DynamoDb.Data;
+using S2Cognition.Integrations.AmazonWebServices.DynamoDb.Models;
 
 namespace S2Cognition.Integrations.AmazonWebServices.DynamoDb.Tests.Fakes;
 
-public class FakeAwsDynamoDbClient : IAwsDynamoDbClient
+internal class FakeAwsDynamoDbClient : IAwsDynamoDbClient
 {
     public AmazonDynamoDBClient Native => throw new NotImplementedException();
 }

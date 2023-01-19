@@ -11,19 +11,19 @@ public interface IIntegration<in T>
     Task<bool> IsInitialized();
 }
 
-public class Integration<T> : IIntegration<T>
+internal class Integration<T> : IIntegration<T>
     where T : IConfiguration
 {
     protected readonly IServiceProvider _ioc;
 
     private T? _configuration = default;
-    private IDateTime? _dateTime = default;
+    private IDateTimeUtils? _dateTime = default;
 
     private bool _isInitialized = false;
 
-    public Integration(IServiceProvider serviceProvider)
+    internal Integration(IServiceProvider ioc)
     {
-        _ioc = serviceProvider;
+        _ioc = ioc;
     }
 
     protected T Configuration
@@ -37,11 +37,11 @@ public class Integration<T> : IIntegration<T>
         }
     }
 
-    protected IDateTime DateTime
+    protected IDateTimeUtils DateTime
     {
         get
         {
-            _dateTime ??= _ioc.GetRequiredService<IDateTime>();
+            _dateTime ??= _ioc.GetRequiredService<IDateTimeUtils>();
             return _dateTime;
         }
     }

@@ -6,6 +6,6 @@ public static class ServiceCollectionExtensions
 {
     public static IServiceCollection AddFakeZoomIntegration(this IServiceCollection sc)
     {
-        return sc.AddSingleton<IZoomIntegration, FakeZoomIntegration>();
+        return sc.AddSingleton<IZoomIntegration>(_ => new FakeZoomIntegration(_));
     }
 }

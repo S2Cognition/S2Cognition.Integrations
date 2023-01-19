@@ -1,13 +1,13 @@
 ﻿using StreamDeckLib;
 using StreamDeckLib.Messages;
 
-namespace S2Cognition.Integrations.StreamDeck.Core;
+namespace S2Cognition.Integrations.StreamDeck.Core.Models;
 
-public abstract class StreamDeckAction<T> : BaseStreamDeckActionWithSettingsModel<T>
+internal abstract class StreamDeckAction<T> : BaseStreamDeckActionWithSettingsModel<T>
     where T : StreamDeckModel
 {
     protected readonly int _updateFrequencySeconds = 0;
-    
+
     protected CancellationTokenSource? _cancellationTokenSource = null;
 
     protected StreamDeckAction(int updateFrequencySeconds = 0)
@@ -20,7 +20,7 @@ public abstract class StreamDeckAction<T> : BaseStreamDeckActionWithSettingsMode
     public override async Task OnDidReceiveSettings(StreamDeckEventPayload args)
     {
         StopBackgroundTask();
-        if(_updateFrequencySeconds > 0)
+        if (_updateFrequencySeconds > 0)
         {
             StartBackgroundTask(args);
         }
@@ -120,13 +120,13 @@ public abstract class StreamDeckAction<T> : BaseStreamDeckActionWithSettingsMode
 
     private async Task BackgroundTask(StreamDeckEventPayload args, CancellationToken ct)
     {
-        if(_updateFrequencySeconds == 0)
+        if (_updateFrequencySeconds == 0)
         {
             StopBackgroundTask();
             return;
         }
 
-        while(!ct.IsCancellationRequested)
+        while (!ct.IsCancellationRequested)
         {
             // Cancellation exception is expected.
             await Task.Delay(TimeSpan.FromSeconds(_updateFrequencySeconds), ct);

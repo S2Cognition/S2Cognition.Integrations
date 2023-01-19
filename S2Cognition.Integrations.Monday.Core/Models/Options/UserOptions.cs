@@ -2,7 +2,7 @@
 
 namespace S2Cognition.Integrations.Monday.Core.Models.Options;
 
-public interface IUserOptions : IBaseOptions
+internal interface IUserOptions : IBaseOptions
 {
     bool IncludeName { get; set; }
     bool IncludeEmail { get; set; }
@@ -21,7 +21,7 @@ public interface IUserOptions : IBaseOptions
     bool IncludeCreatedAt { get; set; }
 }
 
-public class UserOptions : BaseOptions, IUserOptions
+internal class UserOptions : BaseOptions, IUserOptions
 {
     public bool IncludeName { get; set; }
     public bool IncludeEmail { get; set; }
@@ -39,12 +39,12 @@ public class UserOptions : BaseOptions, IUserOptions
     public bool IncludeIsEnabled { get; set; }
     public bool IncludeCreatedAt { get; set; }
 
-    public UserOptions()
+    internal UserOptions()
         : this(RequestMode.Default)
     {
     }
 
-    public UserOptions(RequestMode mode)
+    internal UserOptions(RequestMode mode)
         : base("user")
     {
         switch (mode)
@@ -135,14 +135,14 @@ public class UserOptions : BaseOptions, IUserOptions
     }
 }
 
-public class OwnerOptions : UserOptions
+internal class OwnerOptions : UserOptions
 {
-    public OwnerOptions()
+    internal OwnerOptions()
         : this(RequestMode.Default)
     {
     }
 
-    public OwnerOptions(RequestMode mode)
+    internal OwnerOptions(RequestMode mode)
         : base(mode)
     {
         NameSingular = "owner";
@@ -150,14 +150,14 @@ public class OwnerOptions : UserOptions
     }
 }
 
-public class CreatorOptions : UserOptions
+internal class CreatorOptions : UserOptions
 {
-    public CreatorOptions()
+    internal CreatorOptions()
         : this(RequestMode.Default)
     {
     }
 
-    public CreatorOptions(RequestMode mode)
+    internal CreatorOptions(RequestMode mode)
         : base(mode)
     {
         NameSingular = "creator";
@@ -165,14 +165,14 @@ public class CreatorOptions : UserOptions
     }
 }
 
-public class SubscriberOptions : UserOptions
+internal class SubscriberOptions : UserOptions
 {
-    public SubscriberOptions()
+    internal SubscriberOptions()
         : this(RequestMode.Default)
     {
     }
 
-    public SubscriberOptions(RequestMode mode)
+    internal SubscriberOptions(RequestMode mode)
         : base(mode)
     {
         NameSingular = "subscriber";

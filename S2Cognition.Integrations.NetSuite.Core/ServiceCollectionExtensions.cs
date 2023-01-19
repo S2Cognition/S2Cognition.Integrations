@@ -9,8 +9,7 @@ public static class ServiceCollectionExtensions
     public static IServiceCollection AddNetSuiteIntegration(this IServiceCollection sc)
     {
         return sc.AddIntegrationUtilities()
-            .AddScoped<INetSuiteIntegration, NetSuiteIntegration>()
-            .AddSingleton<INetSuiteServiceFactory, NetSuiteServiceFactory>()
-        ;
+            .AddScoped<INetSuiteIntegration>(_ => new NetSuiteIntegration(_))
+            .AddSingleton<INetSuiteServiceFactory>(_ => new NetSuiteServiceFactory());
     }
 }

@@ -2,7 +2,7 @@
 
 namespace S2Cognition.Integrations.Monday.Core.Models.Options;
 
-public interface IUpdateOptions : IBaseOptions
+internal interface IUpdateOptions : IBaseOptions
 {
     bool IncludeItemId { get; set; }
     bool IncludeCreatorId { get; set; }
@@ -17,7 +17,7 @@ public interface IUpdateOptions : IBaseOptions
     ReplyOptions? RepliesOptions { get; set; }
 }
 
-public class UpdateOptions : BaseOptions, IUpdateOptions
+internal class UpdateOptions : BaseOptions, IUpdateOptions
 {
     public bool IncludeItemId { get; set; }
     public bool IncludeCreatorId { get; set; }
@@ -31,12 +31,12 @@ public class UpdateOptions : BaseOptions, IUpdateOptions
     public UserOptions? CreatorOptions { get; set; }
     public ReplyOptions? RepliesOptions { get; set; }
 
-    public UpdateOptions()
+    internal UpdateOptions()
         : this(RequestMode.Default)
     {
     }
 
-    public UpdateOptions(RequestMode mode)
+    internal UpdateOptions(RequestMode mode)
        : base("update")
     {
         switch (mode)

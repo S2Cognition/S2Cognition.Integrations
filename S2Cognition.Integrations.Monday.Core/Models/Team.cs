@@ -7,7 +7,7 @@ namespace S2Cognition.Integrations.Monday.Core.Models;
 ///     Teams are the most efficient way to manage groups of users in monday.com. Teams are comprised of one or multiple
 ///     users, and every user can be a part of multiple teams (or none).
 /// </summary>
-public class Team
+internal class Team
 {
     /// <summary>
     ///     The team's unique identifier.

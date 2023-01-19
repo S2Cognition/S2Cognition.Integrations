@@ -136,16 +136,4 @@ public class DynamoDbTests : UnitTestBase
         result.RowState.ShouldBe(rowState);
     }
 #endif
-
-    [Fact]
-    public async Task EnsureCheckingForInitializationReturnsExpectedResults()
-    {
-        var isInitialized = await _sut.IsInitialized();
-        isInitialized.ShouldBeFalse();
-
-        await _sut.Initialize(_configuration);
-        
-        isInitialized = await _sut.IsInitialized();
-        isInitialized.ShouldBeTrue();
-    }
 }

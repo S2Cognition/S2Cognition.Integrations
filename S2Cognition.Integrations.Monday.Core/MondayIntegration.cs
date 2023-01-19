@@ -10,13 +10,13 @@ namespace S2Cognition.Integrations.Monday.Core;
 
 public interface IMondayIntegration : IIntegration<MondayConfiguration>
 {
-    Task<GetUsersResponse> GetUsers();
+    Task<GetUsersResponse> GetUsers(GetUsersRequest request);
     Task<GetItemsResponse> GetItems(GetItemsRequest request);
     Task<CreateItemResponse> CreateItem(CreateItemRequest request);
     Task<CreateSubItemResponse> CreateSubItem(CreateSubItemRequest request);
 }
 
-public class MondayIntegration :  Integration<MondayConfiguration>, IMondayIntegration
+internal class MondayIntegration :  Integration<MondayConfiguration>, IMondayIntegration
 {
     private MondayClient? _client;
     private MondayClient Client 
@@ -39,17 +39,17 @@ public class MondayIntegration :  Integration<MondayConfiguration>, IMondayInteg
         }
     }
 
-    public MondayIntegration(IServiceProvider serviceProvider)
-        : base(serviceProvider)
+    internal MondayIntegration(IServiceProvider ioc)
+        : base(ioc)
     {
     }
 
-    public async Task<GetUsersResponse> GetUsers()
+    public async Task<GetUsersResponse> GetUsers(GetUsersRequest request)
     {
         var users = await Client.GetUsers();
         var orderedUsers = (users ?? Array.Empty<User>()).OrderBy(_ => _.Email);
 
-        var response = new GetUsersResponse();
+        var response = new List<UserRecord>();
         foreach (var user in orderedUsers)
         {
             if (user.Id.HasValue)
@@ -76,7 +76,7 @@ public class MondayIntegration :  Integration<MondayConfiguration>, IMondayInteg
             }
         }
 
-        return response;
+        return new GetUsersResponse { Users = response };
     }
 
     public async Task<GetItemsResponse> GetItems(GetItemsRequest request)
@@ -123,7 +123,7 @@ public class MondayIntegration :  Integration<MondayConfiguration>, IMondayInteg
 
         var orderedItems = items.OrderBy(_ => _.UpdatedAt);
 
-        var response = new GetItemsResponse();
+        var response = new List<ItemRecord>();
         foreach (var item in orderedItems)
         {
             if (item.Id.HasValue)
@@ -156,7 +156,7 @@ public class MondayIntegration :  Integration<MondayConfiguration>, IMondayInteg
             }
         }
 
-        return response;
+        return new GetItemsResponse { Items = response };
     }
 
     public async Task<CreateItemResponse> CreateItem(CreateItemRequest request)
