@@ -3,7 +3,7 @@
 /// <summary>
 ///     Create a new board mutation.
 /// </summary>
-public class CreateBoard
+internal class CreateBoard
 {
     /// <summary>
     ///     The board's name.
@@ -15,7 +15,7 @@ public class CreateBoard
     /// </summary>
     public BoardAccessTypes BoardAccessType { get; set; }
 
-    public CreateBoard(string name, BoardAccessTypes boardAccessType)
+    internal CreateBoard(string name, BoardAccessTypes boardAccessType)
     {
         Name = name;
         BoardAccessType = boardAccessType;

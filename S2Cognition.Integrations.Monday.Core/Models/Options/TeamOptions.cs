@@ -2,7 +2,7 @@
 
 namespace S2Cognition.Integrations.Monday.Core.Models.Options;
 
-public interface ITeamOptions : IBaseOptions
+internal interface ITeamOptions : IBaseOptions
 {
     bool IncludeName { get; set; }
     bool IncludePhoto { get; set; }
@@ -11,7 +11,7 @@ public interface ITeamOptions : IBaseOptions
     UserOptions? UserOptions { get; set; }
 }
 
-public class TeamOptions : BaseOptions, ITeamOptions
+internal class TeamOptions : BaseOptions, ITeamOptions
 {
     public bool IncludeName { get; set; }
     public bool IncludePhoto { get; set; }
@@ -19,12 +19,12 @@ public class TeamOptions : BaseOptions, ITeamOptions
 
     public UserOptions? UserOptions { get; set; }
 
-    public TeamOptions()
+    internal TeamOptions()
         : this(RequestMode.Default)
     {
     }
 
-    public TeamOptions(RequestMode mode)
+    internal TeamOptions(RequestMode mode)
        : base("team")
     {
         switch (mode)

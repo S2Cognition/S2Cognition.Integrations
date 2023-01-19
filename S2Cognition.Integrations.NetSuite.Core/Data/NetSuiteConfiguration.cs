@@ -26,8 +26,8 @@ public class NetSuiteConfiguration : Configuration
     public string? TokenId { get; set; }
     public string? TokenSecret { get; set; }
 
-    public NetSuiteConfiguration(IServiceProvider serviceProvider)
-        : base(serviceProvider)
+    public NetSuiteConfiguration(IServiceProvider ioc)
+        : base(ioc)
     {
     }
 }

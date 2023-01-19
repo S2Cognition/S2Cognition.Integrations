@@ -2,25 +2,25 @@
 
 namespace S2Cognition.Integrations.Monday.Core.Models.Options;
 
-public interface IBoardViewOptions : IBaseOptions
+internal interface IBoardViewOptions : IBaseOptions
 {
     bool IncludeName { get; set; }
     bool IncludeSettings { get; set; }
     bool IncludeType { get; set; }
 }
 
-public class BoardViewOptions : BaseOptions, IBoardViewOptions
+internal class BoardViewOptions : BaseOptions, IBoardViewOptions
 {
     public bool IncludeName { get; set; }
     public bool IncludeSettings { get; set; }
     public bool IncludeType { get; set; }
 
-    public BoardViewOptions()
+    internal BoardViewOptions()
         : this(RequestMode.Default)
     {
     }
 
-    public BoardViewOptions(RequestMode mode)
+    internal BoardViewOptions(RequestMode mode)
         : base("view")
     {
         switch (mode)

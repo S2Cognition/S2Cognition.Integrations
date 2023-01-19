@@ -4,41 +4,41 @@ using System.Text;
 
 namespace S2Cognition.Integrations.Monday.Core.Models.Requests;
 
-public enum MondayColumnDataType
+internal enum MondayColumnDataType
 {
     Text,
     LongText
 }
 
-public interface IMondayColumn
+internal interface IMondayColumn
 {
     string? Name { get; set; }
     string? Value { get; set; }
     MondayColumnDataType DataType { get; set; }
 }
 
-public interface IMondayColumns
+internal interface IMondayColumns
 {
 }
 
-public class MondayColumn : IMondayColumn
+internal class MondayColumn : IMondayColumn
 {
     public string? Name { get; set; }
     public string? Value { get; set; }
     public MondayColumnDataType DataType { get; set; } = MondayColumnDataType.Text;
 }
 
-public class MondayColumns : IMondayColumns
+internal class MondayColumns : IMondayColumns
 {
     private readonly string? _rawJson;
     private readonly IList<IMondayColumn> _columns = new List<IMondayColumn>();
 
-    public MondayColumns(string rawJson)
+    internal MondayColumns(string rawJson)
     {
         _rawJson = rawJson;
     }
 
-    public MondayColumns(params MondayColumn[] columns)
+    internal MondayColumns(params MondayColumn[] columns)
     {
         foreach (var col in columns)
         {

@@ -1,6 +1,7 @@
 ﻿using GraphQL;
 using GraphQL.Client.Abstractions.Websocket;
 using S2Cognition.Integrations.Core.Models;
+using System.Diagnostics.CodeAnalysis;
 
 namespace S2Cognition.Integrations.Core.Tests.Fakes;
 
@@ -12,7 +13,8 @@ public interface IFakeGraphQlHttpClient
     void EnsureDisposed();
 }
 
-public class FakeGraphQlHttpClient : IFakeGraphQlHttpClient, IGraphQlHttpClient
+[SuppressMessage("Major Code Smell", "S3881:\"IDisposable\" should be implemented correctly", Justification = "This is a custom disposal pattern to enable unit test validations of dispose being called properly")]
+internal class FakeGraphQlHttpClient : IFakeGraphQlHttpClient, IGraphQlHttpClient
 {
     public string? BaseUrl { get; set; }
     public IGraphQLWebsocketJsonSerializer Serializer { get; set; } = default!;
@@ -21,6 +23,10 @@ public class FakeGraphQlHttpClient : IFakeGraphQlHttpClient, IGraphQlHttpClient
     private readonly List<(string[][] Expectations, object? Response)> _expectedQueries = new();
     private readonly List<(string[][] Expectations, object? Response)> _expectedMutations = new();
     private bool _isDisposed = true;
+
+    internal FakeGraphQlHttpClient()
+    {
+    }
 
     public void Dispose()
     {
@@ -47,15 +53,15 @@ public class FakeGraphQlHttpClient : IFakeGraphQlHttpClient, IGraphQlHttpClient
 
     public async Task<GraphQLResponse<T>> SendMutationAsync<T>(GraphQLRequest request)
     {
-        foreach (var expectation in _expectedMutations)
+        foreach (var (Expectations, Response) in _expectedMutations)
         {
-            if (expectation.Expectations.All(_ => StringsRoughlyEqual(request[_.First()].ToString(), _.Skip(1).First())))
+            if (Expectations.All(_ => StringsRoughlyEqual(request[_.First()].ToString(), _.Skip(1).First())))
             {
 #pragma warning disable CS8601 // Possible null reference assignment.
 #pragma warning disable CS8600 // Converting null literal or possible null value to non-nullable type.
                 return await Task.FromResult(new GraphQLResponse<T>
                 {
-                    Data = (T)expectation.Response
+                    Data = (T)Response
                 });
 #pragma warning restore CS8600 // Converting null literal or possible null value to non-nullable type.
 #pragma warning restore CS8601 // Possible null reference assignment.
@@ -73,15 +79,15 @@ public class FakeGraphQlHttpClient : IFakeGraphQlHttpClient, IGraphQlHttpClient
 
     public async Task<GraphQLResponse<T>> SendQueryAsync<T>(GraphQLRequest request)
     {
-        foreach (var expectation in _expectedQueries)
+        foreach (var (Expectations, Response) in _expectedQueries)
         {
-            if (expectation.Expectations.All(_ => StringsRoughlyEqual(request[_.First()].ToString(), _.Skip(1).First())))
+            if (Expectations.All(_ => StringsRoughlyEqual(request[_.First()].ToString(), _.Skip(1).First())))
             {
 #pragma warning disable CS8601 // Possible null reference assignment.
 #pragma warning disable CS8600 // Converting null literal or possible null value to non-nullable type.
                 return await Task.FromResult(new GraphQLResponse<T>
                 {
-                    Data = (T)expectation.Response
+                    Data = (T)Response
                 });
 #pragma warning restore CS8600 // Converting null literal or possible null value to non-nullable type.
 #pragma warning restore CS8601 // Possible null reference assignment.
@@ -97,12 +103,12 @@ public class FakeGraphQlHttpClient : IFakeGraphQlHttpClient, IGraphQlHttpClient
         throw new InvalidOperationException(err);
     }
 
-    private bool StringsRoughlyEqual(string? a, string b)
+    private static bool StringsRoughlyEqual(string? a, string b)
     {
         return String.Equals(Simplify(a), Simplify(b), StringComparison.InvariantCultureIgnoreCase);
     }
 
-    private string Simplify(string? str)
+    private static string Simplify(string? str)
     {
         str = (str ?? String.Empty)
             .Replace("{", " { ")

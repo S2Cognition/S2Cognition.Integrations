@@ -3,7 +3,7 @@
 /// <summary>
 ///     Create a new update mutation.
 /// </summary>
-public class CreateUpdate
+internal class CreateUpdate
 {
     /// <summary>
     ///     The item's unique identifier.
@@ -15,7 +15,7 @@ public class CreateUpdate
     /// </summary>
     public string Body { get; set; }
 
-    public CreateUpdate(ulong itemId, string body)
+    internal CreateUpdate(ulong itemId, string body)
     {
         ItemId = itemId;
         Body = body;

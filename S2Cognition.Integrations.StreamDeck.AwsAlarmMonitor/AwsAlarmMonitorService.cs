@@ -1,6 +1,6 @@
 namespace S2Cognition.Integrations.StreamDeck.AwsAlarmMonitor;
 
-public class AwsAlarmMonitorService
+internal class AwsAlarmMonitorService
 {
     private string? _awsAccessKeyId;
     private string? _awsAccessKeySecret;
@@ -8,7 +8,7 @@ public class AwsAlarmMonitorService
     private string? _alarmName;
     private bool _initialized;
 
-    public AwsAlarmMonitorService()
+    internal AwsAlarmMonitorService()
     {
         _initialized = false;
     }

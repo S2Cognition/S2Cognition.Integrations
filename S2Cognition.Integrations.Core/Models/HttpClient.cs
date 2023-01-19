@@ -11,6 +11,10 @@ public interface IHttpClientFactory
 
 internal class HttpClientFactory : IHttpClientFactory
 {
+    internal HttpClientFactory()
+    {
+    }
+
     public IHttpClient Create()
     {
         return new HttpClient();
@@ -30,12 +34,12 @@ public interface IHttpClient : IDisposable
     Task<T?> Post<T>(string route);
 }
 
-public class HttpClient : IHttpClient
+internal class HttpClient : IHttpClient
 {
     private SystemHttpClient? _client = new();
     private bool _isDisposed = false;
 
-    public HttpClient()
+    internal HttpClient()
     {
     }
 

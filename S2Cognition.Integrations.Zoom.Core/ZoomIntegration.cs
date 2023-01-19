@@ -7,20 +7,17 @@ using System.Text.Json;
 
 namespace S2Cognition.Integrations.Zoom.Core;
 
-/// <summary>
-/// 
-/// </summary>
 public interface IZoomIntegration : IIntegration<ZoomConfiguration>
 {
-    Task<GetUsersResponse?> GetUsers();
+    Task<GetUsersResponse> GetUsers(GetUsersRequest request);
 }
 
 internal class ZoomIntegration : Integration<ZoomConfiguration>, IZoomIntegration
 {
     private ZoomAuthenticationResponse? _authenticationToken = null;
 
-    public ZoomIntegration(IServiceProvider serviceProvider)
-        : base(serviceProvider)
+    internal ZoomIntegration(IServiceProvider ioc)
+        : base(ioc)
     {
     }
 
@@ -36,7 +33,7 @@ internal class ZoomIntegration : Integration<ZoomConfiguration>, IZoomIntegratio
         if ((_authenticationToken != null) && !String.IsNullOrWhiteSpace(_authenticationToken.AccessToken))
             return _authenticationToken.AccessToken;
 
-        var ioc = Configuration.ServiceProvider;
+        var ioc = Configuration.IoC;
 
         var clientFactory = ioc.GetRequiredService<IHttpClientFactory>();
         var stringUtils = ioc.GetRequiredService<IStringUtils>();
@@ -53,11 +50,11 @@ internal class ZoomIntegration : Integration<ZoomConfiguration>, IZoomIntegratio
         return _authenticationToken.AccessToken;
     }
 
-    public async Task<GetUsersResponse?> GetUsers()
+    public async Task<GetUsersResponse> GetUsers(GetUsersRequest request)
     {
         var accessToken = await Authenticate();
 
-        var ioc = Configuration.ServiceProvider;
+        var ioc = Configuration.IoC;
 
         var clientFactory = ioc.GetRequiredService<IHttpClientFactory>();
 
@@ -67,6 +64,7 @@ internal class ZoomIntegration : Integration<ZoomConfiguration>, IZoomIntegratio
         var route = $"https://api.zoom.us/v2/users";
         var zoomData = await client.Get<ZoomGetUsersPagedResponse>(route);
 
-        return JsonSerializer.Deserialize<GetUsersResponse>(JsonSerializer.Serialize(zoomData));
+        return JsonSerializer.Deserialize<GetUsersResponse>(JsonSerializer.Serialize(zoomData))
+            ?? throw new InvalidOperationException($"Cannot deserialize {nameof(GetUsersResponse)}");
     }
 }

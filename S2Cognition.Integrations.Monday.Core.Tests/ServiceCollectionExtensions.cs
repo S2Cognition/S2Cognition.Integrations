@@ -7,6 +7,6 @@ public static class ServiceCollectionExtensions
 {
     public static IServiceCollection AddFakeMondayIntegration(this IServiceCollection sc)
     {
-        return sc.AddSingleton<IMondayIntegration, FakeMondayIntegration>();
+        return sc.AddSingleton<IMondayIntegration>(_ => new FakeMondayIntegration(_));
     }
 }

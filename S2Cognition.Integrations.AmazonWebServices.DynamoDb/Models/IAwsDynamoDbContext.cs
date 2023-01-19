@@ -1,6 +1,6 @@
-﻿namespace S2Cognition.Integrations.AmazonWebServices.DynamoDb.Data;
+﻿namespace S2Cognition.Integrations.AmazonWebServices.DynamoDb.Models;
 
-public interface IAwsDynamoDbContext
+internal interface IAwsDynamoDbContext
 {
     Task<T?> Load<T>(T? data);
 

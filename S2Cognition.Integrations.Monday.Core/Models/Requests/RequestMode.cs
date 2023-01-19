@@ -1,6 +1,6 @@
 ﻿namespace S2Cognition.Integrations.Monday.Core.Models.Requests;
 
-public enum RequestMode
+internal enum RequestMode
 {
     Default,
     Minimum,

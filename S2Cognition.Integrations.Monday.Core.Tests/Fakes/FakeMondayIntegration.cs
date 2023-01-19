@@ -7,12 +7,12 @@ using System.Net;
 
 namespace S2Cognition.Integrations.Monday.Core.Tests.Fakes;
 
-public class FakeMondayIntegration : IMondayIntegration
+internal class FakeMondayIntegration : IMondayIntegration
 {
     private readonly IFakeGraphQlHttpClient _graphQlHttpClient;
     private readonly IMondayIntegration _integration;
 
-    public FakeMondayIntegration(IServiceProvider ioc)
+    internal FakeMondayIntegration(IServiceProvider ioc)
     {
         _graphQlHttpClient = ioc.GetRequiredService<IFakeGraphQlHttpClient>();
 
@@ -29,9 +29,9 @@ public class FakeMondayIntegration : IMondayIntegration
         return await _integration.IsInitialized();
     }
 
-    public async Task<GetUsersResponse> GetUsers()
+    public async Task<GetUsersResponse> GetUsers(GetUsersRequest request)
     {
-        return await _integration.GetUsers();
+        return await _integration.GetUsers(request);
     }
 
     public async Task<GetItemsResponse> GetItems(GetItemsRequest request)
