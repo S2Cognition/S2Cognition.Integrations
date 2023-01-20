@@ -1,6 +1,4 @@
-using System;
-
-namespace S2Cognition.Integrations.Monday.Core.Tests.Internal;
+namespace S2Cognition.Integrations.Monday.Core.Tests.InternalTests;
 
 public static class RandomExtensions
 {

@@ -3,7 +3,7 @@
 namespace S2Cognition.Integrations.NetSuite.Core.Models;
 
 internal interface INetSuiteServiceFactory
-{
+{ 
     Task<INetSuiteService> Create(NetSuiteConfiguration configuration);
 }
 

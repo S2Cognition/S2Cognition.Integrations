@@ -1,49 +1,55 @@
 ﻿using Amazon.CloudWatch;
 using Amazon.CloudWatch.Model;
-using S2Cognition.Integrations.AmazonWebServices.CloudWatch.Data;
+using S2Cognition.Integrations.AmazonWebServices.CloudWatch.Models;
 
-namespace S2Cognition.Integrations.AmazonWebServices.CloudWatch.Tests.Fakes
+namespace S2Cognition.Integrations.AmazonWebServices.CloudWatch.Tests.Fakes;
+
+internal class FakeAwsCloudWatchClient : IAwsCloudWatchClient
 {
-    public class FakeAwsCloudWatchClient : IAwsCloudWatchClient
+    public AmazonCloudWatchClient Native => throw new NotImplementedException();
+
+    public async Task<GetDashboardResponse> GetDashboard(GetDashboardRequest request)
     {
-        public AmazonCloudWatchClient Native => throw new NotImplementedException();
+        return await Task.FromResult(new GetDashboardResponse
+        { 
+            DashboardName = request.DashboardName
+        });
+    }
 
-        public async Task<GetDashboardResponse> GetDashboardAsync(GetDashboardRequest request)
+    public async Task<ICollection<DashboardEntry>> ListDashboards()
+    {
+        return await Task.FromResult(new List<DashboardEntry>
         {
-            GetDashboardResponse response = default!;
+            new DashboardEntry()
+        });
+    }
 
-            response = await Native.GetDashboardAsync(request);
-
-            return response;
-        }
-
-        public async Task<List<DashboardEntry>> ListDashboardsAsync()
+    public async Task<DescribeAlarmsResponse> DescribeAlarms()
+    {
+        return await Task.FromResult(new DescribeAlarmsResponse
         {
-            var response = await Native.ListDashboardsAsync(new ListDashboardsRequest());
-
-            return response.DashboardEntries;
-        }
-
-        public async Task<DescribeAlarmsResponse> DescribeAlarmsAsync()
-        {
-            var response = await Native.DescribeAlarmsAsync();
-            return response;
-        }
-
-        public async Task<DescribeAlarmHistoryResponse> DescribeAlarmsHistriesAsync(string alarmName)
-        {
-            var request = new DescribeAlarmHistoryRequest
+            MetricAlarms = new List<MetricAlarm>
             {
-                AlarmName = alarmName,
-                EndDateUtc = DateTime.Today,
-                HistoryItemType = HistoryItemType.Action,
-                MaxRecords = 1,
-                StartDateUtc = DateTime.Today.Subtract(TimeSpan.FromDays(30)),
-            };
+                new MetricAlarm
+                { 
+                    AlarmName = "Unknown",
+                    StateValue = StateValue.INSUFFICIENT_DATA
+                }
+            }
+        });
+    }
 
-            var response = await Native.DescribeAlarmHistoryAsync(request);
-
-            return response;
-        }
+    public async Task<DescribeAlarmHistoryResponse> DescribeAlarmsHistories(string alarmName)
+    {
+        return await Task.FromResult(new DescribeAlarmHistoryResponse
+        {
+            AlarmHistoryItems = new List<AlarmHistoryItem>
+            { 
+                new AlarmHistoryItem
+                { 
+                    AlarmName = alarmName
+                }
+            }
+        });
     }
 }

@@ -1,9 +1,8 @@
 using FakeItEasy;
-using GraphQL.Client.Abstractions;
 using S2Cognition.Integrations.Core.Models;
 using S2Cognition.Integrations.Monday.Core.Models;
 
-namespace S2Cognition.Integrations.Monday.Core.Tests.Internal;
+namespace S2Cognition.Integrations.Monday.Core.Tests.InternalTests;
 
 public class MondayTests
 {

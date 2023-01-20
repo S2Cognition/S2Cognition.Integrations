@@ -5,7 +5,6 @@ namespace S2Cognition.Integrations.Zoom.Core.Tests;
 
 public class GetUsersTests : UnitTestBase
 {
-    private ZoomConfiguration _configuration = default!;
     private IZoomIntegration _sut = default!;
 
     protected override async Task IocSetup(IServiceCollection sc)
@@ -16,7 +15,7 @@ public class GetUsersTests : UnitTestBase
 
     protected override async Task TestSetup()
     {
-        _configuration = new ZoomConfiguration(_ioc)
+        var configuration = new ZoomConfiguration(_ioc)
         {
             AccountId = "fake_account_id",
             ClientId = "fake_client_id",
@@ -24,7 +23,7 @@ public class GetUsersTests : UnitTestBase
         };
 
         _sut = _ioc.GetRequiredService<IZoomIntegration>();
-        await _sut.Initialize(_configuration);
+        await _sut.Initialize(configuration);
     }
 
     [Fact]

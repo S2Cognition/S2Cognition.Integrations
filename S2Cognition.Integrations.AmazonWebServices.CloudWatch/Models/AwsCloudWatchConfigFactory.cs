@@ -1,8 +1,11 @@
-﻿using S2Cognition.Integrations.AmazonWebServices.CloudWatch.Data;
+﻿namespace S2Cognition.Integrations.AmazonWebServices.CloudWatch.Models;
 
-namespace S2Cognition.Integrations.AmazonWebServices.CloudWatch.Models;
+internal interface IAwsCloudWatchConfigFactory
+{
+    IAwsCloudWatchConfig Create();
+}
 
-public class AwsCloudWatchConfigFactory : IAwsCloudWatchConfigFactory
+internal class AwsCloudWatchConfigFactory : IAwsCloudWatchConfigFactory
 {
     public IAwsCloudWatchConfig Create()
     {

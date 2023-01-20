@@ -1,6 +1,5 @@
 using FakeItEasy;
 using GraphQL;
-using GraphQL.Client.Abstractions;
 using S2Cognition.Integrations.Core.Models;
 using S2Cognition.Integrations.Monday.Core.Models;
 using S2Cognition.Integrations.Monday.Core.Models.Requests;
@@ -10,7 +9,7 @@ using System.Text.RegularExpressions;
 
 using Group = S2Cognition.Integrations.Monday.Core.Models.Group;
 
-namespace S2Cognition.Integrations.Monday.Core.Tests.Internal;
+namespace S2Cognition.Integrations.Monday.Core.Tests.InternalTests;
 
 public class QueryOptionsTests
 {

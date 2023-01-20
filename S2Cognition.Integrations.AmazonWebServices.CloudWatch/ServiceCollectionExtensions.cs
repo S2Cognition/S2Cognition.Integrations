@@ -2,20 +2,15 @@
 using S2Cognition.Integrations.AmazonWebServices.CloudWatch.Data;
 using S2Cognition.Integrations.AmazonWebServices.CloudWatch.Models;
 
-namespace S2Cognition.Integrations.AmazonWebServices.CloudWatch
-{
-    public static class ServiceCollectionExtensions
-    {
-        public static IServiceCollection AddAmazonWebServicesCloudWatchIntegration(this IServiceCollection sc)
-        {
-            sc.AddSingleton<IAmazonWebServicesCloudWatchIntegration, AmazonWebServicesCloudWatchIntegration>()
-                .AddSingleton<IAwsCloudWatchConfigFactory, AwsCloudWatchConfigFactory>()
-                .AddScoped<IAwsCloudWatchConfig, AwsCloudWatchConfig>()
-                .AddSingleton<IAwsCloudWatchClientFactory, AwsCloudWatchClientFactory>()
-                .AddScoped<IAwsCloudWatchClient, AwsCloudWatchClient>();
+namespace S2Cognition.Integrations.AmazonWebServices.CloudWatch;
 
-            return sc;
-        }
+public static class ServiceCollectionExtensions
+{
+    public static IServiceCollection AddAmazonWebServicesCloudWatchIntegration(this IServiceCollection sc)
+    {
+        return sc.AddSingleton<IAmazonWebServicesCloudWatchIntegration>(_ => new AmazonWebServicesCloudWatchIntegration(_))
+            .AddSingleton<IAwsCloudWatchConfigFactory>(_ => new AwsCloudWatchConfigFactory())
+            .AddSingleton<IAwsCloudWatchClientFactory>(_ => new AwsCloudWatchClientFactory());
     }
 }
 
