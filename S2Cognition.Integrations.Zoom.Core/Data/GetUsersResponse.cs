@@ -1,4 +1,4 @@
-﻿namespace S2Cognition.Integrations.Zoom.Core.Models;
+﻿namespace S2Cognition.Integrations.Zoom.Core.Data;
 
 public class GetUsersResponse
 {

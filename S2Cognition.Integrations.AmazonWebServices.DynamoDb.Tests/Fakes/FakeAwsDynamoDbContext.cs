@@ -1,8 +1,8 @@
-﻿using S2Cognition.Integrations.AmazonWebServices.DynamoDb.Data;
+﻿using S2Cognition.Integrations.AmazonWebServices.DynamoDb.Models;
 
 namespace S2Cognition.Integrations.AmazonWebServices.DynamoDb.Tests.Fakes;
 
-public class FakeAwsDynamoDbContext : IAwsDynamoDbContext
+internal class FakeAwsDynamoDbContext : IAwsDynamoDbContext
 {
     private readonly ICollection<object> _data = new List<object>();
 

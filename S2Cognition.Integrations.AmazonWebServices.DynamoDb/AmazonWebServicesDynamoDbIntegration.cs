@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using S2Cognition.Integrations.AmazonWebServices.Core.Data;
 using S2Cognition.Integrations.AmazonWebServices.DynamoDb.Data;
+using S2Cognition.Integrations.AmazonWebServices.DynamoDb.Models;
 using S2Cognition.Integrations.Core;
 
 namespace S2Cognition.Integrations.AmazonWebServices.DynamoDb;

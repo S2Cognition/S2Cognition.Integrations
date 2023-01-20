@@ -1,10 +1,16 @@
 ﻿using Amazon.DynamoDBv2;
 using S2Cognition.Integrations.AmazonWebServices.Core.Data;
-using S2Cognition.Integrations.AmazonWebServices.DynamoDb.Data;
 
 namespace S2Cognition.Integrations.AmazonWebServices.DynamoDb.Models;
 
-public class AwsDynamoDbConfig : IAwsDynamoDbConfig
+internal interface IAwsDynamoDbConfig
+{
+    string? ServiceUrl { get; set; }
+    IAwsRegionEndpoint? RegionEndpoint { get; set; }
+    AmazonDynamoDBConfig Native { get; }
+}
+
+internal class AwsDynamoDbConfig : IAwsDynamoDbConfig
 {
     private string? _serviceUrl;
     public string? ServiceUrl
@@ -33,7 +39,7 @@ public class AwsDynamoDbConfig : IAwsDynamoDbConfig
     private readonly AmazonDynamoDBConfig _config;
     public AmazonDynamoDBConfig Native => _config;
 
-    public AwsDynamoDbConfig()
+    internal AwsDynamoDbConfig()
     {
         _config = new AmazonDynamoDBConfig { ServiceURL = ServiceUrl, RegionEndpoint = RegionEndpoint?.Native };
     }

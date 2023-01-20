@@ -4,7 +4,14 @@ using S2Cognition.Integrations.AmazonWebServices.Core.Data;
 
 namespace S2Cognition.Integrations.AmazonWebServices.CloudWatch.Models;
 
-public class AwsCloudWatchConfig : IAwsCloudWatchConfig
+internal interface IAwsCloudWatchConfig
+{
+    string? ServiceUrl { get; set; }
+    IAwsRegionEndpoint? RegionEndpoint { get; set; }
+    AmazonCloudWatchConfig Native { get; }
+}
+
+internal class AwsCloudWatchConfig : IAwsCloudWatchConfig
 {
     private string? _serviceUrl;
     public string? ServiceUrl
@@ -33,7 +40,7 @@ public class AwsCloudWatchConfig : IAwsCloudWatchConfig
     private readonly AmazonCloudWatchConfig _config;
     public AmazonCloudWatchConfig Native => _config;
 
-    public AwsCloudWatchConfig()
+    internal AwsCloudWatchConfig()
     {
         _config = new AmazonCloudWatchConfig { ServiceURL = ServiceUrl, RegionEndpoint = RegionEndpoint?.Native };
     }

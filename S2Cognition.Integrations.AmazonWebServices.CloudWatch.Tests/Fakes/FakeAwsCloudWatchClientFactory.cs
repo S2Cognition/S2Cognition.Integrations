@@ -1,9 +1,8 @@
-﻿using S2Cognition.Integrations.AmazonWebServices.CloudWatch.Data;
-using S2Cognition.Integrations.AmazonWebServices.CloudWatch.Models;
+﻿using S2Cognition.Integrations.AmazonWebServices.CloudWatch.Models;
 
 namespace S2Cognition.Integrations.AmazonWebServices.CloudWatch.Tests.Fakes;
 
-public class FakeAwsCloudWatchClientFactory : IAwsCloudWatchClientFactory
+internal class FakeAwsCloudWatchClientFactory : IAwsCloudWatchClientFactory
 {
     public IAwsCloudWatchClient Create(IAwsCloudWatchConfig config)
     {

@@ -1,16 +1,15 @@
 ﻿using Amazon.CloudWatch;
-using S2Cognition.Integrations.AmazonWebServices.CloudWatch.Data;
+using S2Cognition.Integrations.AmazonWebServices.CloudWatch.Models;
 using S2Cognition.Integrations.AmazonWebServices.Core.Data;
 
-namespace S2Cognition.Integrations.AmazonWebServices.CloudWatch.Tests.Fakes
-{
-    public class FakeAwsCloudWatchConfig : IAwsCloudWatchConfig
-    {
-        public string? ServiceUrl { get; set; }
-        public IAwsRegionEndpoint? RegionEndpoint { get; set; }
+namespace S2Cognition.Integrations.AmazonWebServices.CloudWatch.Tests.Fakes;
 
-        public AmazonCloudWatchConfig Native => throw new NotImplementedException();
-    }
+internal class FakeAwsCloudWatchConfig : IAwsCloudWatchConfig
+{
+    public string? ServiceUrl { get; set; }
+    public IAwsRegionEndpoint? RegionEndpoint { get; set; }
+
+    public AmazonCloudWatchConfig Native => throw new NotImplementedException();
 }
 
 

@@ -1,49 +1,48 @@
 ﻿using Amazon.CloudWatch;
 using Amazon.CloudWatch.Model;
-using S2Cognition.Integrations.AmazonWebServices.CloudWatch.Data;
+using S2Cognition.Integrations.AmazonWebServices.CloudWatch.Models;
 
-namespace S2Cognition.Integrations.AmazonWebServices.CloudWatch.Tests.Fakes
+namespace S2Cognition.Integrations.AmazonWebServices.CloudWatch.Tests.Fakes;
+
+internal class FakeAwsCloudWatchClient : IAwsCloudWatchClient
 {
-    public class FakeAwsCloudWatchClient : IAwsCloudWatchClient
+    public AmazonCloudWatchClient Native => throw new NotImplementedException();
+
+    public async Task<GetDashboardResponse> GetDashboardAsync(GetDashboardRequest request)
     {
-        public AmazonCloudWatchClient Native => throw new NotImplementedException();
+        GetDashboardResponse response = default!;
 
-        public async Task<GetDashboardResponse> GetDashboardAsync(GetDashboardRequest request)
+        response = await Native.GetDashboardAsync(request);
+
+        return response;
+    }
+
+    public async Task<List<DashboardEntry>> ListDashboardsAsync()
+    {
+        var response = await Native.ListDashboardsAsync(new ListDashboardsRequest());
+
+        return response.DashboardEntries;
+    }
+
+    public async Task<DescribeAlarmsResponse> DescribeAlarmsAsync()
+    {
+        var response = await Native.DescribeAlarmsAsync();
+        return response;
+    }
+
+    public async Task<DescribeAlarmHistoryResponse> DescribeAlarmsHistriesAsync(string alarmName)
+    {
+        var request = new DescribeAlarmHistoryRequest
         {
-            GetDashboardResponse response = default!;
+            AlarmName = alarmName,
+            EndDateUtc = DateTime.Today,
+            HistoryItemType = HistoryItemType.Action,
+            MaxRecords = 1,
+            StartDateUtc = DateTime.Today.Subtract(TimeSpan.FromDays(30)),
+        };
 
-            response = await Native.GetDashboardAsync(request);
+        var response = await Native.DescribeAlarmHistoryAsync(request);
 
-            return response;
-        }
-
-        public async Task<List<DashboardEntry>> ListDashboardsAsync()
-        {
-            var response = await Native.ListDashboardsAsync(new ListDashboardsRequest());
-
-            return response.DashboardEntries;
-        }
-
-        public async Task<DescribeAlarmsResponse> DescribeAlarmsAsync()
-        {
-            var response = await Native.DescribeAlarmsAsync();
-            return response;
-        }
-
-        public async Task<DescribeAlarmHistoryResponse> DescribeAlarmsHistriesAsync(string alarmName)
-        {
-            var request = new DescribeAlarmHistoryRequest
-            {
-                AlarmName = alarmName,
-                EndDateUtc = DateTime.Today,
-                HistoryItemType = HistoryItemType.Action,
-                MaxRecords = 1,
-                StartDateUtc = DateTime.Today.Subtract(TimeSpan.FromDays(30)),
-            };
-
-            var response = await Native.DescribeAlarmHistoryAsync(request);
-
-            return response;
-        }
+        return response;
     }
 }

@@ -1,29 +1,17 @@
 ﻿using S2Cognition.Integrations.AmazonWebServices.CloudWatch.Data;
 
-namespace S2Cognition.Integrations.AmazonWebServices.CloudWatch.Models
+namespace S2Cognition.Integrations.AmazonWebServices.CloudWatch.Models;
+
+internal interface IAwsCloudWatchClientFactory
 {
-    public class AwsCloudWatchClientFactory : IAwsCloudWatchClientFactory
+    IAwsCloudWatchClient Create(IAwsCloudWatchConfig config);
+}
+
+
+internal class AwsCloudWatchClientFactory : IAwsCloudWatchClientFactory
+{
+    public IAwsCloudWatchClient Create(IAwsCloudWatchConfig config)
     {
-        public IAwsCloudWatchClient Create(IAwsCloudWatchConfig config)
-        {
-            return new AwsCloudWatchClient(config);
-        }
-
-        //public class AwsCloudWatchClientFactory : IAwsCloudWatchClientFactory
-        //{
-        //    public IAwsCloudWatchClient Create()
-        //    {
-        //        return new AwsCloudWatchClient();
-        //    }
-        //}
-
-        //public class FakeAwsCloudWatchClientFactory : IAwsCloudWatchClientFactory
-        //{
-        //    public IAwsCloudWatchClient Create()
-        //    {
-        //        return new FakeAwsCloudWatchClient();
-        //    }
-        //}
+        return new AwsCloudWatchClient(config);
     }
-
 }
