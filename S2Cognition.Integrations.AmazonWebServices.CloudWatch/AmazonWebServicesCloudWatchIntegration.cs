@@ -5,15 +5,21 @@ namespace S2Cognition.Integrations.AmazonWebServices.CloudWatch;
 
 public interface IAmazonWebServicesCloudWatchIntegration : IIntegration<AmazonWebServicesCloudWatchConfiguration>
 {
-
+    Task<GetAlarmStateResponse> GetAlarmState(GetAlarmStateRequest request);
 }
 
 
-public class AmazonWebServicesCloudWatchIntegration : Integration<AmazonWebServicesCloudWatchConfiguration>, IAmazonWebServicesCloudWatchIntegration
+internal class AmazonWebServicesCloudWatchIntegration : Integration<AmazonWebServicesCloudWatchConfiguration>, IAmazonWebServicesCloudWatchIntegration
 {
-    public AmazonWebServicesCloudWatchIntegration(IServiceProvider serviceProvider)
+    internal AmazonWebServicesCloudWatchIntegration(IServiceProvider serviceProvider)
     : base(serviceProvider)
     {
+    }
+
+    public async Task<GetAlarmStateResponse> GetAlarmState(GetAlarmStateRequest request)
+    {
+        await Task.CompletedTask;
+        throw new NotImplementedException();
     }
 }
 

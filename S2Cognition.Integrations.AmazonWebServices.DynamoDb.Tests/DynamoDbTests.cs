@@ -10,7 +10,6 @@ namespace S2Cognition.Integrations.AmazonWebServices.DynamoDb.Tests;
 
 public class DynamoDbTests : UnitTestBase
 {
-    private AmazonWebServicesDynamoDbConfiguration _configuration = default!;
     private IAmazonWebServicesDynamoDbIntegration _sut = default!;
 
     protected override async Task IocSetup(IServiceCollection sc)
@@ -24,7 +23,7 @@ public class DynamoDbTests : UnitTestBase
 
     protected override async Task TestSetup()
     {
-        _configuration = new AmazonWebServicesDynamoDbConfiguration(_ioc)
+        var configuration = new AmazonWebServicesDynamoDbConfiguration(_ioc)
         {
             AccessKey = "fake AccessKey",
             SecretKey = "fake SecretKey",
@@ -33,7 +32,7 @@ public class DynamoDbTests : UnitTestBase
         };
 
         _sut = _ioc.GetRequiredService<IAmazonWebServicesDynamoDbIntegration>();
-        await Task.CompletedTask;
+        await _sut.Initialize(configuration);
     }
 
     public enum RowStatuses
@@ -62,8 +61,6 @@ public class DynamoDbTests : UnitTestBase
     [Fact]
     public async Task EnsureCanInsertNewTypedItem()
     {
-        await _sut.Initialize(_configuration);
-
         var id = 1000;
         var name = "Item Name";
         var notes = "Item Notes";
@@ -101,8 +98,6 @@ public class DynamoDbTests : UnitTestBase
     [Fact]
     public async Task EnsureCanInsertNewUntypedItem()
     {
-        await _sut.Initialize(_configuration);
-
         var id = 1000;
         var name = "Item Name";
         var notes = "Item Notes";

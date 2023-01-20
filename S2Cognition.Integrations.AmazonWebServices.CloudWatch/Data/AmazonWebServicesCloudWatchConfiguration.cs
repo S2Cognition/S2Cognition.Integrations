@@ -7,7 +7,7 @@ public class AmazonWebServicesCloudWatchConfiguration : AmazonWebServicesConfigu
     public string ServiceUrl { get; set; } = string.Empty;
 
     public AmazonWebServicesCloudWatchConfiguration(IServiceProvider serviceProvider)
-: base(serviceProvider)
+        : base(serviceProvider)
     {
     }
 }

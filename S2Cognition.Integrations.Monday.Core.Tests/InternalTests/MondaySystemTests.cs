@@ -4,7 +4,7 @@ using S2Cognition.Integrations.Monday.Core.Models;
 using S2Cognition.Integrations.Monday.Core.Models.Responses;
 using Shouldly;
 
-namespace S2Cognition.Integrations.Monday.Core.Tests.Internal;
+namespace S2Cognition.Integrations.Monday.Core.Tests.InternalTests;
 
 public class MondaySystemTests : MondayTests
 {

@@ -8,41 +8,48 @@ internal class FakeAwsCloudWatchClient : IAwsCloudWatchClient
 {
     public AmazonCloudWatchClient Native => throw new NotImplementedException();
 
-    public async Task<GetDashboardResponse> GetDashboardAsync(GetDashboardRequest request)
+    public async Task<GetDashboardResponse> GetDashboard(GetDashboardRequest request)
     {
-        GetDashboardResponse response = default!;
-
-        response = await Native.GetDashboardAsync(request);
-
-        return response;
+        return await Task.FromResult(new GetDashboardResponse
+        { 
+            DashboardName = request.DashboardName
+        });
     }
 
-    public async Task<List<DashboardEntry>> ListDashboardsAsync()
+    public async Task<ICollection<DashboardEntry>> ListDashboards()
     {
-        var response = await Native.ListDashboardsAsync(new ListDashboardsRequest());
-
-        return response.DashboardEntries;
-    }
-
-    public async Task<DescribeAlarmsResponse> DescribeAlarmsAsync()
-    {
-        var response = await Native.DescribeAlarmsAsync();
-        return response;
-    }
-
-    public async Task<DescribeAlarmHistoryResponse> DescribeAlarmsHistriesAsync(string alarmName)
-    {
-        var request = new DescribeAlarmHistoryRequest
+        return await Task.FromResult(new List<DashboardEntry>
         {
-            AlarmName = alarmName,
-            EndDateUtc = DateTime.Today,
-            HistoryItemType = HistoryItemType.Action,
-            MaxRecords = 1,
-            StartDateUtc = DateTime.Today.Subtract(TimeSpan.FromDays(30)),
-        };
+            new DashboardEntry()
+        });
+    }
 
-        var response = await Native.DescribeAlarmHistoryAsync(request);
+    public async Task<DescribeAlarmsResponse> DescribeAlarms()
+    {
+        return await Task.FromResult(new DescribeAlarmsResponse
+        {
+            MetricAlarms = new List<MetricAlarm>
+            {
+                new MetricAlarm
+                { 
+                    AlarmName = "Unknown",
+                    StateValue = StateValue.INSUFFICIENT_DATA
+                }
+            }
+        });
+    }
 
-        return response;
+    public async Task<DescribeAlarmHistoryResponse> DescribeAlarmsHistories(string alarmName)
+    {
+        return await Task.FromResult(new DescribeAlarmHistoryResponse
+        {
+            AlarmHistoryItems = new List<AlarmHistoryItem>
+            { 
+                new AlarmHistoryItem
+                { 
+                    AlarmName = alarmName
+                }
+            }
+        });
     }
 }

@@ -7,10 +7,10 @@ internal interface IAwsCloudWatchClient
 {
     AmazonCloudWatchClient Native { get; }
 
-    Task<GetDashboardResponse> GetDashboardAsync(GetDashboardRequest request);
-    Task<List<DashboardEntry>> ListDashboardsAsync();
-    Task<DescribeAlarmsResponse> DescribeAlarmsAsync();
-    Task<DescribeAlarmHistoryResponse> DescribeAlarmsHistriesAsync(string alarmName);
+    Task<GetDashboardResponse> GetDashboard(GetDashboardRequest request);
+    Task<ICollection<DashboardEntry>> ListDashboards();
+    Task<DescribeAlarmsResponse> DescribeAlarms();
+    Task<DescribeAlarmHistoryResponse> DescribeAlarmsHistories(string alarmName);
 }
 
 internal class AwsCloudWatchClient : IAwsCloudWatchClient
@@ -24,23 +24,34 @@ internal class AwsCloudWatchClient : IAwsCloudWatchClient
         _client = new AmazonCloudWatchClient(config.Native);
     }
 
-    public Task<GetDashboardResponse> GetDashboardAsync(GetDashboardRequest request)
+    public async Task<GetDashboardResponse> GetDashboard(GetDashboardRequest request)
     {
-        throw new NotImplementedException();
+        return await Native.GetDashboardAsync(request);
     }
 
-    public Task<List<DashboardEntry>> ListDashboardsAsync()
+    public async Task<ICollection<DashboardEntry>> ListDashboards()
     {
-        throw new NotImplementedException();
+        var response = await Native.ListDashboardsAsync(new ListDashboardsRequest());
+
+        return response.DashboardEntries;
     }
 
-    public Task<DescribeAlarmsResponse> DescribeAlarmsAsync()
+    public async Task<DescribeAlarmsResponse> DescribeAlarms()
     {
-        throw new NotImplementedException();
+        return await Native.DescribeAlarmsAsync();
     }
 
-    public Task<DescribeAlarmHistoryResponse> DescribeAlarmsHistriesAsync(string alarmName)
+    public async Task<DescribeAlarmHistoryResponse> DescribeAlarmsHistories(string alarmName)
     {
-        throw new NotImplementedException();
+        var request = new DescribeAlarmHistoryRequest
+        {
+            AlarmName = alarmName,
+            EndDateUtc = DateTime.Today,
+            HistoryItemType = HistoryItemType.Action,
+            MaxRecords = 1,
+            StartDateUtc = DateTime.Today.Subtract(TimeSpan.FromDays(30)),
+        };
+
+        return await Native.DescribeAlarmHistoryAsync(request);
     }
 }

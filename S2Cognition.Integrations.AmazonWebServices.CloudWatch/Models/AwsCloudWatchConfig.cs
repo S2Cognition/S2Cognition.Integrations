@@ -1,6 +1,5 @@
 ﻿using Amazon.CloudWatch;
-using S2Cognition.Integrations.AmazonWebServices.CloudWatch.Data;
-using S2Cognition.Integrations.AmazonWebServices.Core.Data;
+using S2Cognition.Integrations.AmazonWebServices.Core.Models;
 
 namespace S2Cognition.Integrations.AmazonWebServices.CloudWatch.Models;
 

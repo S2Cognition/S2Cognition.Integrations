@@ -8,9 +8,9 @@ public static class ServiceCollectionExtensions
 {
     public static IServiceCollection AddAmazonWebServicesCloudWatchIntegration(this IServiceCollection sc)
     {
-        return sc.AddSingleton<IAmazonWebServicesCloudWatchIntegration, AmazonWebServicesCloudWatchIntegration>()
-            .AddSingleton<IAwsCloudWatchConfigFactory, AwsCloudWatchConfigFactory>()
-            .AddSingleton<IAwsCloudWatchClientFactory, AwsCloudWatchClientFactory>();
+        return sc.AddSingleton<IAmazonWebServicesCloudWatchIntegration>(_ => new AmazonWebServicesCloudWatchIntegration(_))
+            .AddSingleton<IAwsCloudWatchConfigFactory>(_ => new AwsCloudWatchConfigFactory())
+            .AddSingleton<IAwsCloudWatchClientFactory>(_ => new AwsCloudWatchClientFactory());
     }
 }
 

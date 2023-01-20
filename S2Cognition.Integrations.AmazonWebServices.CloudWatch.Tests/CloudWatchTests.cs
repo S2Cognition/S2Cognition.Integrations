@@ -1,4 +1,6 @@
-﻿using Amazon.CloudWatch.Model;
+﻿using Amazon.CloudWatch;
+using Amazon.CloudWatch.Model;
+using FakeItEasy;
 using Microsoft.Extensions.DependencyInjection;
 using S2Cognition.Integrations.AmazonWebServices.CloudWatch.Data;
 using S2Cognition.Integrations.AmazonWebServices.CloudWatch.Models;
@@ -6,11 +8,10 @@ using S2Cognition.Integrations.AmazonWebServices.Core.Tests;
 using S2Cognition.Integrations.Core.Tests;
 using Shouldly;
 
-namespace S2Cognition.Integrations.AmazonWebServices.CloudWatch.Tests;
+namespace S2Cognition.Integrations.AmazonWebServices.CloudWatch.Tests.InternalTests;
 
 public class CloudWatchTests : UnitTestBase
 {
-    private AmazonWebServicesCloudWatchConfiguration _configuration = default!;
     private IAmazonWebServicesCloudWatchIntegration _sut = default!;
     private IAwsCloudWatchClient _client = default!;
 
@@ -25,7 +26,7 @@ public class CloudWatchTests : UnitTestBase
 
     protected override async Task TestSetup()
     {
-        _configuration = new AmazonWebServicesCloudWatchConfiguration(_ioc)
+        var configuration = new AmazonWebServicesCloudWatchConfiguration(_ioc)
         {
             AccessKey = "fake AccessKey",
             SecretKey = "fake SecretKey",
@@ -35,81 +36,93 @@ public class CloudWatchTests : UnitTestBase
 
         _sut = _ioc.GetRequiredService<IAmazonWebServicesCloudWatchIntegration>();
 
+        await _sut.Initialize(configuration);
+
         var configFactory = _ioc.GetRequiredService<IAwsCloudWatchConfigFactory>();
         var config = configFactory.Create();
 
         var clientFactory = _ioc.GetRequiredService<IAwsCloudWatchClientFactory>();
         _client = clientFactory.Create(config);
-
-        await Task.CompletedTask;
     }
 
     [Fact]
-    public async Task EnsureCheckingForInitializationReturnsExpectedResults()
+    public async Task EnsureGetAlarmStatusShouldReturnInAlarmWhenInError()
     {
-        var isInitialized = await _sut.IsInitialized();
-        isInitialized.ShouldBeFalse();
+        var alarmArn = "fake Alarm ARN";
 
-        await _sut.Initialize(_configuration);
-
-        isInitialized = await _sut.IsInitialized();
-        isInitialized.ShouldBeTrue();
-    }
-
-    [Fact]
-    public async Task EnsureGetDashboardReturnsResults()
-    {
-        await _sut.Initialize(_configuration);
-
-        var dashboardName = "test dashboard name";
-
-        var request = new GetDashboardRequest
+        A.CallTo(() => _client.DescribeAlarms()).Returns(new DescribeAlarmsResponse
         {
-            DashboardName = dashboardName
-        };
+            MetricAlarms = new List<MetricAlarm>
+            {
+                new MetricAlarm
+                {
+                    AlarmArn = alarmArn,
+                    StateValue = StateValue.ALARM
+                }
+            }
+        });
 
-        var response = await _client.GetDashboardAsync(request);
+        var response = await _sut.GetAlarmState(new GetAlarmStateRequest
+        {
+            Arn = alarmArn
+        });
 
         response.ShouldNotBeNull();
-        response.DashboardName.ShouldBe(dashboardName);
+        response.Arn.ShouldBe(alarmArn);
+        response.State.ShouldBe(AlarmState.InAlarm);
     }
 
     [Fact]
-    public async Task EnsureListDashboardsReturnsResults()
+    public async Task EnsureGetAlarmStatusShouldReturnOkWhenNotInError()
     {
-        await _sut.Initialize(_configuration);
+        var alarmArn = "fake Alarm ARN";
 
-        var response = await _client.ListDashboardsAsync();
+        A.CallTo(() => _client.DescribeAlarms()).Returns(new DescribeAlarmsResponse
+        {
+            MetricAlarms = new List<MetricAlarm>
+            {
+                new MetricAlarm
+                {
+                    AlarmArn = alarmArn,
+                    StateValue = StateValue.OK
+                }
+            }
+        });
+
+        var response = await _sut.GetAlarmState(new GetAlarmStateRequest
+        {
+            Arn = alarmArn
+        });
 
         response.ShouldNotBeNull();
-        response.Count.ShouldBeGreaterThan(0);
+        response.Arn.ShouldBe(alarmArn);
+        response.State.ShouldBe(AlarmState.Ok);
     }
 
     [Fact]
-    public async Task EnsureDescribeAlarmsReturnsResults()
+    public async Task EnsureGetAlarmStatusShouldReturnUnknownWhenUnknown()
     {
-        await _sut.Initialize(_configuration);
+        var alarmArn = "fake Alarm ARN";
 
-        var response = await _client.DescribeAlarmsAsync();
+        A.CallTo(() => _client.DescribeAlarms()).Returns(new DescribeAlarmsResponse
+        {
+            MetricAlarms = new List<MetricAlarm>
+            {
+                new MetricAlarm
+                {
+                    AlarmArn = alarmArn,
+                    StateValue = StateValue.INSUFFICIENT_DATA
+                }
+            }
+        });
+
+        var response = await _sut.GetAlarmState(new GetAlarmStateRequest
+        {
+            Arn = alarmArn
+        });
 
         response.ShouldNotBeNull();
-        response.MetricAlarms.ShouldNotBeNull();
-        response.MetricAlarms[0].AlarmName.ShouldNotBeNull();
-        response.MetricAlarms[0].StateValue.ShouldNotBeNull();
-    }
-
-    [Fact]
-    public async Task EnsureDescribeAlarmHistoryReturnsResults()
-    {
-        await _sut.Initialize(_configuration);
-
-        var alarmName = "Test Alarm";
-
-        var response = await _client.DescribeAlarmsHistriesAsync(alarmName);
-
-        response.ShouldNotBeNull();
-        response.AlarmHistoryItems.ShouldNotBeNull();
-        response.AlarmHistoryItems[0].AlarmName.ShouldBe(alarmName);
-
+        response.Arn.ShouldBe(alarmArn);
+        response.State.ShouldBe(AlarmState.Unknown);
     }
 }
