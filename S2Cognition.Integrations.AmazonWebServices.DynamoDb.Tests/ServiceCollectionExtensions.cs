@@ -8,13 +8,8 @@ public static class ServiceCollectionExtensions
 {
     public static IServiceCollection AddFakeAmazonWebServicesDynamoDb(this IServiceCollection sc)
     {
-        sc.AddSingleton<IAwsDynamoDbConfigFactory, FakeAwsDynamoDbConfigFactory>()
-            .AddScoped<IAwsDynamoDbConfig, FakeAwsDynamoDbConfig>()
+        return sc.AddSingleton<IAwsDynamoDbConfigFactory, FakeAwsDynamoDbConfigFactory>()
             .AddSingleton<IAwsDynamoDbClientFactory, FakeAwsDynamoDbClientFactory>()
-            .AddScoped<IAwsDynamoDbClient, FakeAwsDynamoDbClient>()
-            .AddSingleton<IAwsDynamoDbContextFactory, FakeAwsDynamoDbContextFactory>()
-            .AddScoped<IAwsDynamoDbContext, FakeAwsDynamoDbContext>();
-
-        return sc;
+            .AddSingleton<IAwsDynamoDbContextFactory, FakeAwsDynamoDbContextFactory>();
     }
 }

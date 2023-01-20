@@ -20,6 +20,7 @@ internal class FakeAwsDynamoDbContext : IAwsDynamoDbContext
         await Task.CompletedTask;
     }
 
+#if AWS_SUPPORTS_NONGENERIC_DYNAMODB
     public async Task Save(Type dataType, object data)
     {
         if (data != null)
@@ -38,5 +39,5 @@ internal class FakeAwsDynamoDbContext : IAwsDynamoDbContext
 
         await Task.CompletedTask;
     }
+#endif
 }
-

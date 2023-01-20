@@ -11,7 +11,7 @@ public class MondayItemsTests : MondayTests
 {
     private void FakeGetItemResponse(ulong itemId)
     {
-        A.CallTo(() => _graphQlClient.SendQueryAsync<GetItemsResponse>(A<GraphQLRequest>._, A<CancellationToken>._))
+        A.CallTo(() => _graphQlClient.SendQueryAsync<GetItemsResponse>(A<GraphQLRequest>._))
             .Returns(new GraphQLResponse<GetItemsResponse>
             {
                 Data = new GetItemsResponse(new[] { new Item { Id = itemId } })
@@ -20,7 +20,7 @@ public class MondayItemsTests : MondayTests
 
     private void FakeGetItemsResponse(ulong itemId)
     {
-        A.CallTo(() => _graphQlClient.SendQueryAsync<GetBoardItemsResponse>(A<GraphQLRequest>._, A<CancellationToken>._))
+        A.CallTo(() => _graphQlClient.SendQueryAsync<GetBoardItemsResponse>(A<GraphQLRequest>._))
             .Returns(new GraphQLResponse<GetBoardItemsResponse>
             {
                 Data = new GetBoardItemsResponse(new[] { new Board { Items = new[] { new Item { Id = itemId } } } })
@@ -29,7 +29,7 @@ public class MondayItemsTests : MondayTests
 
     private void FakeCreateItemResponse(string name)
     {
-        A.CallTo(() => _graphQlClient.SendMutationAsync<CreateItemResponse>(A<GraphQLRequest>._, A<CancellationToken>._))
+        A.CallTo(() => _graphQlClient.SendMutationAsync<CreateItemResponse>(A<GraphQLRequest>._))
             .Returns(new GraphQLResponse<CreateItemResponse>
             {
                 Data = new CreateItemResponse(new Item { Id = _random.NextUInt64(), Name = name })
@@ -38,7 +38,7 @@ public class MondayItemsTests : MondayTests
 
     private void FakeCustomGetItems(string cmd)
     {
-        A.CallTo(() => _graphQlClient.SendMutationAsync<GetItemsResponse>(A<GraphQLRequest>._, A<CancellationToken>._))
+        A.CallTo(() => _graphQlClient.SendMutationAsync<GetItemsResponse>(A<GraphQLRequest>._))
             .Returns(new GraphQLResponse<GetItemsResponse>
             {
                 Data = new GetItemsResponse(new[] { new Item { Name = cmd } })

@@ -9,8 +9,8 @@ public interface IAmazonWebServicesIntegration : IIntegration<AmazonWebServicesC
 
 internal class AmazonWebServicesIntegration : Integration<AmazonWebServicesConfiguration>, IAmazonWebServicesIntegration
 {
-    internal AmazonWebServicesIntegration(IServiceProvider serviceProvider)
-        : base(serviceProvider)
+    internal AmazonWebServicesIntegration(IServiceProvider ioc)
+        : base(ioc)
     {
     }
 }

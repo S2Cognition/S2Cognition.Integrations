@@ -1,3 +1,6 @@
+using S2Cognition.Integrations.Core.Tests;
+using S2Cognition.Integrations.Zoom.Core.Data;
+
 namespace S2Cognition.Integrations.Zoom.Core.Tests;
 
 public class GetUsersTests : UnitTestBase
@@ -27,7 +30,7 @@ public class GetUsersTests : UnitTestBase
     [Fact]
     public async Task EnsureGetUsersIsCallable()
     {
-        var users = await _sut.GetUsers();
+        var users = await _sut.GetUsers(new GetUsersRequest());
 
         users.ShouldNotBeNull();
     }

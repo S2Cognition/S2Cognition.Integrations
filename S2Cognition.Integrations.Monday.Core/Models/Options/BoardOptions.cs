@@ -2,7 +2,7 @@
 
 namespace S2Cognition.Integrations.Monday.Core.Models.Options;
 
-public interface IBoardOptions : IBaseOptions
+internal interface IBoardOptions : IBaseOptions
 {
     bool IncludeName { get; set; }
     bool IncludeDescription { get; set; }
@@ -39,7 +39,7 @@ public interface IBoardOptions : IBaseOptions
     WorkspaceOptions? WorkspaceOptions { get; set; }
 }
 
-public class BoardOptions : BaseOptions, IBoardOptions
+internal class BoardOptions : BaseOptions, IBoardOptions
 {
     public bool IncludeName { get; set; }
     public bool IncludeDescription { get; set; }
@@ -75,12 +75,12 @@ public class BoardOptions : BaseOptions, IBoardOptions
     public BoardViewOptions? BoardViewOptions { get; set; }
     public WorkspaceOptions? WorkspaceOptions { get; set; }
 
-    public BoardOptions()
+    internal BoardOptions()
         : this(RequestMode.Default)
     {
     }
 
-    public BoardOptions(RequestMode mode)
+    internal BoardOptions(RequestMode mode)
         : base("board")
     {
         switch (mode)

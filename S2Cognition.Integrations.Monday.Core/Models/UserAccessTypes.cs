@@ -3,7 +3,7 @@
 /// <summary>
 ///     The kind to search users by (all / non_guests / guests / non_pending).
 /// </summary>
-public enum UserAccessTypes
+internal enum UserAccessTypes
 {
     /// <summary>
     ///     All Users.

@@ -1,7 +1,11 @@
-﻿namespace S2Cognition.Integrations.StreamDeck.Core;
+﻿namespace S2Cognition.Integrations.StreamDeck.Core.Models;
 
-public class StreamDeckConfig
+internal class StreamDeckConfig
 {
+    internal StreamDeckConfig()
+    {
+    }
+
     public string? PluginAuthor { get; set; }
     public string? PluginDescription { get; set; }
     public string? PluginName { get; set; }

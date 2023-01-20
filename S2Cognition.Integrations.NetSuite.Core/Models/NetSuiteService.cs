@@ -10,7 +10,7 @@ using VoidTask = System.Threading.Tasks.Task;
 
 namespace S2Cognition.Integrations.NetSuite.Core.Models;
 
-public interface INetSuiteService
+internal interface INetSuiteService
 {
     Task<getResponse?> Get(BaseRef record);
     Task<getListResponse?> List(params BaseRef[] records);
@@ -18,7 +18,7 @@ public interface INetSuiteService
     Task<updateResponse?> Update(Record record);
 }
 
-public class NetSuiteService : NetSuitePortTypeClient, INetSuiteService
+internal class NetSuiteService : NetSuitePortTypeClient, INetSuiteService
 {
     private const string UrlLookupHostname = "https://webservices.netsuite.com";
     private const string ServicePath = "services/NetSuitePort_2022_1";

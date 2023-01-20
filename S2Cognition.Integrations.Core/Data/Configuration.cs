@@ -2,15 +2,17 @@
 
 public interface IConfiguration
 {
-    IServiceProvider ServiceProvider { get; }
+    IServiceProvider IoC { get; }
 }
 
 public class Configuration : IConfiguration
 {
-    public IServiceProvider ServiceProvider { get; private set; }
+    public const int DefaultPageSize = 25;
 
-    public Configuration(IServiceProvider serviceProvider)
+    public IServiceProvider IoC { get; private set; }
+
+    protected Configuration(IServiceProvider ioc)
     {
-        ServiceProvider = serviceProvider;
+        IoC = ioc;
     }
 }

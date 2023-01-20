@@ -6,12 +6,16 @@ namespace S2Cognition.Integrations.Core.Models;
 
 public interface IHttpClientFactory
 {
-    IHttpClient CreateClient();
+    IHttpClient Create();
 }
 
 internal class HttpClientFactory : IHttpClientFactory
 {
-    public IHttpClient CreateClient()
+    internal HttpClientFactory()
+    {
+    }
+
+    public IHttpClient Create()
     {
         return new HttpClient();
     }
@@ -30,13 +34,18 @@ public interface IHttpClient : IDisposable
     Task<T?> Post<T>(string route);
 }
 
-public class HttpClient : IHttpClient
+internal class HttpClient : IHttpClient
 {
     private SystemHttpClient? _client = new();
     private bool _isDisposed = false;
 
-    public HttpClient()
+    internal HttpClient()
     {
+    }
+
+    ~HttpClient()
+    {
+        Dispose(false);
     }
 
     public void SetAuthorization(string auth, AuthorizationType? authType = AuthorizationType.Basic)

@@ -2,14 +2,12 @@
 
 namespace S2Cognition.Integrations.NetSuite.Core.Models;
 
-public interface INetSuiteServiceFactory
-{
     Task<INetSuiteService> Create(NetSuiteConfiguration configuration);
 }
 
-public class NetSuiteServiceFactory : INetSuiteServiceFactory
+internal class NetSuiteServiceFactory : INetSuiteServiceFactory
 {
-    public NetSuiteServiceFactory()
+    internal NetSuiteServiceFactory()
     {
     }
 

@@ -1,9 +1,9 @@
-using S2Cognition.Integrations.StreamDeck.Core;
+using S2Cognition.Integrations.StreamDeck.Core.Models;
 using StreamDeckLib.Messages;
 
 namespace S2Cognition.Integrations.StreamDeck.AwsAlarmMonitor;
 
-public partial class AwsAlarmMonitorAction : StreamDeckAction<AwsAlarmMonitorModel>
+internal partial class AwsAlarmMonitorAction : StreamDeckAction<AwsAlarmMonitorModel>
 {
     private AwsAlarmMonitorService? _service;
 

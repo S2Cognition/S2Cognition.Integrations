@@ -1,4 +1,4 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using S2Cognition.Integrations.Core.Models;
 using S2Cognition.Integrations.Core.Tests.Fakes;
 using System.Diagnostics.CodeAnalysis;
 
@@ -14,7 +14,7 @@ public class UnitTestBase : IDisposable
     {
         var sc = new ServiceCollection();
         sc.AddIntegrationUtilities();
-        sc.AddFakeHttpClient();
+        sc.AddFakeClients();
         IocSetup(sc).Wait();
 
         _ioc = sc.BuildServiceProvider();

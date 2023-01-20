@@ -1,8 +1,8 @@
-using S2Cognition.Integrations.StreamDeck.Core;
+using S2Cognition.Integrations.StreamDeck.Core.Models;
 
 namespace S2Cognition.Integrations.StreamDeck.AzdoPipelineMonitor;
 
-public class AzdoPipelineMonitorModel : StreamDeckModel
+internal class AzdoPipelineMonitorModel : StreamDeckModel
 {
     public string? AwsAccessKeyId { get; set; }
     public string? AwsAccessKeySecret { get; set; }

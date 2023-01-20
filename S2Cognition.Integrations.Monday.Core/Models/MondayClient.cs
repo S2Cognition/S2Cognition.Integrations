@@ -2,6 +2,7 @@
 using GraphQL.Client.Abstractions;
 using GraphQL.Client.Http;
 using GraphQL.Client.Serializer.Newtonsoft;
+using S2Cognition.Integrations.Core.Models;
 using S2Cognition.Integrations.Monday.Core.Models;
 using S2Cognition.Integrations.Monday.Core.Models.Extensions;
 using S2Cognition.Integrations.Monday.Core.Models.Mutations;
@@ -10,34 +11,21 @@ using S2Cognition.Integrations.Monday.Core.Models.Requests;
 using S2Cognition.Integrations.Monday.Core.Models.Responses;
 using System.Net.Http.Headers;
 
-namespace S2Cognition.Integrations.Monday.Core;
+namespace S2Cognition.Integrations.Monday.Core.Models;
 
 /// <summary>
 ///     Creates client for accessing Monday's endpoints.
 /// </summary>
-public class MondayClient
+internal class MondayClient
 {
-    private IGraphQLClient? _graphQlHttpClient;
-    private OptionsBuilder? _optionsBuilder;
+    private readonly IGraphQlHttpClient _graphQlHttpClient;
+    private readonly OptionsBuilder _optionsBuilder;
 
     /// <summary>
     ///     Creates client for accessing Monday's endpoints.
     /// </summary>
     /// <param name="apiKey">The version 2 key.</param>
-    public MondayClient(string apiKey)
-    {
-        var graphQlClient = new GraphQLHttpClient("https://api.monday.com/v2/", new NewtonsoftJsonSerializer());
-        graphQlClient.HttpClient.DefaultRequestHeaders.Authorization = AuthenticationHeaderValue.Parse(apiKey);
-
-        Initialize(graphQlClient);
-    }
-
-    public MondayClient(IGraphQLClient graphQlClient)
-    {
-        Initialize(graphQlClient);
-    }
-
-    private void Initialize(IGraphQLClient graphQlClient)
+    internal MondayClient(IGraphQlHttpClient graphQlClient)
     {
         _graphQlHttpClient = graphQlClient;
         _optionsBuilder = new OptionsBuilder();
@@ -68,9 +56,6 @@ public class MondayClient
 
     public async Task<IGetUsersResult> GetUsers(IGetUsersRequest req)
     {
-        if ((_optionsBuilder == null) || (_graphQlHttpClient == null))
-            throw new InvalidOperationException("MondayClient has not been initialized");
-
         GraphQLRequest request;
         if (req.UserAccessType.HasValue)
         {
@@ -129,9 +114,6 @@ query {{
 
     public async Task<IGetUserResult> GetUser(IGetUserRequest req)
     {
-        if ((_optionsBuilder == null) || (_graphQlHttpClient == null))
-            throw new InvalidOperationException("MondayClient has not been initialized");
-
         var request = new GraphQLRequest
         {
             Query = $@"
@@ -165,9 +147,6 @@ query request($id:Int) {{
 
     public async Task<IGetBoardsResult> GetBoards(IGetBoardsRequest req)
     {
-        if ((_optionsBuilder == null) || (_graphQlHttpClient == null))
-            throw new InvalidOperationException("MondayClient has not been initialized");
-
         var request = new GraphQLRequest
         {
             Query = $@"
@@ -195,9 +174,6 @@ query {{
 
     public async Task<IGetBoardResult> GetBoard(IGetBoardRequest req)
     {
-        if ((_optionsBuilder == null) || (_graphQlHttpClient == null))
-            throw new InvalidOperationException("MondayClient has not been initialized");
-
         var request = new GraphQLRequest
         {
             Query = $@"
@@ -229,9 +205,6 @@ query request($id:Int) {{
 
     public async Task<IGetGroupsResult> GetGroups(IGetGroupsRequest req)
     {
-        if ((_optionsBuilder == null) || (_graphQlHttpClient == null))
-            throw new InvalidOperationException("MondayClient has not been initialized");
-
         var request = new GraphQLRequest
         {
             Query = $@"
@@ -269,9 +242,6 @@ query request($id:Int!) {{
 
     public async Task<IGetItemsResult> GetItems(IGetItemsRequest req)
     {
-        if ((_optionsBuilder == null) || (_graphQlHttpClient == null))
-            throw new InvalidOperationException("MondayClient has not been initialized");
-
         if (String.IsNullOrWhiteSpace(req.FilterColumnName) || String.IsNullOrWhiteSpace(req.FilterColumnValue))
         {
             var query = $@"
@@ -339,9 +309,6 @@ query request {{
 
     public async Task<IGetItemResult> GetItem(IGetItemRequest req)
     {
-        if ((_optionsBuilder == null) || (_graphQlHttpClient == null))
-            throw new InvalidOperationException("MondayClient has not been initialized");
-
         var request = new GraphQLRequest
         {
             Query = $@"
@@ -373,9 +340,6 @@ query request($id:Int) {{
 
     public async Task<IGetTagsResult> GetTags(IGetTagsRequest req)
     {
-        if ((_optionsBuilder == null) || (_graphQlHttpClient == null))
-            throw new InvalidOperationException("MondayClient has not been initialized");
-
         var request = new GraphQLRequest
         {
             Query = $@"
@@ -413,9 +377,6 @@ query request($id:Int!) {{
 
     public async Task<IGetTagResult> GetTag(IGetTagRequest req)
     {
-        if ((_optionsBuilder == null) || (_graphQlHttpClient == null))
-            throw new InvalidOperationException("MondayClient has not been initialized");
-
         var request = new GraphQLRequest
         {
             Query = $@"
@@ -446,9 +407,6 @@ query request($id:Int!) {{
 
     public async Task<IGetTeamsResult> GetTeams(IGetTeamsRequest req)
     {
-        if ((_optionsBuilder == null) || (_graphQlHttpClient == null))
-            throw new InvalidOperationException("MondayClient has not been initialized");
-
         var request = new GraphQLRequest
         {
             Query = $@"
@@ -475,9 +433,6 @@ query request {{
 
     public async Task<IGetTeamResult> GetTeam(IGetTeamRequest req)
     {
-        if ((_optionsBuilder == null) || (_graphQlHttpClient == null))
-            throw new InvalidOperationException("MondayClient has not been initialized");
-
         var request = new GraphQLRequest
         {
             Query = $@"
@@ -503,9 +458,6 @@ query request($id:Int!) {{
     /// <returns></returns>
     public async Task<int> GetRateLimit()
     {
-        if ((_optionsBuilder == null) || (_graphQlHttpClient == null))
-            throw new InvalidOperationException("MondayClient has not been initialized");
-
         var request = new GraphQLRequest
         {
             Query = @"query request { complexity { after } }"
@@ -525,9 +477,6 @@ query request($id:Int!) {{
     /// <returns></returns>
     public async Task<Complexity> GetComplexity(string query)
     {
-        if ((_optionsBuilder == null) || (_graphQlHttpClient == null))
-            throw new InvalidOperationException("MondayClient has not been initialized");
-
         var requestQuery = @"query request { complexity { before after query }";
         var complexityQuery = $"{requestQuery} \n {query}}}";
 
@@ -550,9 +499,6 @@ query request($id:Int!) {{
     /// <returns></returns>
     public async Task<ulong> CreateBoard(CreateBoard createBoard)
     {
-        if ((_optionsBuilder == null) || (_graphQlHttpClient == null))
-            throw new InvalidOperationException("MondayClient has not been initialized");
-
         var request = new GraphQLRequest
         {
             Query = @"mutation request($name:String! $boardKind:BoardKind!) { create_board (board_name: $name, board_kind: $boardKind) { id }}",
@@ -580,9 +526,6 @@ query request($id:Int!) {{
     /// <returns></returns>
     public async Task<bool> ArchiveBoard(ulong boardId)
     {
-        if ((_optionsBuilder == null) || (_graphQlHttpClient == null))
-            throw new InvalidOperationException("MondayClient has not been initialized");
-
         var request = new GraphQLRequest
         {
             Query = @"mutation request($id:Int!) { archive_board (board_id: $id) { id }}",
@@ -606,9 +549,6 @@ query request($id:Int!) {{
     /// <returns></returns>
     public async Task<string?> CreateColumn(CreateColumn createColumn)
     {
-        if ((_optionsBuilder == null) || (_graphQlHttpClient == null))
-            throw new InvalidOperationException("MondayClient has not been initialized");
-
         var request = new GraphQLRequest
         {
             Query = @"mutation request($boardId:Int! $name:String! $columnType:ColumnType $defaults:JSON) { create_column (board_id: $boardId, title: $name, column_type: $columnType, defaults: $defaults) { id }}",
@@ -635,9 +575,6 @@ query request($id:Int!) {{
     /// <returns></returns>
     public async Task<bool> UpdateColumn(UpdateColumn updateColumn)
     {
-        if ((_optionsBuilder == null) || (_graphQlHttpClient == null))
-            throw new InvalidOperationException("MondayClient has not been initialized");
-
         var request = new GraphQLRequest
         {
             Query = @"mutation request($boardId:Int! $itemId:Int $columnId: String! $value:JSON!) { change_column_value (board_id: $boardId, item_id: $itemId, column_id: $columnId, value: $value) { id }}",
@@ -664,9 +601,6 @@ query request($id:Int!) {{
     /// <returns></returns>
     public async Task<string?> CreateGroup(CreateGroup createGroup)
     {
-        if ((_optionsBuilder == null) || (_graphQlHttpClient == null))
-            throw new InvalidOperationException("MondayClient has not been initialized");
-
         var request = new GraphQLRequest
         {
             Query = @"mutation request($boardId:Int! $name:String!) { create_group (board_id: $boardId, group_name: $name) { id } }",
@@ -692,9 +626,6 @@ query request($id:Int!) {{
     /// <returns></returns>
     public async Task<bool> ArchiveGroup(ulong boardId, string groupId)
     {
-        if ((_optionsBuilder == null) || (_graphQlHttpClient == null))
-            throw new InvalidOperationException("MondayClient has not been initialized");
-
         var request = new GraphQLRequest
         {
             Query = @"mutation request($boardId:Int! $groupId:String!) { archive_group (board_id: $boardId, group_id: $groupId) { id }}",
@@ -720,9 +651,6 @@ query request($id:Int!) {{
     /// <returns></returns>
     public async Task<bool> DeleteGroup(ulong boardId, string groupId)
     {
-        if ((_optionsBuilder == null) || (_graphQlHttpClient == null))
-            throw new InvalidOperationException("MondayClient has not been initialized");
-
         var request = new GraphQLRequest
         {
             Query = @"mutation request($boardId:Int! $groupId:String!) { delete_group (board_id: $boardId, group_id: $groupId) { id }}",
@@ -763,9 +691,6 @@ query request($id:Int!) {{
 
     public async Task<ICreateItemResult> CreateItem(ICreateItemRequest createItem)
     {
-        if ((_optionsBuilder == null) || (_graphQlHttpClient == null))
-            throw new InvalidOperationException("MondayClient has not been initialized");
-
         var request = new GraphQLRequest
         {
             Query = $@"
@@ -793,9 +718,6 @@ mutation request {{
 
     public async Task<CreateSubItemResult> CreateSubItem(CreateSubItemRequest createSubItem)
     {
-        if ((_optionsBuilder == null) || (_graphQlHttpClient == null))
-            throw new InvalidOperationException("MondayClient has not been initialized");
-
         var request = new GraphQLRequest
         {
             Query = $@"
@@ -821,9 +743,6 @@ mutation {{
     /// <returns></returns>
     public async Task<bool> ClearItemUpdates(ulong itemId)
     {
-        if ((_optionsBuilder == null) || (_graphQlHttpClient == null))
-            throw new InvalidOperationException("MondayClient has not been initialized");
-
         var request = new GraphQLRequest
         {
             Query = @"mutation request($id:Int!) { clear_item_updates (item_id: $id) {id}}",
@@ -848,9 +767,6 @@ mutation {{
     /// <returns></returns>
     public async Task<bool> UpdateItemGroup(ulong itemId, string groupId)
     {
-        if ((_optionsBuilder == null) || (_graphQlHttpClient == null))
-            throw new InvalidOperationException("MondayClient has not been initialized");
-
         var request = new GraphQLRequest
         {
             Query = @"mutation request($itemId:Int! $groupId:String!) { move_item_to_group (item_id: $itemId, group_id: $groupId) {id}}",
@@ -875,9 +791,6 @@ mutation {{
     /// <returns></returns>
     public async Task<bool> ArchiveItem(ulong itemId)
     {
-        if ((_optionsBuilder == null) || (_graphQlHttpClient == null))
-            throw new InvalidOperationException("MondayClient has not been initialized");
-
         var request = new GraphQLRequest
         {
             Query = @"mutation request($id:Int!) { archive_item (item_id: $id) {id}}",
@@ -901,9 +814,6 @@ mutation {{
     /// <returns></returns>
     public async Task<bool> DeleteItem(ulong itemId)
     {
-        if ((_optionsBuilder == null) || (_graphQlHttpClient == null))
-            throw new InvalidOperationException("MondayClient has not been initialized");
-
         var request = new GraphQLRequest
         {
             Query = @"mutation request($id:Int!) { delete_item (item_id: $id) {id}}",
@@ -927,9 +837,6 @@ mutation {{
     /// <returns></returns>
     public async Task<ulong?> CreateUpdate(CreateUpdate createUpdate)
     {
-        if ((_optionsBuilder == null) || (_graphQlHttpClient == null))
-            throw new InvalidOperationException("MondayClient has not been initialized");
-
         var request = new GraphQLRequest
         {
             Query = @"mutation request($itemId:Int $body:String!) { create_update (item_id: $itemId, body: $body) {id}}",
@@ -954,9 +861,6 @@ mutation {{
     /// <returns></returns>
     public async Task<ulong> CreateTag(CreateTag createTag)
     {
-        if ((_optionsBuilder == null) || (_graphQlHttpClient == null))
-            throw new InvalidOperationException("MondayClient has not been initialized");
-
         var request = new GraphQLRequest
         {
             Query = @"mutation request($boardId:Int $name:String) { create_or_get_tag  (board_id: $boardId, tag_name: $name) {id}}",
@@ -994,9 +898,6 @@ mutation {{
     /// <returns></returns>
     public async Task<T> CustomQueryOrMutation<T>(string queryOrMutation, object? variables)
     {
-        if ((_optionsBuilder == null) || (_graphQlHttpClient == null))
-            throw new InvalidOperationException("MondayClient has not been initialized");
-
         var request = new GraphQLRequest
         {
             Query = queryOrMutation

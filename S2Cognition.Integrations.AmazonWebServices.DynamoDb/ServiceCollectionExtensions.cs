@@ -7,15 +7,10 @@ public static class ServiceCollectionExtensions
 {
     public static IServiceCollection AddAmazonWebServicesDynamoDbIntegration(this IServiceCollection sc)
     {
-        sc.AddSingleton<IAmazonWebServicesDynamoDbIntegration, AmazonWebServicesDynamoDbIntegration>()
-            .AddSingleton<IAwsDynamoDbConfigFactory, AwsDynamoDbConfigFactory>()
-            .AddScoped<IAwsDynamoDbConfig, AwsDynamoDbConfig>()
-            .AddSingleton<IAwsDynamoDbClientFactory, AwsDynamoDbClientFactory>()
-            .AddScoped<IAwsDynamoDbClient, AwsDynamoDbClient>()
-            .AddSingleton<IAwsDynamoDbContextFactory, AwsDynamoDbContextFactory>()
-            .AddScoped<IAwsDynamoDbContext, AwsDynamoDbContext>();
-
-        return sc;
+        return sc.AddSingleton<IAmazonWebServicesDynamoDbIntegration>(_ => new AmazonWebServicesDynamoDbIntegration(_))
+            .AddSingleton<IAwsDynamoDbConfigFactory>(_ => new AwsDynamoDbConfigFactory())
+            .AddSingleton<IAwsDynamoDbClientFactory>(_ => new AwsDynamoDbClientFactory())
+            .AddSingleton<IAwsDynamoDbContextFactory>(_ => new AwsDynamoDbContextFactory());
     }
 }
 

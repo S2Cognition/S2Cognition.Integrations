@@ -9,6 +9,10 @@ public interface IStringUtils
 
 internal class StringUtils : IStringUtils
 {
+    internal StringUtils()
+    { 
+    }
+    
     public string ToBase64(string src)
     {
         return Convert.ToBase64String(Encoding.UTF8.GetBytes(src));

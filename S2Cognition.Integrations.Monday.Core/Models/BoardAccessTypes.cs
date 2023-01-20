@@ -3,7 +3,7 @@
 /// <summary>
 ///     The board's kind. (public / private / share)
 /// </summary>
-public enum BoardAccessTypes
+internal enum BoardAccessTypes
 {
     /// <summary>
     ///     [Default State]

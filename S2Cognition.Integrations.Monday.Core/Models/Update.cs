@@ -4,7 +4,7 @@ using Newtonsoft.Json;
 
 namespace S2Cognition.Integrations.Monday.Core.Models;
 
-public class Update
+internal class Update
 {
     /// <summary>
     ///     The update's unique identifier.

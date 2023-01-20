@@ -2,18 +2,18 @@
 
 namespace S2Cognition.Integrations.Monday.Core.Models.Options;
 
-public interface IWorkspaceOptions : IBaseOptions
+internal interface IWorkspaceOptions : IBaseOptions
 {
 }
 
-public class WorkspaceOptions : BaseOptions, IWorkspaceOptions
+internal class WorkspaceOptions : BaseOptions, IWorkspaceOptions
 {
-    public WorkspaceOptions()
+    internal WorkspaceOptions()
         : this(RequestMode.Default)
     {
     }
 
-    public WorkspaceOptions(RequestMode mode)
+    internal WorkspaceOptions(RequestMode mode)
         : base("workspace")
     {
         switch (mode)

@@ -1,15 +1,14 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using S2Cognition.Integrations.Core.Tests.Fakes;
-using S2Cognition.Integrations.Zoom.Core.Models;
+﻿using S2Cognition.Integrations.Core.Tests.Fakes;
+using S2Cognition.Integrations.Zoom.Core.Data;
 
 namespace S2Cognition.Integrations.Zoom.Core.Tests.Fakes;
 
-public class FakeZoomIntegration : IZoomIntegration
+internal class FakeZoomIntegration : IZoomIntegration
 {
     private readonly IFakeHttpClient _httpClient;
     private readonly IZoomIntegration _integration;
 
-    public FakeZoomIntegration(IServiceProvider ioc)
+    internal FakeZoomIntegration(IServiceProvider ioc)
     {
         _httpClient = ioc.GetRequiredService<IFakeHttpClient>();
         _integration = new ZoomIntegration(ioc);
@@ -28,8 +27,8 @@ public class FakeZoomIntegration : IZoomIntegration
         return await _integration.IsInitialized();
     }
 
-    public async Task<GetUsersResponse?> GetUsers()
+    public async Task<GetUsersResponse> GetUsers(GetUsersRequest request)
     {
-        return await _integration.GetUsers();
+        return await _integration.GetUsers(request);
     }
 }

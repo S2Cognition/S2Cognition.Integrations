@@ -1,8 +1,8 @@
-using S2Cognition.Integrations.StreamDeck.Core;
+using S2Cognition.Integrations.StreamDeck.Core.Models;
 
 namespace S2Cognition.Integrations.StreamDeck.AzdoPipelineMonitor;
 
-public partial class AzdoPipelineMonitorAction : StreamDeckAction<AzdoPipelineMonitorModel>
+internal partial class AzdoPipelineMonitorAction : StreamDeckAction<AzdoPipelineMonitorModel>
 {
     private AzdoPipelineMonitorService? _service;
 

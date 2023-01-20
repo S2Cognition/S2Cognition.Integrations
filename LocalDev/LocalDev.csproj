@@ -8,8 +8,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\S2Cognition.Integrations.NetSuite.Core\S2Cognition.Integrations.NetSuite.Core.csproj" />
-    <ProjectReference Include="..\S2Cognition.Integrations.Zoom.Core\S2Cognition.Integrations.Zoom.Core.csproj" />
+    <PackageReference Include="Shouldly" Version="4.1.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\S2Cognition.Integrations.Core\S2Cognition.Integrations.Core.csproj" />
+    <ProjectReference Include="..\S2Cognition.Integrations.Monday.Core\S2Cognition.Integrations.Monday.Core.csproj" />
   </ItemGroup>
 
 </Project>

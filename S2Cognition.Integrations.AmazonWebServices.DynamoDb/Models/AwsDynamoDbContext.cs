@@ -1,4 +1,5 @@
 ﻿using Amazon.DynamoDBv2.DataModel;
+using Amazon.DynamoDBv2.Model;
 
 namespace S2Cognition.Integrations.AmazonWebServices.DynamoDb.Models;
 

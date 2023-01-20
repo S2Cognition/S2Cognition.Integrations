@@ -20,7 +20,7 @@ public class MondayBoardTests : MondayTests
             });
         }
 
-        A.CallTo(() => _graphQlClient.SendQueryAsync<GetBoardsResponse>(A<GraphQLRequest>._, default))
+        A.CallTo(() => _graphQlClient.SendQueryAsync<GetBoardsResponse>(A<GraphQLRequest>._))
             .Returns(new GraphQLResponse<GetBoardsResponse>
             {
                 Data = new GetBoardsResponse(boardList)
@@ -29,7 +29,7 @@ public class MondayBoardTests : MondayTests
 
     private void FakeCreateBoardsResponse(string name)
     {
-        A.CallTo(() => _graphQlClient.SendMutationAsync<CreateBoardResponse>(A<GraphQLRequest>._, default))
+        A.CallTo(() => _graphQlClient.SendMutationAsync<CreateBoardResponse>(A<GraphQLRequest>._))
             .Returns(new GraphQLResponse<CreateBoardResponse>
             {
                 Data = new CreateBoardResponse(new Board

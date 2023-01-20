@@ -2,7 +2,7 @@
 
 namespace S2Cognition.Integrations.Monday.Core.Models.Requests;
 
-public interface IGetItemsRequest : IMondayRequest
+internal interface IGetItemsRequest : IMondayRequest
 {
     ulong? BoardId { get; set; }
     int Limit { get; set; }
@@ -14,7 +14,7 @@ public interface IGetItemsRequest : IMondayRequest
     IItemOptions? ItemOptions { get; set; }
 }
 
-public interface IGetItemsResult : IMondayResult
+internal interface IGetItemsResult : IMondayResult
 {
     IEnumerable<Item> Data { get; }
 }
@@ -22,19 +22,19 @@ internal class GetItemsResult : MondayResult, IGetItemsResult
 {
     public IEnumerable<Item> Data { get; set; }
 
-    public GetItemsResult(IEnumerable<Item> data)
+    internal GetItemsResult(IEnumerable<Item> data)
     {
         Data = data;
     }
 }
 
-public enum StateFilter
+internal enum StateFilter
 {
     None,
     Active
 }
 
-public class GetItemsRequest : MondayRequest, IGetItemsRequest
+internal class GetItemsRequest : MondayRequest, IGetItemsRequest
 {
     public ulong? BoardId { get; set; }
 
@@ -45,7 +45,7 @@ public class GetItemsRequest : MondayRequest, IGetItemsRequest
 
     public IItemOptions? ItemOptions { get; set; }
 
-    public GetItemsRequest(ulong boardId)
+    internal GetItemsRequest(ulong boardId)
     {
         BoardId = boardId;
 
@@ -65,7 +65,7 @@ public class GetItemsRequest : MondayRequest, IGetItemsRequest
         ItemOptions.ColumnValueOptions = null;
     }
 
-    public GetItemsRequest(ulong boardId, RequestMode mode)
+    internal GetItemsRequest(ulong boardId, RequestMode mode)
         : this(boardId)
     {
         ItemOptions = new ItemOptions(mode);

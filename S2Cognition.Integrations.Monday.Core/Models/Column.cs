@@ -8,7 +8,7 @@ namespace S2Cognition.Integrations.Monday.Core.Models;
 ///     rows called items. In monday.com each column has a specific functionality it enables (ex. a numbers column, a text
 ///     column, a time tracking column, etc.)
 /// </summary>
-public class Column
+internal class Column
 {
     /// <summary>
     ///     The column's unique identifier.
