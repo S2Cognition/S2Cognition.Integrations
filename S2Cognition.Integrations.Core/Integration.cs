@@ -26,7 +26,7 @@ internal class Integration<T> : IIntegration<T>
         _ioc = ioc;
     }
 
-    protected T Configuration
+    protected internal T Configuration
     {
         get
         {

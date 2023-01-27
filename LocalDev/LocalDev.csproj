@@ -13,7 +13,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\S2Cognition.Integrations.Core\S2Cognition.Integrations.Core.csproj" />
-    <ProjectReference Include="..\S2Cognition.Integrations.Monday.Core\S2Cognition.Integrations.Monday.Core.csproj" />
+    <ProjectReference Include="..\S2Cognition.Integrations.NetSuite.Core\S2Cognition.Integrations.NetSuite.Core.csproj" />
   </ItemGroup>
 
 </Project>
