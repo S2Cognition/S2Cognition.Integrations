@@ -8,7 +8,7 @@ namespace S2Cognition.Integrations.Monday.Core.Tests.Internal;
 public class MondayTests
 {
     protected readonly Random _random;
-    protected readonly MondayClient _mondayClient;
+    internal readonly MondayClient _mondayClient;
     protected readonly IGraphQlHttpClient _graphQlClient;
 
     public MondayTests()

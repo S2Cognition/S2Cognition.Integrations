@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using S2Cognition.Integrations.AmazonWebServices.Core.Data;
+using S2Cognition.Integrations.AmazonWebServices.Core.Models;
 using S2Cognition.Integrations.AmazonWebServices.DynamoDb.Data;
+using S2Cognition.Integrations.AmazonWebServices.DynamoDb.Models;
 using S2Cognition.Integrations.Core;
 
 namespace S2Cognition.Integrations.AmazonWebServices.DynamoDb;
@@ -17,10 +18,10 @@ public interface IAmazonWebServicesDynamoDbIntegration : IIntegration<AmazonWebS
     Task<T?> Read<T>(T data);
 }
 
-public class AmazonWebServicesDynamoDbIntegration : Integration<AmazonWebServicesDynamoDbConfiguration>, IAmazonWebServicesDynamoDbIntegration
+internal class AmazonWebServicesDynamoDbIntegration : Integration<AmazonWebServicesDynamoDbConfiguration>, IAmazonWebServicesDynamoDbIntegration
 {
-    public AmazonWebServicesDynamoDbIntegration(IServiceProvider serviceProvider)
-        : base(serviceProvider)
+    internal AmazonWebServicesDynamoDbIntegration(IServiceProvider ioc)
+        : base(ioc)
     {
     }
 

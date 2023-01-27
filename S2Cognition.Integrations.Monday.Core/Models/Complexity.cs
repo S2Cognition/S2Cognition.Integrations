@@ -3,7 +3,7 @@
 /// <summary>
 ///     Get the complexity data of your queries.
 /// </summary>
-public class Complexity
+internal class Complexity
 {
     /// <summary>
     ///     The remainder of complexity after the query's execution.

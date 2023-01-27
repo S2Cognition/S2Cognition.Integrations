@@ -1,16 +1,15 @@
 ﻿using Amazon.DynamoDBv2;
 using Amazon.DynamoDBv2.DataModel;
 using Amazon.DynamoDBv2.Model;
-using S2Cognition.Integrations.AmazonWebServices.DynamoDb.Data;
 
 namespace S2Cognition.Integrations.AmazonWebServices.DynamoDb.Models;
 
-public class AwsDynamoDbContext : IAwsDynamoDbContext
+internal class AwsDynamoDbContext : IAwsDynamoDbContext
 {
     private readonly DynamoDBContext _context;
     private readonly AmazonDynamoDBClient _client;
 
-    public AwsDynamoDbContext(IAwsDynamoDbClient client)
+    internal AwsDynamoDbContext(IAwsDynamoDbClient client)
     {
         _client = client.Native;
         _context = new DynamoDBContext(_client);

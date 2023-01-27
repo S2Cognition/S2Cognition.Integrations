@@ -8,8 +8,8 @@ public class ZoomConfiguration : Configuration
     public string ClientId { get; set; } = string.Empty;
     public string ClientSecret { get; set; } = string.Empty;
 
-    public ZoomConfiguration(IServiceProvider serviceProvider)
-        : base(serviceProvider)
+    public ZoomConfiguration(IServiceProvider ioc)
+        : base(ioc)
     {
     }
 }

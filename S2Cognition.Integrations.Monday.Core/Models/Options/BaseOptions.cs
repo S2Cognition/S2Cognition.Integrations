@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace S2Cognition.Integrations.Monday.Core.Models.Options;
 
-public interface IBaseOptions
+internal interface IBaseOptions
 {
 }
 
@@ -54,7 +54,7 @@ public abstract class BaseOptions : IBaseOptions
     }
 }
 
-public class OptionsBuilder
+internal class OptionsBuilder
 {
     internal string Build(IBaseOptions opt, params (string key, object val)[] attrs)
     {

@@ -1,6 +1,6 @@
 ﻿namespace S2Cognition.Integrations.Monday.Core.Models;
 
-public enum ColumnTypes
+internal enum ColumnTypes
 {
     /// <summary>
     ///     Number items according to their order in the group/board

@@ -2,7 +2,7 @@
 
 namespace S2Cognition.Integrations.Monday.Core.Models.Options;
 
-public interface IActivityLogOptions : IBaseOptions
+internal interface IActivityLogOptions : IBaseOptions
 {
     bool IncludeAccountId { get; set; }
     bool IncludeCreatedAt { get; set; }
@@ -12,7 +12,7 @@ public interface IActivityLogOptions : IBaseOptions
     bool IncludeUserId { get; set; }
 }
 
-public class ActivityLogOptions : BaseOptions, IActivityLogOptions
+internal class ActivityLogOptions : BaseOptions, IActivityLogOptions
 {
     public bool IncludeAccountId { get; set; }
     public bool IncludeCreatedAt { get; set; }
@@ -21,12 +21,12 @@ public class ActivityLogOptions : BaseOptions, IActivityLogOptions
     public bool IncludeEvent { get; set; }
     public bool IncludeUserId { get; set; }
 
-    public ActivityLogOptions()
+    internal ActivityLogOptions()
         : this(RequestMode.Default)
     {
     }
 
-    public ActivityLogOptions(RequestMode mode)
+    internal ActivityLogOptions(RequestMode mode)
         : base("activity_log")
     {
         switch (mode)

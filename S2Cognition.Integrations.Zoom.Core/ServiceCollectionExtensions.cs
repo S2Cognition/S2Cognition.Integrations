@@ -7,9 +7,7 @@ public static class ServiceCollectionExtensions
 {
     public static IServiceCollection AddZoomIntegration(this IServiceCollection sc)
     {
-        sc.AddIntegrationUtilities()
-            .AddScoped<IZoomIntegration, ZoomIntegration>();
-
-        return sc;
+        return sc.AddIntegrationUtilities()
+            .AddScoped<IZoomIntegration>(_ => new ZoomIntegration(_));
     }
 }

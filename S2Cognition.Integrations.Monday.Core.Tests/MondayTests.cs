@@ -14,7 +14,7 @@ public class MondayTests : UnitTestBase
 
     protected override async Task IocSetup(IServiceCollection sc)
     {
-        sc.AddFakeHttpClients();
+        sc.AddFakeClients();
         sc.AddFakeMondayIntegration();
         await Task.CompletedTask;
     }
@@ -40,7 +40,7 @@ public class MondayTests : UnitTestBase
             new[]{ "query", "query { users { id name email url photo_original title birthday country_code location time_zone_identifier phone mobile_phone is_guest is_pending enabled created_at } }" }
         }, new Models.Responses.GetUsersResponse());
 
-        var users = await _sut.GetUsers();
+        var users = await _sut.GetUsers(new GetUsersRequest());
 
         users.ShouldNotBeNull();
     }
@@ -80,16 +80,16 @@ public class MondayTests : UnitTestBase
             State = ItemState.Active // optional
         };
 
-        var items = await _sut.GetItems(options);
+        var response = await _sut.GetItems(options);
 
-        items.ShouldNotBeNull();
+        response.ShouldNotBeNull();
 
-        items.First().Name.ShouldNotBeNull();
-        items.First().State.ShouldBe(ItemState.Active);
+        response.Items.First().Name.ShouldNotBeNull();
+        response.Items.First().State.ShouldBe(ItemState.Active);
 
-        items.First().GetColumn("first_name").Value.ShouldNotBeNull();
-        items.First().GetColumn("lastname").Value.ShouldNotBeNull();
-        items.First().GetColumn("comments0").Value.ShouldNotBeNull();
+        response.Items.First().GetColumn("first_name").Value.ShouldNotBeNull();
+        response.Items.First().GetColumn("lastname").Value.ShouldNotBeNull();
+        response.Items.First().GetColumn("comments0").Value.ShouldNotBeNull();
     }
 
     [Fact]

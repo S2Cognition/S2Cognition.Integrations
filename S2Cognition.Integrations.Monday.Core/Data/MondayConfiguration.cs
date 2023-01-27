@@ -6,8 +6,8 @@ public class MondayConfiguration : Configuration
 {
     public string ApiKey { get; set; } = String.Empty;
 
-    public MondayConfiguration(IServiceProvider serviceProvider)
-        : base(serviceProvider)
+    public MondayConfiguration(IServiceProvider ioc)
+        : base(ioc)
     { 
     }
 }

@@ -1,14 +1,17 @@
-﻿using S2Cognition.Integrations.Monday.Core.Models;
-
-namespace S2Cognition.Integrations.Monday.Core.Data;
+﻿namespace S2Cognition.Integrations.Monday.Core.Data;
 
 public enum ItemState
 {
     Active
 }
 
-public class GetUsersResponse : List<UserRecord>
+public class GetUsersRequest
 {
+}
+
+public class GetUsersResponse 
+{
+    public ICollection<UserRecord> Users { get; set; } = Array.Empty<UserRecord>();
 }
 
 public class UserRecord
@@ -38,8 +41,9 @@ public class GetItemsRequest
     public ItemState? State { get; set; }
 }
 
-public class GetItemsResponse : List<ItemRecord>
+public class GetItemsResponse
 {
+    public ICollection<ItemRecord> Items { get; set; } = Array.Empty<ItemRecord>();
 }
 
 public class GroupRecord

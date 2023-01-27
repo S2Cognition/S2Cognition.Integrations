@@ -1,39 +1,21 @@
 # S2Cognition.Integrations
 
-## QuickStart
+## Overview
 
-1. Include the necessary NuGet packages into your project.  For example, `S2Cognition.Integrations.Zoom.Core`, or `S2Cognition.Integrations.AmazonWebServices.DynamoDb`.
-2. From the imported packages, initialize your IoC container.   For example, `serviceCollection.AddZoomIntegration();`, or `serviceCollection.AddAmazonWebServicesDynamoDbIntegration();`.
-3. Create the appropriate configuration object.   For example,
-```
-var configuration = new ZoomConfiguration(serviceProvider)
-{
-    AccountId = "your_account_id",
-    ClientId = "your_client_id",
-    ClientSecret = "your_client_secret"
-};
-```
-or
-```
-var configuration = new AmazonWebServicesDynamoDbConfiguration(serviceProvider)
-{
-    AccessKey = "your AccessKey",
-    SecretKey = "your SecretKey",
-    AwsRegion = "your AwsRegion",
-    ServiceUrl = "your ServiceUrl"
-};
-```
-4. Initialize the integration.   For example,
-```
-var zoomIntegration = serviceProvider.GetRequiredService<IZoomIntegration>();
-await zoomIntegration.Initialize(configuration);
-```
-or 
-```
-var dynamoDbIntegration = serviceProvider.GetRequiredService<IAmazonWebServicesDynamoDbIntegration>();
-await dynamoDbIntegration.Initialize(configuration);
-```
-5. Call the integration endpoints.   For example, `var users = await zoomIntegration.GetUsers();`, or `await dynamoDbIntegration.Create(newRow);`.
+This set of packages provides simple and consistent integrations with several common 3rd party packages.
+
+## Usage
+
+1. Include NuGet references to the desired packages
+2. Use ServiceCollection extensions to add capabilites 
+3. Create configuration object
+4. Initialize integration
+5. Call integration methods
+
+## Packages
+
+* [Aws DynamoDb](S2Cognition.Integrations.AmazonWebServices.DynamoDb\Readme.md)
+* [Zoom](S2Cognition.Integrations.Zoom.Core\README.md)
 
 ## Integration Commonalities
 
@@ -41,19 +23,57 @@ await dynamoDbIntegration.Initialize(configuration);
 * All integration packages will provide ServiceCollection extensions to initialize the libraries.
   * When a api-specific library is registered with the ServiceCollection, the Core library will be automatically loaded as well.
 * Generally speaking, the configuration will be in the Core package, but if/when more detail is needed, it will be subclassed in the api-specific packages.
-* All integration services will be available via 
+* All integration services will be configurable via a package-specific configuration object.
 * All integration services will provide an `Initialize(configuration)` endpoint.
 * All integration services will provide various enpoints with non-backend-specific data structures.
+* No Api's will expose the underlying implementation types.
 
-## Development
+## Development Overview
 * [project].Data folders are for publicly accessible types.
+  * These objects should be public
 * [project].Models folders are for internal types.
+  * These objects should be internal
+* The public interface to the library will be `I[PackageType]Integration : IIntegration<[PackageType]Configuration>`.  For example: `IZoomIntegration : IIntegration<ZoomConfiguration>`, where ZoomConfiguration is the public configuration object defined in `S2Cognition.Integrations.Zoom.Core\Data`.
+  * The implementation (and it's constructor) for the public interface will be internal.
+* All projects will have a corresponding test assembly
+  * The public interface implementation should be fully tested.  All other meaningful objects should also be tested.
 
-## Packages
+### Project Layout Example
 
-* S2Cognition.Integrations.AmazonWebServices.DynamoDb
-  * Configuration Object: AmazonWebServicesDynamoDbConfiguration
-  * Integration Service: IAmazonWebServicesDynamoDbIntegration
-* S2Cognition.Integrations.Zoom.Core
-  * Configuration Object: ZoomConfiguration
-  * Integration Service: IZoomIntegration
+Solution: S2Cognition.Integrations
+* Folder: Zoom
+  * Project: S2Cognition.Integrations.Zoom.Core
+    * Folder: Data
+      * All "Request" objects
+      * All "Response" objects
+      * All "Record" objects
+      * ZoomConfiguration.cs
+    * Folder: Models
+      * All non-public objects used in the low-level service calls
+      * This will include Client wrappers (which will likely be Faked as well), Factory implementations, etc.
+    * LICENSE
+      * MIT license
+    * README.md
+      * Should fully document the ZoomConfiguration object and IZoomIntegration interface
+      * Should fully document all Request and Response objects
+    * Usings.cs
+      * Should expose internals to the unit test project
+    * ServiceCollectionExtensions.cs
+    * ZoomIntegration.cs
+  * Project: S2Cognition.Integrations.Zoom.Core.Tests
+    * Folder: Fakes
+      * Should provide fakes for all necessary objects used in testing
+    * Usings.cs
+    * ServiceCollectionExtensions.cs
+      * Used to provide fakes, factories, etc
+    * All test files
+
+### Standards
+
+* All methods should be Async when possible.  For example, instead of `public GetUsersResponse GetUsers(GetUsersRequest)`, prefer `public async Task<GetUsersResponse> GetUsers(GetUsersRequest)`.
+* Do not suffix Api's with `Async`.  For example, instead of `public async Task<GetUsersResponse> GetUsersAsync(GetUsersRequest)`, prefer `public async Task<GetUsersResponse> GetUsers(GetUsersRequest)`.
+* Do not expose implementation details.  For example, instead of `public async Task<ZoomUserCollection> GetUsers()` where ZoomUserCollection is tightly coupled with the Zoom Sdk, prefer `public async Task<GetUsersResponse> GetUsers(GetUsersRequest)` where `GetUsersResponse` and `GetUsersRequest` are defined in the Data folder.
+* Always provide a distinct Request and Response object for each Api.   For example, even though the current implementation doesn't have any query options, provide a GetUsersRequest object and require it on the GetUsers call.
+* All Request objects should have meaningful defaults for properties whenever possible.  For example, the GetUsersRequest supports paging, and the PageSize property has a default of 25.
+  * Note: Common defaults are defined in S2Cognition.Integrations.Core.Data.Configuration; in this example: `S2Cognition.Integrations.Core.Data.Configuration.DefaultPageSize`.
+* Collections should be IList<> when order is meaningful, and ICollection<> when order is not meaningful.

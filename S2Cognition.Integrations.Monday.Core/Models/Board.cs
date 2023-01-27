@@ -14,7 +14,7 @@ namespace S2Cognition.Integrations.Monday.Core.Models;
 ///     
 /// https://monday.com/developers/v2#queries-section-boards
 /// </summary>
-public class Board
+internal class Board
 {
     /// <summary>
     ///     The unique identifier of the board.
@@ -85,7 +85,7 @@ public class Board
 /// <summary>
 /// https://monday.com/developers/v2#queries-section-activity-logs
 /// </summary>
-public class ActivityLog
+internal class ActivityLog
 {
     public string? Id { get; set; }
 
@@ -103,7 +103,7 @@ public class ActivityLog
 /// <summary>
 /// https://monday.com/developers/v2#queries-section-board-views
 /// </summary>
-public class BoardView
+internal class BoardView
 {
     public int? Id { get; set; }
     public string? Name { get; set; }
@@ -112,6 +112,6 @@ public class BoardView
     public string? Type { get; set; }
 }
 
-public class Workspace
+internal class Workspace
 {
 }

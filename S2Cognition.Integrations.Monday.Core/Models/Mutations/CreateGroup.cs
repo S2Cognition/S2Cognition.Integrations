@@ -3,7 +3,7 @@
 /// <summary>
 ///     Creates a new group in a specific board mutation.
 /// </summary>
-public class CreateGroup
+internal class CreateGroup
 {
     /// <summary>
     ///     The board's unique identifier.
@@ -15,7 +15,7 @@ public class CreateGroup
     /// </summary>
     public string Name { get; set; }
 
-    public CreateGroup(ulong boardId, string name)
+    internal CreateGroup(ulong boardId, string name)
     {
         BoardId = boardId;
         Name = name;

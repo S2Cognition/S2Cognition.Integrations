@@ -3,7 +3,7 @@
 /// <summary>
 ///     Create a new item mutation.
 /// </summary>
-public class CreateItem
+internal class CreateItem
 {
     /// <summary>
     ///     The new item's name.
@@ -25,7 +25,7 @@ public class CreateItem
     /// </summary>
     public string? ColumnValues { get; set; }
 
-    public CreateItem(string name, ulong boardId, string groupId)
+    internal CreateItem(string name, ulong boardId, string groupId)
     {
         Name = name;
         BoardId = boardId;

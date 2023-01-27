@@ -1,8 +1,8 @@
-﻿using S2Cognition.Integrations.AmazonWebServices.DynamoDb.Data;
+﻿using S2Cognition.Integrations.AmazonWebServices.DynamoDb.Models;
 
 namespace S2Cognition.Integrations.AmazonWebServices.DynamoDb.Tests.Fakes;
 
-public class FakeAwsDynamoDbContextFactory : IAwsDynamoDbContextFactory
+internal class FakeAwsDynamoDbContextFactory : IAwsDynamoDbContextFactory
 {
     public IAwsDynamoDbContext Create(IAwsDynamoDbClient client)
     {

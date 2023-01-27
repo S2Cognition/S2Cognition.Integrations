@@ -5,13 +5,13 @@ using System.Text;
 using System.Text.Json;
 using System.Xml.Linq;
 
-namespace S2Cognition.Integrations.StreamDeck.Core;
+namespace S2Cognition.Integrations.StreamDeck.Core.Models;
 
-public class StreamDeckPlugin<T>
+internal class StreamDeckPlugin<T>
 {
     private readonly string[] _args;
 
-    public StreamDeckPlugin(string[] args)
+    internal StreamDeckPlugin(string[] args)
     {
         _args = args;
     }
@@ -23,7 +23,7 @@ public class StreamDeckPlugin<T>
         var devDeploy = false;
         var relDeploy = false;
 
-        if ((_args != null) && _args.Any())
+        if (_args != null && _args.Any())
         {
             checkConfig = _args.Contains("-checkConfiguration");
             devDeploy = _args.Contains("-developmentDeploy");
@@ -192,7 +192,7 @@ public class StreamDeckPlugin<T>
             foreach (var contentItem in itemGroup.Elements("Content"))
             {
                 var include = contentItem.Attribute("Include");
-                if ((include != null) && (include.Value == filename))
+                if (include != null && include.Value == filename)
                 {
                     contentItem.Remove();
                 }
@@ -237,8 +237,8 @@ public class StreamDeckPlugin<T>
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE0037:Use inferred member name", Justification = "Inferred member names is not refactor friendly")]
     private static async Task<bool> CheckManifestJson(StreamDeckConfig cfg)
     {
-        if ((cfg == null)
-            || (cfg.StateIcons == null))
+        if (cfg == null
+            || cfg.StateIcons == null)
         {
             throw new InvalidOperationException();
         }
@@ -262,7 +262,7 @@ public class StreamDeckPlugin<T>
                     }
                 },
             Category = cfg.CategoryName,
-            CategoryIcon = cfg.CategoryIcon,
+            cfg.CategoryIcon,
             Disabled = false,
             Author = cfg.PluginAuthor,
             CodePath = $"{name}.exe",
@@ -315,10 +315,10 @@ public class StreamDeckPlugin<T>
 
     private static string GetProjectName(StreamDeckConfig cfg)
     {
-        if (String.IsNullOrWhiteSpace(cfg.ActionName))
+        if (string.IsNullOrWhiteSpace(cfg.ActionName))
             throw new InvalidOperationException();
 
-        return cfg.ActionName.Replace(" ", String.Empty);
+        return cfg.ActionName.Replace(" ", string.Empty);
     }
 
     private static async Task<bool> CheckActionCs(StreamDeckConfig cfg)
@@ -344,15 +344,15 @@ namespace {name}
 
     private static async Task<bool> CheckModelCs(StreamDeckConfig cfg)
     {
-        if ((cfg == null)
-            || (cfg.Configurations == null))
+        if (cfg == null
+            || cfg.Configurations == null)
         {
             throw new InvalidOperationException();
         }
 
         var name = GetProjectName(cfg);
 
-        var properties = String.Join(Environment.NewLine, cfg.Configurations.Values.Select(_ => $"public string? {_} {{ get; set; }}"));
+        var properties = string.Join(Environment.NewLine, cfg.Configurations.Values.Select(_ => $"public string? {_} {{ get; set; }}"));
 
         return await CheckCsFile("GeneratedFiles", $"{name}Model.cs", $@"using StreamDeckPluginBase;
 
@@ -367,8 +367,8 @@ namespace {name}
 
     private static async Task<bool> CheckActionStatesCs(StreamDeckConfig cfg)
     {
-        if ((cfg == null)
-            || (cfg.StateIcons == null))
+        if (cfg == null
+            || cfg.StateIcons == null)
         {
             throw new InvalidOperationException();
         }
@@ -384,7 +384,7 @@ namespace {name}
 {{
     public enum ActionStates
     {{
-        {String.Join($",{Environment.NewLine}", values)}
+        {string.Join($",{Environment.NewLine}", values)}
     }}
 }}");
     }
@@ -464,8 +464,8 @@ namespace {name}
 
     private static async Task<bool> CheckPropertyInspectorHtml(StreamDeckConfig cfg)
     {
-        if ((cfg == null)
-            || (cfg.Configurations == null))
+        if (cfg == null
+            || cfg.Configurations == null)
         {
             throw new InvalidOperationException();
         }
@@ -478,7 +478,7 @@ namespace {name}
     <div class=""sdpi-item-label"" >{_.Key}</div>
     <input id=""txt{_.Value}"" class=""sdpi-item-value"" type=""text"" placeholder=""{_.Key}"" onKeyUp=""setSettings(event.target.value, '{_.Value}')"" required />
 </div>").ToList();
-        var properties = String.Join(Environment.NewLine, propertyList);
+        var properties = string.Join(Environment.NewLine, propertyList);
         var html = $@"<!DOCTYPE html>
 <html>
 <head>
@@ -513,8 +513,8 @@ namespace {name}
 
     private static async Task<bool> CheckPropertyInspectorCss(StreamDeckConfig cfg)
     {
-        if ((cfg == null)
-            || (cfg.Configurations == null))
+        if (cfg == null
+            || cfg.Configurations == null)
         {
             throw new InvalidOperationException();
         }
@@ -1939,8 +1939,8 @@ div {{
 
     private static async Task<bool> CheckPropertyInspectorJs(StreamDeckConfig cfg)
     {
-        if ((cfg == null)
-            || (cfg.Configurations == null))
+        if (cfg == null
+            || cfg.Configurations == null)
         {
             throw new InvalidOperationException();
         }
@@ -1950,16 +1950,16 @@ div {{
         var isOkay = true;
         var jsFilename = "PropertyInspector.js";
         var initializeValuesList = cfg.Configurations.Select(_ => $@"settingsModel.{_.Value} = actionInfo.payload.settings.settingsModel.{_.Value};").ToList();
-        var initializeValues = String.Join(Environment.NewLine, initializeValuesList);
+        var initializeValues = string.Join(Environment.NewLine, initializeValuesList);
         var initializeEmptyList = cfg.Configurations.Select(_ => $@"settingsModel.{_.Value} = """";").ToList();
-        var initializeEmpty = String.Join(Environment.NewLine, initializeEmptyList);
+        var initializeEmpty = string.Join(Environment.NewLine, initializeEmptyList);
         var setInspectorList = cfg.Configurations.Select(_ => $@"document.getElementById('txt{_.Value}').value = settingsModel.{_.Value};").ToList();
-        var setInspector = String.Join(Environment.NewLine, setInspectorList);
+        var setInspector = string.Join(Environment.NewLine, setInspectorList);
         var receiveSettingsList = cfg.Configurations.Select(_ => $@"if (jsonObj.payload.settings.settingsModel.{_.Value}) {{
                     settingsModel.{_.Value} = jsonObj.payload.settings.settingsModel.{_.Value};
                     document.getElementById('txt{_.Value}').value = settingsModel.{_.Value};
                 }}").ToList();
-        var receiveSettings = String.Join(Environment.NewLine, receiveSettingsList);
+        var receiveSettings = string.Join(Environment.NewLine, receiveSettingsList);
         var js = $@"var websocket = null;
 var uuid = null;
 var inInfo = null;
@@ -2098,7 +2098,7 @@ const setSettings = (value, param) => {{
         foreach (var file in files)
         {
             var filename = file.FullName;
-            filename = filename.Replace($"{sourcePath.FullName}\\", String.Empty);
+            filename = filename.Replace($"{sourcePath.FullName}\\", string.Empty);
             Console.WriteLine($"    >>> Copying {filename}");
             var target = $"{destPath}\\{filename}";
             var targetInfo = new FileInfo(target);
@@ -2127,10 +2127,10 @@ const setSettings = (value, param) => {{
     {
         Console.WriteLine(">>> Release deployment starting");
 
-        if (String.IsNullOrWhiteSpace(cfg.ActionId))
+        if (string.IsNullOrWhiteSpace(cfg.ActionId))
             throw new InvalidOperationException();
 
-        if (String.IsNullOrWhiteSpace(cfg.DistributionTool))
+        if (string.IsNullOrWhiteSpace(cfg.DistributionTool))
             throw new InvalidOperationException();
 
         var dir = Directory.GetCurrentDirectory();

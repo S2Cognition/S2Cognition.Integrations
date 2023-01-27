@@ -2,7 +2,7 @@
 
 namespace S2Cognition.Integrations.Monday.Core.Models.Options;
 
-public interface IItemOptions : IBaseOptions
+internal interface IItemOptions : IBaseOptions
 {
     bool IncludeBoard { get; set; }
     bool IncludeGroup { get; set; }
@@ -21,7 +21,7 @@ public interface IItemOptions : IBaseOptions
     SubscriberOptions? SubscriberOptions { get; set; }
 }
 
-public class ItemOptions : BaseOptions, IItemOptions
+internal class ItemOptions : BaseOptions, IItemOptions
 {
     public bool IncludeBoard { get; set; }
     public bool IncludeGroup { get; set; }
@@ -39,12 +39,12 @@ public class ItemOptions : BaseOptions, IItemOptions
     public CreatorOptions? CreatorOptions { get; set; }
     public SubscriberOptions? SubscriberOptions { get; set; }
 
-    public ItemOptions()
+    internal ItemOptions()
         : this(RequestMode.Default)
     {
     }
 
-    public ItemOptions(RequestMode mode)
+    internal ItemOptions(RequestMode mode)
         : base("item", "items")
     {
         switch (mode)

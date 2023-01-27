@@ -1,21 +1,20 @@
 ﻿using S2Cognition.Integrations.NetSuite.Core.Data;
 
-namespace S2Cognition.Integrations.NetSuite.Core.Models
+namespace S2Cognition.Integrations.NetSuite.Core.Models;
+
+internal interface INetSuiteServiceFactory
 {
-    public interface INetSuiteServiceFactory
+    Task<INetSuiteService> Create(NetSuiteConfiguration configuration);
+}
+
+internal class NetSuiteServiceFactory : INetSuiteServiceFactory
+{
+    internal NetSuiteServiceFactory()
     {
-        Task<INetSuiteService> Create(NetSuiteConfiguration configuration);
     }
 
-    public class NetSuiteServiceFactory : INetSuiteServiceFactory
+    public async Task<INetSuiteService> Create(NetSuiteConfiguration configuration)
     {
-        public NetSuiteServiceFactory()
-        {
-        }
-
-        public async Task<INetSuiteService> Create(NetSuiteConfiguration configuration)
-        {
-            return await NetSuiteService.Create(configuration);
-        }
+        return await NetSuiteService.Create(configuration);
     }
 }

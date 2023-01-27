@@ -1,8 +1,6 @@
-﻿using S2Cognition.Integrations.AmazonWebServices.DynamoDb.Data;
+﻿namespace S2Cognition.Integrations.AmazonWebServices.DynamoDb.Models;
 
-namespace S2Cognition.Integrations.AmazonWebServices.DynamoDb.Models;
-
-public class AwsDynamoDbClientFactory : IAwsDynamoDbClientFactory
+internal class AwsDynamoDbClientFactory : IAwsDynamoDbClientFactory
 {
     public IAwsDynamoDbClient Create(IAwsDynamoDbConfig config)
     {

@@ -8,7 +8,7 @@ namespace S2Cognition.Integrations.Monday.Core.Models;
 ///     Monday.com items are another core object in the platform. Items are the objects that hold the actual data within
 ///     the board, to better illustrate this, you can think of a board as a table and a item as a single row in that table.
 /// </summary>
-public class Item
+internal class Item
 {
     /// <summary>
     ///     The item's unique identifier.

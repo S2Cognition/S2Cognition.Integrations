@@ -13,7 +13,7 @@ public interface INetSuiteIntegration : IIntegration<NetSuiteConfiguration>
     INetSuiteMiscellaneousIntegration Miscellaneous { get; }
 }
 
-public class NetSuiteIntegration : Integration<NetSuiteConfiguration>, INetSuiteIntegration
+internal class NetSuiteIntegration : Integration<NetSuiteConfiguration>, INetSuiteIntegration
 {
     public INetSuiteCustomerEntitiesIntegration CustomerEntities { get; private set;}
     public INetSuiteLeadsIntegration Leads { get; private set;}

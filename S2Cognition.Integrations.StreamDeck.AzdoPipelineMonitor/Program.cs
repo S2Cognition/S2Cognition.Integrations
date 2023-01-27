@@ -1,10 +1,10 @@
-﻿using S2Cognition.Integrations.StreamDeck.Core;
+﻿using S2Cognition.Integrations.StreamDeck.Core.Models;
 
 namespace S2Cognition.Integrations.StreamDeck.AzdoPipelineMonitor;
 
 public class Program
 {
-    protected Program()
+    private Program()
     {
     }
 

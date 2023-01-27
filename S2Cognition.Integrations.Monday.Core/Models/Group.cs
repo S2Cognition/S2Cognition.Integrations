@@ -6,7 +6,7 @@ namespace S2Cognition.Integrations.Monday.Core.Models;
 ///     Items are grouped together in units called groups. Each board contains one or multiple groups, and each group can
 ///     hold one or many items.
 /// </summary>
-public class Group
+internal class Group
 {
     /// <summary>
     ///     The group's unique identifier.

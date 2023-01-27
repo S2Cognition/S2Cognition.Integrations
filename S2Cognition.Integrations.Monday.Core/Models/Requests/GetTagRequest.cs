@@ -2,14 +2,14 @@
 
 namespace S2Cognition.Integrations.Monday.Core.Models.Requests;
 
-public interface IGetTagRequest : IMondayRequest
+internal interface IGetTagRequest : IMondayRequest
 {
     ulong TagId { get; set; }
 
     ITagOptions TagOptions { get; set; }
 }
 
-public interface IGetTagResult : IMondayResult
+internal interface IGetTagResult : IMondayResult
 {
     Tag? Data { get; }
 }
@@ -17,26 +17,26 @@ internal class GetTagResult : MondayResult, IGetTagResult
 {
     public Tag? Data { get; set; }
 
-    public GetTagResult(Tag? data)
+    internal GetTagResult(Tag? data)
     {
         Data = data;
     }
 }
 
-public class GetTagRequest : MondayRequest, IGetTagRequest
+internal class GetTagRequest : MondayRequest, IGetTagRequest
 {
     public ulong TagId { get; set; }
 
     public ITagOptions TagOptions { get; set; }
 
-    public GetTagRequest(ulong tagId)
+    internal GetTagRequest(ulong tagId)
     {
         TagId = tagId;
 
         TagOptions = new TagOptions(RequestMode.Default);
     }
 
-    public GetTagRequest(ulong tagId, RequestMode mode)
+    internal GetTagRequest(ulong tagId, RequestMode mode)
         : this(tagId)
     {
         TagOptions = new TagOptions(mode);

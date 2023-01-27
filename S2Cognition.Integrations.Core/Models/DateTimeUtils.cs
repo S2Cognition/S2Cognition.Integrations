@@ -1,11 +1,15 @@
 ﻿namespace S2Cognition.Integrations.Core.Models;
 
-public interface IDateTime 
+public interface IDateTimeUtils 
 {
     DateTime Now { get; }
 }
 
-public class DateTimeUtils : IDateTime
+internal class DateTimeUtils : IDateTimeUtils
 {
     public DateTime Now => DateTime.UtcNow;
+
+    internal DateTimeUtils()
+    { 
+    }
 }
