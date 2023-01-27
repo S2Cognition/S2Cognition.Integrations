@@ -14,6 +14,7 @@ public interface INetSuiteService
 {
     Task<getResponse?> Get(BaseRef record);
     Task<getListResponse?> List(params BaseRef[] records);
+    Task<searchResponse?> Search(SearchRecord record);
     Task<addResponse?> Add(Record record);
     Task<updateResponse?> Update(Record record);
 }
@@ -21,7 +22,7 @@ public interface INetSuiteService
 public class NetSuiteService : NetSuitePortTypeClient, INetSuiteService
 {
     private const string UrlLookupHostname = "https://webservices.netsuite.com";
-    private const string ServicePath = "services/NetSuitePort_2022_1";
+    private const string ServicePath = "services/NetSuitePort_2022_2";
 
     private readonly NetSuiteConfiguration _configuration;
 
@@ -44,31 +45,38 @@ public class NetSuiteService : NetSuitePortTypeClient, INetSuiteService
         return new NetSuiteService(configuration, binding, soapUri);
     }
 
+    public async Task<searchResponse?> Search(SearchRecord record)
+    {
+        var request = new searchRequest(await GetTokenPassport(), null, null, null, record);
+        var response = await searchAsync(request);
+        return response;
+    }
+
     public async Task<addResponse?> Add(Record record)
     {
         var request = new addRequest(await GetTokenPassport(), null, null, null, record);
-        var response = add(request);
+        var response = await addAsync(request);
         return response;
     }
 
     public async Task<updateResponse?> Update(Record record)
     {
         var request = new updateRequest(await GetTokenPassport(), null, null, null, record);
-        var response = update(request);
+        var response = await updateAsync(request);
         return response;
     }
 
     public async Task<getResponse?> Get(BaseRef record)
     {
         var request = new getRequest(await GetTokenPassport(), null, null, null, record);
-        var response = get(request);
+        var response = await getAsync(request);
         return response;
     }
 
     public async Task<getListResponse?> List(params BaseRef[] records)
     {
         var request = new getListRequest(await GetTokenPassport(), null, null, null, records);
-        var response = getList(request);
+        var response = await getListAsync(request);
         return response;
     }
 
@@ -136,7 +144,7 @@ public class NetSuiteService : NetSuitePortTypeClient, INetSuiteService
     private async Task<string> LookupDynamicHostname()
     {
         var request = new getDataCenterUrlsRequest(await GetTokenPassport(), null, null, null, _configuration.AccountId);
-        var response = getDataCenterUrls(request);
+        var response = await getDataCenterUrlsAsync(request);
         var urls = response.getDataCenterUrlsResult.dataCenterUrls;
 
         return urls.webservicesDomain;

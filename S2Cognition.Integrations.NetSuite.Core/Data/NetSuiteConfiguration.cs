@@ -1,4 +1,5 @@
 ﻿using S2Cognition.Integrations.Core.Data;
+using S2Cognition.Integrations.NetSuite.Core.Models;
 
 namespace S2Cognition.Integrations.NetSuite.Core.Data;
 
@@ -26,8 +27,16 @@ public class NetSuiteConfiguration : Configuration
     public string? TokenId { get; set; }
     public string? TokenSecret { get; set; }
 
+    private readonly IDictionary<ConfigurationType, int> _configurations = new Dictionary<ConfigurationType, int>();
+
     public NetSuiteConfiguration(IServiceProvider serviceProvider)
         : base(serviceProvider)
     {
+    }
+
+    public NetSuiteConfiguration Set(ConfigurationType configuration, int internalId)
+    {
+        _configurations[configuration] = internalId;
+        return this;
     }
 }

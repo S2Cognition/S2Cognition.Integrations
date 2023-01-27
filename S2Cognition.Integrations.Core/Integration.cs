@@ -26,7 +26,7 @@ public class Integration<T> : IIntegration<T>
         _ioc = serviceProvider;
     }
 
-    protected T Configuration
+    protected internal T Configuration
     {
         get
         {
