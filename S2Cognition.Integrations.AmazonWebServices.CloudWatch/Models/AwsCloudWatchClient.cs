@@ -1,5 +1,6 @@
 ﻿using Amazon.CloudWatch;
 using Amazon.CloudWatch.Model;
+using S2Cognition.Integrations.AmazonWebServices.CloudWatch.Data;
 
 namespace S2Cognition.Integrations.AmazonWebServices.CloudWatch.Models;
 
@@ -9,7 +10,7 @@ internal interface IAwsCloudWatchClient
 
     Task<GetDashboardResponse> GetDashboard(GetDashboardRequest request);
     Task<ICollection<DashboardEntry>> ListDashboards();
-    Task<DescribeAlarmsResponse> DescribeAlarms();
+    Task<DescribeAlarmsResponse> DescribeAlarms(GetAlarmsStateRequest req);
     Task<DescribeAlarmHistoryResponse> DescribeAlarmsHistories(string alarmName);
 }
 
@@ -36,9 +37,18 @@ internal class AwsCloudWatchClient : IAwsCloudWatchClient
         return response.DashboardEntries;
     }
 
-    public async Task<DescribeAlarmsResponse> DescribeAlarms()
+    public async Task<DescribeAlarmsResponse> DescribeAlarms(GetAlarmsStateRequest req)
     {
-        return await Native.DescribeAlarmsAsync();
+        var request = new DescribeAlarmsRequest
+        {
+            AlarmNames = req.AlarmNames,
+            AlarmNamePrefix = req.AlarmNamePrefix,
+            StateValue = req.StateValue,
+            MaxRecords = req.MaxRecords
+        };
+
+        var returnedAlarms = await Native.DescribeAlarmsAsync(request);
+        return returnedAlarms;
     }
 
     public async Task<DescribeAlarmHistoryResponse> DescribeAlarmsHistories(string alarmName)

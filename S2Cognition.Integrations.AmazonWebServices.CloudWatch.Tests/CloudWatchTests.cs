@@ -30,8 +30,7 @@ public class CloudWatchTests : UnitTestBase
         {
             AccessKey = "fake AccessKey",
             SecretKey = "fake SecretKey",
-            AwsRegion = "fake AwsRegion",
-            ServiceUrl = "fake ServiceUrl"
+            AwsRegion = "fake AwsRegion"
         };
 
         _sut = _ioc.GetRequiredService<IAmazonWebServicesCloudWatchIntegration>();
@@ -45,84 +44,111 @@ public class CloudWatchTests : UnitTestBase
         _client = clientFactory.Create(config);
     }
 
-    [Fact]
-    public async Task EnsureGetAlarmStatusShouldReturnInAlarmWhenInError()
+    [Theory]
+    [InlineData("ALARM", AlarmState.InAlarm)]
+    [InlineData("OK", AlarmState.Ok)]
+    [InlineData("INSUFFICIENT_DATA", AlarmState.Unknown)]
+    [InlineData("GARBAGE", AlarmState.Unknown)]
+    public async Task EnsureGetAlarmStatusShouldReturnCorrectAlarmState(string awsState, AlarmState expected)
     {
-        var alarmArn = "fake Alarm ARN";
+        var alarmName = "fake Alarm Name";
 
-        A.CallTo(() => _client.DescribeAlarms()).Returns(new DescribeAlarmsResponse
-        {
-            MetricAlarms = new List<MetricAlarm>
+        A.CallTo(() => _client.DescribeAlarms(A<GetAlarmsStateRequest>.Ignored))
+            .Returns(Task.FromResult(new DescribeAlarmsResponse
             {
-                new MetricAlarm
-                {
-                    AlarmArn = alarmArn,
-                    StateValue = StateValue.ALARM
+                MetricAlarms = new List<MetricAlarm> {
+                    new MetricAlarm {
+                        AlarmName = alarmName,
+                        StateValue = new StateValue(awsState)
+                    }
                 }
-            }
-        });
+            }));
 
-        var response = await _sut.GetAlarmState(new GetAlarmStateRequest
-        {
-            Arn = alarmArn
-        });
+        var response = await _sut.GetAlarmsState(new GetAlarmsStateRequest());
+        //{
+        //    AlarmNames = new List<string>
+        //    {
+        //        { alarmName }
+        //    },
+        //    StateValue = new StateValue(awsState),
+        //    MaxRecords = 1
+        //});
 
         response.ShouldNotBeNull();
-        response.Arn.ShouldBe(alarmArn);
-        response.State.ShouldBe(AlarmState.InAlarm);
-    }
-
-    [Fact]
-    public async Task EnsureGetAlarmStatusShouldReturnOkWhenNotInError()
-    {
-        var alarmArn = "fake Alarm ARN";
-
-        A.CallTo(() => _client.DescribeAlarms()).Returns(new DescribeAlarmsResponse
-        {
-            MetricAlarms = new List<MetricAlarm>
-            {
-                new MetricAlarm
-                {
-                    AlarmArn = alarmArn,
-                    StateValue = StateValue.OK
-                }
-            }
-        });
-
-        var response = await _sut.GetAlarmState(new GetAlarmStateRequest
-        {
-            Arn = alarmArn
-        });
-
         response.ShouldNotBeNull();
-        response.Arn.ShouldBe(alarmArn);
-        response.State.ShouldBe(AlarmState.Ok);
+        response.Alarms?[0].AlarmName.ShouldBe(alarmName);
+        response.Alarms?[0].AlarmArn.ShouldNotBeNull();
+        response.Alarms?[0].State.ShouldBe(expected);
     }
 
-    [Fact]
-    public async Task EnsureGetAlarmStatusShouldReturnUnknownWhenUnknown()
-    {
-        var alarmArn = "fake Alarm ARN";
+    //[Fact]
+    //public async Task EnsureGetAlarmStatusShouldReturnOkWhenNotInError()
+    //{
+    //var alarmArn = "fake Alarm ARN";
 
-        A.CallTo(() => _client.DescribeAlarms()).Returns(new DescribeAlarmsResponse
-        {
-            MetricAlarms = new List<MetricAlarm>
-            {
-                new MetricAlarm
-                {
-                    AlarmArn = alarmArn,
-                    StateValue = StateValue.INSUFFICIENT_DATA
-                }
-            }
-        });
+    //A.CallTo(() => _client.DescribeAlarms()).Returns(new DescribeAlarmsResponse
+    //{
+    //    MetricAlarms = new List<MetricAlarm>
+    //    {
+    //        new MetricAlarm
+    //        {
+    //            AlarmArn = alarmArn,
+    //            StateValue = StateValue.OK
+    //        }
+    //    }
+    //});
 
-        var response = await _sut.GetAlarmState(new GetAlarmStateRequest
-        {
-            Arn = alarmArn
-        });
+    //var response = await _sut.GetAlarmsState(new GetAlarmsStateRequest
+    //{
+    //    AlarmNames = new List<string>
+    //    {
+    //        { "fake alarm name" }
+    //    },
+    //    StateValue = StateValue.OK,
+    //    MaxRecords = 1
+    //});
 
-        response.ShouldNotBeNull();
-        response.Arn.ShouldBe(alarmArn);
-        response.State.ShouldBe(AlarmState.Unknown);
-    }
+    //response.ShouldNotBeNull();
+    //response.Alarms?[0].AlarmName.ShouldBe(response.Alarms[0].AlarmName);
+    //response.Alarms?[0].AlarmArn.ShouldNotBeNull();
+    //response.Alarms?[0].State.ShouldBe(AlarmState.Ok);
+
+    //response.Arn.ShouldBe(alarmArn);
+    //response.State.ShouldBe(AlarmState.Ok);
+    // }
+
+    //[Fact]
+    //public async Task EnsureGetAlarmStatusShouldReturnUnknownWhenUnknown()
+    //{
+    //    var alarmArn = "fake Alarm ARN";
+
+    //A.CallTo(() => _client.DescribeAlarms()).Returns(new DescribeAlarmsResponse
+    //{
+    //    MetricAlarms = new List<MetricAlarm>
+    //    {
+    //        new MetricAlarm
+    //        {
+    //            AlarmArn = alarmArn,
+    //            StateValue = StateValue.INSUFFICIENT_DATA
+    //        }
+    //    }
+    //});
+
+    //var response = await _sut.GetAlarmsState(new GetAlarmsStateRequest
+    //{
+    //    AlarmNames = new List<string>
+    //    {
+    //        { "fake alarm name" }
+    //    },
+    //    StateValue = StateValue.INSUFFICIENT_DATA,
+    //    MaxRecords = 1
+    //});
+
+    //response.ShouldNotBeNull();
+    //response.Alarms?[0].AlarmName.ShouldBe(response.Alarms[0].AlarmName);
+    //response.Alarms?[0].AlarmArn.ShouldNotBeNull();
+    //response.Alarms?[0].State.ShouldBe(AlarmState.Unknown);
+    //response.Arn.ShouldBe(alarmArn);
+    //response.State.ShouldBe(AlarmState.Unknown);
+    //}
 }

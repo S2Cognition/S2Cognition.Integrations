@@ -1,5 +1,6 @@
 ﻿using Amazon.CloudWatch;
 using Amazon.CloudWatch.Model;
+using S2Cognition.Integrations.AmazonWebServices.CloudWatch.Data;
 using S2Cognition.Integrations.AmazonWebServices.CloudWatch.Models;
 
 namespace S2Cognition.Integrations.AmazonWebServices.CloudWatch.Tests.Fakes;
@@ -11,7 +12,7 @@ internal class FakeAwsCloudWatchClient : IAwsCloudWatchClient
     public async Task<GetDashboardResponse> GetDashboard(GetDashboardRequest request)
     {
         return await Task.FromResult(new GetDashboardResponse
-        { 
+        {
             DashboardName = request.DashboardName
         });
     }
@@ -24,16 +25,20 @@ internal class FakeAwsCloudWatchClient : IAwsCloudWatchClient
         });
     }
 
-    public async Task<DescribeAlarmsResponse> DescribeAlarms()
+    public async Task<GetAlarmsStateResponse> DescribeAlarms(GetAlarmsStateRequest req)
     {
-        return await Task.FromResult(new DescribeAlarmsResponse
+        return await Task.FromResult(new GetAlarmsStateResponse
         {
-            MetricAlarms = new List<MetricAlarm>
+            Alarms
+            Alarms = new List<GetAlarmStateDetails>
             {
                 new MetricAlarm
-                { 
-                    AlarmName = "Unknown",
-                    StateValue = StateValue.INSUFFICIENT_DATA
+                {
+                    AlarmArn = "Test Alarm Arn",
+                    AlarmName = "Test Alarm Name",
+                    AlarmDescription = "This is a test description",
+                    StateValue = StateValue.OK,
+
                 }
             }
         });
@@ -44,9 +49,9 @@ internal class FakeAwsCloudWatchClient : IAwsCloudWatchClient
         return await Task.FromResult(new DescribeAlarmHistoryResponse
         {
             AlarmHistoryItems = new List<AlarmHistoryItem>
-            { 
+            {
                 new AlarmHistoryItem
-                { 
+                {
                     AlarmName = alarmName
                 }
             }

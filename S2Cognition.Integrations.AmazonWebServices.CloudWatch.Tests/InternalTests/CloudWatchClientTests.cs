@@ -1,5 +1,6 @@
 ﻿using Amazon.CloudWatch.Model;
 using Microsoft.Extensions.DependencyInjection;
+using S2Cognition.Integrations.AmazonWebServices.CloudWatch.Data;
 using S2Cognition.Integrations.AmazonWebServices.CloudWatch.Models;
 using S2Cognition.Integrations.AmazonWebServices.Core.Tests;
 using S2Cognition.Integrations.Core.Tests;
@@ -59,7 +60,16 @@ public class CloudWatchClientTests : UnitTestBase
     [Fact]
     public async Task EnsureDescribeAlarmsReturnsResults()
     {
-        var response = await _sut.DescribeAlarms();
+        var request = new GetAlarmsStateRequest
+        {
+            AlarmNames = new List<string>
+            {
+                { "fake alarm name" }
+            },
+            StateValue = "",
+            MaxRecords = 1
+        };
+        var response = await _sut.DescribeAlarms(request);
 
         response.ShouldNotBeNull();
         response.MetricAlarms.ShouldNotBeNull();
