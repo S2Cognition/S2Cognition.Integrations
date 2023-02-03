@@ -56,7 +56,7 @@ internal class AmazonWebServicesCloudWatchIntegration : Integration<AmazonWebSer
         {
             foreach (var alarm in returnedAlarmsDetails.MetricAlarms)
             {
-                if (alarm.AlarmArn != null)
+                if (alarm.AlarmName != null)
                 {
                     if (alarm.StateValue == StateValue.OK)
                     {

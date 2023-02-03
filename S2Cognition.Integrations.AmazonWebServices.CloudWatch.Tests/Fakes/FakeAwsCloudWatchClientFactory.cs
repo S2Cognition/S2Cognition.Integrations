@@ -4,9 +4,15 @@ namespace S2Cognition.Integrations.AmazonWebServices.CloudWatch.Tests.Fakes;
 
 internal class FakeAwsCloudWatchClientFactory : IAwsCloudWatchClientFactory
 {
+    private FakeAwsCloudWatchClient? _client = null;
+
     public IAwsCloudWatchClient Create(IAwsCloudWatchConfig config)
     {
-        return new FakeAwsCloudWatchClient();
+        if (_client == null)
+        {
+            _client = new FakeAwsCloudWatchClient();
+        }
+        return _client;
     }
 }
 

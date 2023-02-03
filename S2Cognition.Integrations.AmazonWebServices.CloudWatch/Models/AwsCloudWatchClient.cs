@@ -39,13 +39,19 @@ internal class AwsCloudWatchClient : IAwsCloudWatchClient
 
     public async Task<DescribeAlarmsResponse> DescribeAlarms(GetAlarmsStateRequest req)
     {
-        var request = new DescribeAlarmsRequest
-        {
-            AlarmNames = req.AlarmNames,
-            AlarmNamePrefix = req.AlarmNamePrefix,
-            StateValue = req.StateValue,
-            MaxRecords = req.MaxRecords
-        };
+        var request = new DescribeAlarmsRequest();
+
+        if (req.AlarmNames != null)
+            request.AlarmNames = req.AlarmNames;
+
+        if (req.AlarmNamePrefix != null)
+            request.AlarmNamePrefix = req.AlarmNamePrefix;
+
+        if (req.StateValue != null)
+            request.StateValue = req.StateValue;
+
+        if (req.MaxRecords.HasValue)
+            request.MaxRecords = req.MaxRecords.Value;
 
         var returnedAlarms = await Native.DescribeAlarmsAsync(request);
         return returnedAlarms;

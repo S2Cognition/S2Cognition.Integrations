@@ -5,7 +5,12 @@ using S2Cognition.Integrations.AmazonWebServices.CloudWatch.Models;
 
 namespace S2Cognition.Integrations.AmazonWebServices.CloudWatch.Tests.Fakes;
 
-internal class FakeAwsCloudWatchClient : IAwsCloudWatchClient
+internal interface IFakeAwsCloudWatchClient
+{
+    void ExpectsAlarms(DescribeAlarmsResponse expectedAlarms);
+}
+
+internal class FakeAwsCloudWatchClient : IAwsCloudWatchClient, IFakeAwsCloudWatchClient
 {
     public AmazonCloudWatchClient Native => throw new NotImplementedException();
 
@@ -25,23 +30,18 @@ internal class FakeAwsCloudWatchClient : IAwsCloudWatchClient
         });
     }
 
-    public async Task<GetAlarmsStateResponse> DescribeAlarms(GetAlarmsStateRequest req)
+    private DescribeAlarmsResponse? _expectedAlarms = null;
+    public void ExpectsAlarms(DescribeAlarmsResponse expectedAlarms)
     {
-        return await Task.FromResult(new GetAlarmsStateResponse
-        {
-            Alarms
-            Alarms = new List<GetAlarmStateDetails>
-            {
-                new MetricAlarm
-                {
-                    AlarmArn = "Test Alarm Arn",
-                    AlarmName = "Test Alarm Name",
-                    AlarmDescription = "This is a test description",
-                    StateValue = StateValue.OK,
+        _expectedAlarms = expectedAlarms;
+    }
 
-                }
-            }
-        });
+    public async Task<DescribeAlarmsResponse> DescribeAlarms(GetAlarmsStateRequest req)
+    {
+        if (_expectedAlarms == null)
+            throw new InvalidOperationException("Expectations were not set on fake.");
+
+        return await Task.FromResult(_expectedAlarms);
     }
 
     public async Task<DescribeAlarmHistoryResponse> DescribeAlarmsHistories(string alarmName)
