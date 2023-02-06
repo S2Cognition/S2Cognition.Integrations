@@ -1,7 +1,7 @@
 {
   "ExtendedData": {
     "inputs": [
-      "https://webservices.netsuite.com/wsdl/v2022_1_0/netsuite.wsdl"
+      "https://webservices.netsuite.com/wsdl/v2022_2_0/netsuite.wsdl"
     ],
     "collectionTypes": [
       "System.Collections.Generic.Dictionary`2",
@@ -11,7 +11,6 @@
     "namespaceMappings": [
       "*, Oracle.NetSuite"
     ],
-    "sync": true,
     "targetFramework": "net7.0",
     "typeReuseMode": "None"
   }
