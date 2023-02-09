@@ -1,7 +1,9 @@
-﻿using Amazon.CloudWatch.Model;
+﻿using Amazon.CloudWatch;
+using Amazon.CloudWatch.Model;
 using Microsoft.Extensions.DependencyInjection;
 using S2Cognition.Integrations.AmazonWebServices.CloudWatch.Data;
 using S2Cognition.Integrations.AmazonWebServices.CloudWatch.Models;
+using S2Cognition.Integrations.AmazonWebServices.CloudWatch.Tests.Fakes;
 using S2Cognition.Integrations.AmazonWebServices.Core.Tests;
 using S2Cognition.Integrations.Core.Tests;
 using Shouldly;
@@ -10,7 +12,7 @@ namespace S2Cognition.Integrations.AmazonWebServices.CloudWatch.Tests.InternalTe
 
 public class CloudWatchClientTests : UnitTestBase
 {
-    private IAwsCloudWatchClient _sut = default!;
+    private FakeAwsCloudWatchClient _sut = default!;
 
     protected override async Task IocSetup(IServiceCollection sc)
     {
@@ -27,7 +29,7 @@ public class CloudWatchClientTests : UnitTestBase
         var config = configFactory.Create();
 
         var clientFactory = _ioc.GetRequiredService<IAwsCloudWatchClientFactory>();
-        _sut = clientFactory.Create(config);
+        _sut = clientFactory.Create(config) as FakeAwsCloudWatchClient ?? throw new InvalidOperationException();
 
         await Task.CompletedTask;
     }
