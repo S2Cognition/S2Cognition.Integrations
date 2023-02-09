@@ -60,13 +60,28 @@ public class CloudWatchClientTests : UnitTestBase
     [Fact]
     public async Task EnsureDescribeAlarmsReturnsResults()
     {
+        var alarmName = "fake alarm name";
+        var arnName = "fake alarm arn";
+        var awsState = "";
+
+        _sut.ExpectsAlarms(new DescribeAlarmsResponse
+        {
+            MetricAlarms = new List<MetricAlarm> {
+                    new MetricAlarm {
+                        AlarmName = alarmName,
+                        AlarmArn = arnName,
+                        StateValue = new StateValue(awsState)
+                    }
+                }
+        });
+
         var request = new GetAlarmsStateRequest
         {
             AlarmNames = new List<string>
             {
-                { "fake alarm name" }
+                { alarmName }
             },
-            StateValue = "",
+            StateValue = awsState,
             MaxRecords = 1
         };
         var response = await _sut.DescribeAlarms(request);
