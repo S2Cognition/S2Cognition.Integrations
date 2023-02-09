@@ -21,7 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="AWSSDK.CloudWatch" Version="3.7.103.14" />
+    <PackageReference Include="AWSSDK.CloudWatch" Version="3.7.103.15" />
   </ItemGroup>
 
   <ItemGroup>
