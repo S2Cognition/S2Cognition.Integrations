@@ -24,4 +24,9 @@
     <PackageReference Include="AWSSDK.CloudWatch" Version="3.7.103.6" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\S2Cognition.Integrations.AmazonWebServices.Core\S2Cognition.Integrations.AmazonWebServices.Core.csproj" />
+    <ProjectReference Include="..\S2Cognition.Integrations.Core\S2Cognition.Integrations.Core.csproj" />
+  </ItemGroup>
+
 </Project>

@@ -1,16 +1,16 @@
-﻿using Amazon.DynamoDBv2;
+﻿using Amazon.CloudWatch;
 using S2Cognition.Integrations.AmazonWebServices.Core.Models;
 
-namespace S2Cognition.Integrations.AmazonWebServices.DynamoDb.Models;
+namespace S2Cognition.Integrations.AmazonWebServices.CloudWatch.Models;
 
-internal interface IAwsDynamoDbConfig
+internal interface IAwsCloudWatchConfig
 {
     string? ServiceUrl { get; set; }
     IAwsRegionEndpoint? RegionEndpoint { get; set; }
-    AmazonDynamoDBConfig Native { get; }
+    AmazonCloudWatchConfig Native { get; }
 }
 
-internal class AwsDynamoDbConfig : IAwsDynamoDbConfig
+internal class AwsCloudWatchConfig : IAwsCloudWatchConfig
 {
     private string? _serviceUrl;
     public string? ServiceUrl
@@ -36,12 +36,13 @@ internal class AwsDynamoDbConfig : IAwsDynamoDbConfig
         }
     }
 
-    private readonly AmazonDynamoDBConfig _config;
-    public AmazonDynamoDBConfig Native => _config;
+    private readonly AmazonCloudWatchConfig _config;
+    public AmazonCloudWatchConfig Native => _config;
 
-    internal AwsDynamoDbConfig()
+    internal AwsCloudWatchConfig()
     {
-        _config = new AmazonDynamoDBConfig { ServiceURL = ServiceUrl, RegionEndpoint = RegionEndpoint?.Native };
+        _config = new AmazonCloudWatchConfig { ServiceURL = ServiceUrl, RegionEndpoint = RegionEndpoint?.Native };
     }
 }
+
 

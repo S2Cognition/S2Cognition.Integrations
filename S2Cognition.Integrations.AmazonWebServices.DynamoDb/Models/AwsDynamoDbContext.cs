@@ -1,18 +1,27 @@
-﻿using Amazon.DynamoDBv2;
-using Amazon.DynamoDBv2.DataModel;
+﻿using Amazon.DynamoDBv2.DataModel;
 using Amazon.DynamoDBv2.Model;
 
 namespace S2Cognition.Integrations.AmazonWebServices.DynamoDb.Models;
 
+internal interface IAwsDynamoDbContext
+{
+    Task<T?> Load<T>(T? data);
+
+    Task Save<T>(T? data);
+
+#if AWS_SUPPORTS_NONGENERIC_DYNAMODB
+    Task Save(Type dataType, object data);
+    Task Save(Type dataType, IEnumerable<object> data);
+#endif 
+}
+
 internal class AwsDynamoDbContext : IAwsDynamoDbContext
 {
     private readonly DynamoDBContext _context;
-    private readonly AmazonDynamoDBClient _client;
 
     internal AwsDynamoDbContext(IAwsDynamoDbClient client)
     {
-        _client = client.Native;
-        _context = new DynamoDBContext(_client);
+        _context = new DynamoDBContext(client.Native);
     }
 
     public async Task<T?> Load<T>(T? data)

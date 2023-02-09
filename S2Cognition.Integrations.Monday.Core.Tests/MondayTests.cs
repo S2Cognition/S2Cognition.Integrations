@@ -8,7 +8,6 @@ namespace S2Cognition.Integrations.Monday.Core.Tests;
 
 public class MondayTests : UnitTestBase
 {
-    private MondayConfiguration _configuration = default!;
     private IMondayIntegration _sut = default!;
     private IFakeGraphQlHttpClient _graphQl = default!;
 
@@ -21,13 +20,13 @@ public class MondayTests : UnitTestBase
 
     protected override async Task TestSetup()
     {
-        _configuration = new MondayConfiguration(_ioc)
+        var configuration = new MondayConfiguration(_ioc)
         {
             ApiKey = "fake api key"
         };
 
         _sut = _ioc.GetRequiredService<IMondayIntegration>();
-        await _sut.Initialize(_configuration);
+        await _sut.Initialize(configuration);
 
         _graphQl = _ioc.GetRequiredService<IFakeGraphQlHttpClient>();
     }

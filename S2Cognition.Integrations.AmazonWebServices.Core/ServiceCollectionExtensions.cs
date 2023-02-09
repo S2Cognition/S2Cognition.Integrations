@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using S2Cognition.Integrations.AmazonWebServices.Core.Models;
 
-namespace S2Cognition.Integrations.AmazonWebServices.Core.Data;
+namespace S2Cognition.Integrations.AmazonWebServices.Core;
 
 public static class ServiceCollectionExtensions
 {

@@ -4,9 +4,8 @@ using S2Cognition.Integrations.Monday.Core.Models;
 using S2Cognition.Integrations.Monday.Core.Models.Mutations;
 using S2Cognition.Integrations.Monday.Core.Models.Responses;
 using Shouldly;
-using System.Threading.Tasks;
 
-namespace S2Cognition.Integrations.Monday.Core.Tests.Internal;
+namespace S2Cognition.Integrations.Monday.Core.Tests.InternalTests;
 
 public class MondayTagsTests : MondayTests
 {

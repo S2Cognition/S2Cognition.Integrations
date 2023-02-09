@@ -11,7 +11,7 @@ public interface IIntegration<in T>
     Task<bool> IsInitialized();
 }
 
-internal class Integration<T> : IIntegration<T>
+public class Integration<T> : IIntegration<T>
     where T : IConfiguration
 {
     protected readonly IServiceProvider _ioc;
@@ -21,7 +21,7 @@ internal class Integration<T> : IIntegration<T>
 
     private bool _isInitialized = false;
 
-    internal Integration(IServiceProvider ioc)
+    public Integration(IServiceProvider ioc)
     {
         _ioc = ioc;
     }
