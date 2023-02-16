@@ -1,5 +1,4 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using S2Cognition.Integrations.AmazanWebServices.S3.Data;
 using S2Cognition.Integrations.AmazonWebServices.Core.Models;
 using S2Cognition.Integrations.AmazonWebServices.S3.Data;
 using S2Cognition.Integrations.AmazonWebServices.S3.Models;
@@ -12,10 +11,10 @@ public interface IAmazonWebServicesS3Integration : IIntegration<AmazonWebService
     Task<byte[]> DownloadS3File(DownloadS3FileRequest req);
     Task<bool> UploadS3File(UploadS3FileRequest req);
 }
+
 internal class AmazonWebServicesS3Integration : Integration<AmazonWebServicesS3Configuration>, IAmazonWebServicesS3Integration
 {
     private IAwsS3Client? _client;
-
     private IAwsS3Client Client
     {
         get
@@ -43,16 +42,11 @@ internal class AmazonWebServicesS3Integration : Integration<AmazonWebServicesS3C
 
     public async Task<byte[]> DownloadS3File(DownloadS3FileRequest req)
     {
-
         if (req.BucketName == null ||
             req.FileName == null)
             throw new InvalidDataException("Invalid Parameters Exception");
 
         var response = await Client.DownloadFileAsync(req);
-        //{
-        //    BucketName = req.BucketName,
-        //    FileName = req.FileName
-        //});
 
         if (response != null)
         {
@@ -67,9 +61,6 @@ internal class AmazonWebServicesS3Integration : Integration<AmazonWebServicesS3C
         {
             return Array.Empty<byte>();
         }
-
-
-
     }
 
     public async Task<bool> UploadS3File(UploadS3FileRequest req)
@@ -89,3 +80,5 @@ internal class AmazonWebServicesS3Integration : Integration<AmazonWebServicesS3C
 
     }
 }
+
+

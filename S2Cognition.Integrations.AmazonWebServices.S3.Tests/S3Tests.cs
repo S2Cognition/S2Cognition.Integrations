@@ -1,5 +1,4 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using S2Cognition.Integrations.AmazanWebServices.S3.Data;
 using S2Cognition.Integrations.AmazonWebServices.Core.Tests;
 using S2Cognition.Integrations.AmazonWebServices.S3.Data;
 using S2Cognition.Integrations.AmazonWebServices.S3.Models;

@@ -18,7 +18,6 @@ internal class AwsS3Client : IAwsS3Client
 
     public AmazonS3Client Native => _client;
 
-
     internal AwsS3Client(IAwsS3Config config)
     {
         _client = new AmazonS3Client(config.Native);
