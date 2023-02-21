@@ -4,5 +4,6 @@
     {
         public string? BucketName { get; set; } = null;
         public string? FileName { get; set; } = null;
+        public DownloadFileRequestType RequestType { get; set; } = DownloadFileRequestType.RawData;
     }
 }

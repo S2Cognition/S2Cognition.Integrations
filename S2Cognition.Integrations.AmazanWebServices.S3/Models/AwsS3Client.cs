@@ -1,4 +1,5 @@
 ﻿using Amazon.S3;
+using Amazon.S3.Model;
 using Amazon.S3.Transfer;
 using S2Cognition.Integrations.AmazonWebServices.S3.Data;
 
@@ -7,8 +8,8 @@ namespace S2Cognition.Integrations.AmazonWebServices.S3.Models;
 internal interface IAwsS3Client
 {
 
-    Task<Stream> DownloadFileAsync(DownloadS3FileRequest req);
-    Task<bool> UploadFileAsync(UploadS3FileRequest req);
+    Task<DownloadS3FileResponse> DownloadFileAsync(DownloadS3FileRequest req);
+    Task<UploadS3FileResponse> UploadFileAsync(UploadS3FileRequest req);
     AmazonS3Client Native { get; }
 
 }
@@ -23,26 +24,24 @@ internal class AwsS3Client : IAwsS3Client
         _client = new AmazonS3Client(config.Native);
     }
 
-    public async Task<Stream> DownloadFileAsync(DownloadS3FileRequest req)
+    public async Task<DownloadS3FileResponse> DownloadFileAsync(DownloadS3FileRequest req)
     {
         if (req.BucketName == null ||
             req.FileName == null)
             throw new InvalidDataException("Invalid Parameters Exception");
 
-        using var transferUtil = new TransferUtility(_client);
-
-        var response = await transferUtil.OpenStreamAsync(new TransferUtilityOpenStreamRequest
+        if (req.RequestType == DownloadFileRequestType.RawData)
         {
-            BucketName = req.BucketName,
-            Key = req.FileName
-        });
-
-        return response;
+            return await ProcessRawDataRequest(req);
+        }
+        else
+        {
+            return await ProcessSignedURLRequest(req);
+        }
     }
 
-    public async Task<bool> UploadFileAsync(UploadS3FileRequest req)
+    public async Task<UploadS3FileResponse> UploadFileAsync(UploadS3FileRequest req)
     {
-
         using var transferUtil = new TransferUtility(_client);
 
         if (req.FileData == null ||
@@ -62,13 +61,76 @@ internal class AwsS3Client : IAwsS3Client
         try
         {
             await transferUtil.UploadAsync(transferUtilityUploadRequest);
-            return true;
+            return new UploadS3FileResponse();
         }
-        catch (Exception)
+        catch (Exception ex)
         {
-            return false;
+            throw new InvalidOperationException($"Aws S3 File Upload Failed {ex.Message}");
         }
 
+    }
+
+    private async Task<DownloadS3FileResponse> ProcessSignedURLRequest(DownloadS3FileRequest req)
+    {
+        try
+        {
+            var response = Native.GetPreSignedURL(new GetPreSignedUrlRequest
+            {
+                Expires = DateTime.UtcNow.AddDays(6),
+                BucketName = req.BucketName,
+                Key = req.FileName
+            });
+
+            var returnValue = new DownloadS3FileResponse
+            {
+                FileData = null,
+                SignedURL = response
+            };
+
+            return await Task.FromResult(returnValue);
+        }
+        catch (Exception ex)
+        {
+            throw new InvalidDataException($"Invalid Response from Server {ex.Message}");
+        }
+    }
+
+    private async Task<DownloadS3FileResponse> ProcessRawDataRequest(DownloadS3FileRequest req)
+    {
+        using var transferUtil = new TransferUtility(_client);
+
+        try
+        {
+            var response = await transferUtil.OpenStreamAsync(new TransferUtilityOpenStreamRequest
+            {
+                BucketName = req.BucketName,
+                Key = req.FileName
+            });
+
+            if (response != null)
+            {
+                using (var memoryStream = new MemoryStream())
+                {
+                    response.CopyTo(memoryStream);
+
+                    return new DownloadS3FileResponse()
+                    {
+                        FileData = memoryStream.ToArray(),
+                        SignedURL = null
+                    };
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            throw new InvalidDataException($"Invalid Response from Server {ex.Message}");
+        }
+
+        return new DownloadS3FileResponse()
+        {
+            FileData = Array.Empty<byte>(),
+            SignedURL = null
+        };
     }
 }
 

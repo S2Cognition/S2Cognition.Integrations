@@ -8,8 +8,8 @@ namespace S2Cognition.Integrations.AmazonWebServices.S3;
 
 public interface IAmazonWebServicesS3Integration : IIntegration<AmazonWebServicesS3Configuration>
 {
-    Task<byte[]> DownloadS3File(DownloadS3FileRequest req);
-    Task<bool> UploadS3File(UploadS3FileRequest req);
+    Task<DownloadS3FileResponse> DownloadS3File(DownloadS3FileRequest req);
+    Task<UploadS3FileResponse> UploadS3File(UploadS3FileRequest req);
 }
 
 internal class AmazonWebServicesS3Integration : Integration<AmazonWebServicesS3Configuration>, IAmazonWebServicesS3Integration
@@ -40,43 +40,22 @@ internal class AmazonWebServicesS3Integration : Integration<AmazonWebServicesS3C
     {
     }
 
-    public async Task<byte[]> DownloadS3File(DownloadS3FileRequest req)
+    public async Task<DownloadS3FileResponse> DownloadS3File(DownloadS3FileRequest req)
     {
         if (req.BucketName == null ||
             req.FileName == null)
             throw new InvalidDataException("Invalid Parameters Exception");
 
-        var response = await Client.DownloadFileAsync(req);
-
-        if (response != null)
-        {
-            using (var memoryStream = new MemoryStream())
-            {
-                response.CopyTo(memoryStream);
-
-                return memoryStream.ToArray();
-            }
-        }
-        else
-        {
-            return Array.Empty<byte>();
-        }
+        return await Client.DownloadFileAsync(req);
     }
 
-    public async Task<bool> UploadS3File(UploadS3FileRequest req)
+    public async Task<UploadS3FileResponse> UploadS3File(UploadS3FileRequest req)
     {
-
         if (req.BucketName == null ||
             req.FileName == null)
-            throw new InvalidDataException("Invalid Parameters Exception");
+            throw new InvalidDataException("Invalid Parameters Exception Upload S3 File");
 
-        var response = await Client.UploadFileAsync(req);
-
-        //if (response)
-        //{
-        return true;
-        //}
-
+        return await Client.UploadFileAsync(req);
 
     }
 }
