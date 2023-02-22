@@ -8,8 +8,8 @@ namespace S2Cognition.Integrations.AmazonWebServices.S3;
 
 public interface IAmazonWebServicesS3Integration : IIntegration<AmazonWebServicesS3Configuration>
 {
-    Task<DownloadS3FileResponse> DownloadS3File(DownloadS3FileRequest req);
-    Task<UploadS3FileResponse> UploadS3File(UploadS3FileRequest req);
+    Task<DownloadS3FileResponse?> DownloadS3File(DownloadS3FileRequest req);
+    Task<UploadS3FileResponse?> UploadS3File(UploadS3FileRequest req);
 }
 
 internal class AmazonWebServicesS3Integration : Integration<AmazonWebServicesS3Configuration>, IAmazonWebServicesS3Integration
@@ -40,7 +40,7 @@ internal class AmazonWebServicesS3Integration : Integration<AmazonWebServicesS3C
     {
     }
 
-    public async Task<DownloadS3FileResponse> DownloadS3File(DownloadS3FileRequest req)
+    public async Task<DownloadS3FileResponse?> DownloadS3File(DownloadS3FileRequest req)
     {
         if (req.BucketName == null ||
             req.FileName == null)
@@ -49,7 +49,7 @@ internal class AmazonWebServicesS3Integration : Integration<AmazonWebServicesS3C
         return await Client.DownloadFileAsync(req);
     }
 
-    public async Task<UploadS3FileResponse> UploadS3File(UploadS3FileRequest req)
+    public async Task<UploadS3FileResponse?> UploadS3File(UploadS3FileRequest req)
     {
         if (req.BucketName == null ||
             req.FileName == null)

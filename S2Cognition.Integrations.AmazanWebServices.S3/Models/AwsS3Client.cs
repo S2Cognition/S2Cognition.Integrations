@@ -49,7 +49,7 @@ internal class AwsS3Client : IAwsS3Client
             req.BucketName == null)
             throw new InvalidDataException("Invalid Parameters Exception");
 
-        var memoryStream = new MemoryStream(req.FileData);
+        using var memoryStream = new MemoryStream(req.FileData);
 
         var transferUtilityUploadRequest = new TransferUtilityUploadRequest
         {

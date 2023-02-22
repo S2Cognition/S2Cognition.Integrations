@@ -46,22 +46,81 @@ public class S3Tests : UnitTestBase
     }
 
     [Fact]
-    public async Task EnsureDownloadS3FileReturnsFileContents()
+    public async Task EnsureDownloadS3FileReturnsExceptionWIthNullParams()
+    {
+
+        _client.ExpectedFileContent(FakeFileContents);
+
+        await Should.ThrowAsync<InvalidDataException>(async () => await _sut.DownloadS3File(new DownloadS3FileRequest
+        {
+            BucketName = null,
+            FileName = null,
+            RequestType = DownloadFileRequestType.RawData
+        }));
+
+        await Task.CompletedTask;
+    }
+
+    [Fact]
+    public async Task EnsureUploadS3FileReturnsExceptionWIthNullParams()
+    {
+
+        _client.ExpectedFileContent(FakeFileContents);
+
+        await Should.ThrowAsync<InvalidDataException>(async () => await _sut.UploadS3File(new UploadS3FileRequest
+        {
+            FileData = null,
+            BucketName = null,
+            FileName = null
+        }));
+
+        await Task.CompletedTask;
+    }
+
+    [Fact]
+    public async Task EnsureDownloadS3FileReturnsFileContentsWhenRawDataSelected()
+    {
+        var fakeBbucketName = "fake Bucket Name";
+        var fakeFileName = "fake FileName";
+
+
+        _client.ExpectedFileContent(FakeFileContents);
+
+        var response = await _sut.DownloadS3File(new DownloadS3FileRequest
+        {
+            BucketName = fakeBbucketName,
+            FileName = fakeFileName,
+            RequestType = DownloadFileRequestType.RawData
+        });
+
+        response.ShouldNotBeNull();
+        response.SignedURL.ShouldBeNull();
+        response.FileData?.Length.ShouldBeEquivalentTo(6);
+        response.FileData.ShouldBe(FakeFileContents);
+
+        await Task.CompletedTask;
+    }
+
+    [Fact]
+    public async Task EnsureDownloadS3FileReturnsFileContentsWhenSignedURLSelected()
     {
         var bucketName = "fake Bucket Name";
         var key = "fake key";
+
 
         _client.ExpectedFileContent(FakeFileContents);
 
         var response = await _sut.DownloadS3File(new DownloadS3FileRequest
         {
             BucketName = bucketName,
-            FileName = key
+            FileName = key,
+            RequestType = DownloadFileRequestType.SignedURL
         });
 
         response.ShouldNotBeNull();
-        response.Length.ShouldBeEquivalentTo(6);
-        response.ShouldBe(FakeFileContents);
+        response.SignedURL.ShouldNotBeNull();
+        response.SignedURL?.Length.ShouldBeGreaterThan(0);
+        response.FileData.ShouldBeNull();
 
         await Task.CompletedTask;
     }
@@ -83,7 +142,7 @@ public class S3Tests : UnitTestBase
             FileName = fileName
         });
 
-        response.ShouldBeTrue();
+        response.ShouldNotBeNull();
         await Task.CompletedTask;
     }
 }
