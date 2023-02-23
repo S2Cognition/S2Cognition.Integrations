@@ -34,6 +34,7 @@ try
         "S2Cognition.Integrations.AmazonWebServices.Core*.nupkg", `
         "S2Cognition.Integrations.AmazonWebServices.CloudWatch*.nupkg", `
         "S2Cognition.Integrations.AmazonWebServices.DynamoDb*.nupkg", `
+        "S2Cognition.Integrations.AmazonWebServices.S3*.nupkg", `
         "S2Cognition.Integrations.Google.Core*.nupkg", `
         "S2Cognition.Integrations.Google.Analytics*.nupkg", `
         "S2Cognition.Integrations.Microsoft.Core*.nupkg", `
