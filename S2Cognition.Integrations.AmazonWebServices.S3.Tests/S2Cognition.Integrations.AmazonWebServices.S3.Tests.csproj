@@ -7,7 +7,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="InternalTests\" />
+    <Compile Remove="InternalTests\**" />
+    <EmbeddedResource Remove="InternalTests\**" />
+    <None Remove="InternalTests\**" />
   </ItemGroup>
 
   <ItemGroup>
