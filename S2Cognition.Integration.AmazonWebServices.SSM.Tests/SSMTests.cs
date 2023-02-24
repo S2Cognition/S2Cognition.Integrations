@@ -4,13 +4,15 @@ using S2Cognition.Integrations.AmazonWebServices.SSM.Data;
 using S2Cognition.Integrations.AmazonWebServices.SSM.Models;
 using S2Cognition.Integrations.AmazonWebServices.SSM.Tests.Fakes;
 using S2Cognition.Integrations.Core.Tests;
+using Shouldly;
 
 namespace S2Cognition.Integrations.AmazonWebServices.SSM.Tests
 {
-    internal class SSMTests : UnitTestBase
+    public class SSMTests : UnitTestBase
     {
         private IAmazonWebServicesSsmIntegration _sut = default!;
         private IFakeAwsSsmClient _client = default!;
+        private static string FakeParameterValue => "re9345-23DKL39kddg";
 
         protected override async Task IocSetup(IServiceCollection sc)
         {
@@ -39,6 +41,52 @@ namespace S2Cognition.Integrations.AmazonWebServices.SSM.Tests
 
             var clientFactory = _ioc.GetRequiredService<IAwsSsmClientFactory>();
             _client = clientFactory.Create(config) as IFakeAwsSsmClient ?? throw new InvalidOperationException();
+        }
+
+        [Fact]
+        public async Task EnsureGetParameterReturnsExceptionWIthNullParams()
+        {
+
+            _client.ExpectedParameterValue(FakeParameterValue);
+
+            await Should.ThrowAsync<InvalidDataException>(async () => await _sut.GetSSMParameter(new GetSSMParameterRequest
+            {
+                Name = null
+            }));
+
+            await Task.CompletedTask;
+        }
+
+        [Fact]
+        public async Task EnsureStoreParameterReturnsExceptionWIthNullParams()
+        {
+
+            _client.ExpectedParameterValue(FakeParameterValue);
+
+            await Should.ThrowAsync<InvalidDataException>(async () => await _sut.StoreSSMParameter(new PutSSMParameterRequest
+            {
+                Name = null,
+                Value = null,
+                Type = null
+            }));
+
+            await Task.CompletedTask;
+        }
+
+        [Fact]
+        public async Task EnsureGetSSMParameterReturnsExpectedResult()
+        {
+            var fakeParameterName = "fake parameter name";
+
+            _client.ExpectedParameterValue(FakeParameterValue);
+
+            var response = await _sut.GetSSMParameter(new GetSSMParameterRequest
+            {
+                Name = fakeParameterName
+            });
+
+            response.ShouldNotBeNull();
+
         }
     }
 }

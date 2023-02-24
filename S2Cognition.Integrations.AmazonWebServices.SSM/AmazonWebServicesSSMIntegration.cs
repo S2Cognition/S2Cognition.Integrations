@@ -8,6 +8,8 @@ namespace S2Cognition.Integrations.AmazonWebServices.SSM;
 
 public interface IAmazonWebServicesSsmIntegration : IIntegration<AmazonWebServicesSsmConfiguration>
 {
+    Task<GetSSMParameterResponse> GetSSMParameter(GetSSMParameterRequest req);
+    Task<PutSSMParameterResponse> StoreSSMParameter(PutSSMParameterRequest req);
 }
 
 internal class AmazonWebServicesSsmIntegration : Integration<AmazonWebServicesSsmConfiguration>, IAmazonWebServicesSsmIntegration
@@ -37,5 +39,15 @@ internal class AmazonWebServicesSsmIntegration : Integration<AmazonWebServicesSs
     internal AmazonWebServicesSsmIntegration(IServiceProvider serviceProvider)
     : base(serviceProvider)
     {
+    }
+
+    public async Task<GetSSMParameterResponse> GetSSMParameter(GetSSMParameterRequest req)
+    {
+        return await Client.GetParameter(req);
+    }
+
+    public async Task<PutSSMParameterResponse> StoreSSMParameter(PutSSMParameterRequest req)
+    {
+        return await Client.PutParameter(req);
     }
 }
