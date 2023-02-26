@@ -18,10 +18,10 @@ Subproject of [S2Cognition.Integrations](../readme.md)
     ```
 4. Initialize the integration:
     ```
-    var dynamoDbIntegration = serviceProvider.GetRequiredService<IAmazonWebServicesDynamoDbIntegration>();
-    await dynamoDbIntegration.Initialize(configuration);
+    var integration = serviceProvider.GetRequiredService<IAmazonWebServicesDynamoDbIntegration>();
+    await integration.Initialize(configuration);
     ```
-5. Call the integration Api's: `await dynamoDbIntegration.Create(newRow);`
+5. Call the integration Api's: `await integration.Create(newRow);`
 
 ## Public objects
 
@@ -30,4 +30,5 @@ Subproject of [S2Cognition.Integrations](../readme.md)
 
 ## Api's
 
-* TODO: 
+* `async Task Create<T>(T data)`
+* `async Task<T?> Read<T>(T data)`

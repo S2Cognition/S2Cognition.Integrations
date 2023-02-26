@@ -88,7 +88,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "S2Cognition.Integrations.Am
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LocalDev", "LocalDev\LocalDev.csproj", "{9B81DA32-189D-431F-975F-20821C8293D2}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "S2Cognition.Integrations.AmazonWebServices.S3", "S2Cognition.Integrations.AmazanWebServices.S3\S2Cognition.Integrations.AmazonWebServices.S3.csproj", "{E0607C4F-F4CF-4AA0-A011-3B8622909EDC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "S2Cognition.Integrations.AmazonWebServices.S3", "S2Cognition.Integrations.AmazonWebServices.S3\S2Cognition.Integrations.AmazonWebServices.S3.csproj", "{E0607C4F-F4CF-4AA0-A011-3B8622909EDC}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "S2Cognition.Integrations.AmazonWebServices.S3.Tests", "S2Cognition.Integrations.AmazonWebServices.S3.Tests\S2Cognition.Integrations.AmazonWebServices.S3.Tests.csproj", "{32D3CEB1-4F23-41F2-A991-1C6C9504AF4E}"
 EndProject
