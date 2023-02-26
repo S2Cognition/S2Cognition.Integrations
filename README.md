@@ -17,6 +17,7 @@ This set of packages provides simple and consistent integrations with several co
 * [Aws Cloudwatch](S2Cognition.Integrations.AmazonWebServices.Cloudwatch\Readme.md)
 * [Aws DynamoDb](S2Cognition.Integrations.AmazonWebServices.DynamoDb\Readme.md)
 * [Aws S3](S2Cognition.Integrations.AmazonWebServices.S3\Readme.md)
+* [Aws Ses](S2Cognition.Integrations.AmazonWebServices.Ses\Readme.md)
 * [NetSuite](S2Cognition.Integrations.NetSuite.Core\Readme.md)
 * [Zoom](S2Cognition.Integrations.Zoom.Core\Readme.md)
 * [Monday.com](S2Cognition.Integrations.Monday.Core\Readme.md)
@@ -28,7 +29,6 @@ This set of packages provides simple and consistent integrations with several co
 * Zoom Phone
 * Popl
 * Auth.Net
-* Aws Ses
 * MailChimp
 
 ## Integration Commonalities

@@ -25,9 +25,7 @@ internal class FakeAwsS3Client : IAwsS3Client, IFakeAwsS3Client
         if (_downloadFileContent == null)
             throw new InvalidOperationException("Expectations were not set on fake.");
 
-        DownloadS3FileResponse testResponse = new DownloadS3FileResponse();
-
-        testResponse = req.RequestType switch
+        var testResponse = req.RequestType switch
         {
             DownloadFileRequestType.SignedURL => new DownloadS3FileResponse
             {
@@ -39,7 +37,7 @@ internal class FakeAwsS3Client : IAwsS3Client, IFakeAwsS3Client
                 FileData = _downloadFileContent,
                 SignedURL = null
             },
-            _ => throw new InvalidDataException("Invalid Parameters Exception Download S3 File"),
+            _ => throw new ArgumentException(nameof(DownloadS3FileRequest.RequestType))
         };
 
         return await Task.FromResult(testResponse);
@@ -47,10 +45,14 @@ internal class FakeAwsS3Client : IAwsS3Client, IFakeAwsS3Client
     }
     public async Task<UploadS3FileResponse> UploadFileAsync(UploadS3FileRequest req)
     {
-        if (req.FileData == null ||
-            req.FileName == null ||
-            req.BucketName == null)
-            throw new InvalidDataException("Invalid Parameters Exception");
+        if ((req.FileData == null) || (req.FileData.Length  <1))
+            throw new ArgumentException(nameof(UploadS3FileRequest.FileData));
+
+        if (String.IsNullOrWhiteSpace(req.FileName))
+            throw new ArgumentException(nameof(UploadS3FileRequest.FileName));
+
+        if (String.IsNullOrWhiteSpace(req.BucketName))
+            throw new ArgumentException(nameof(UploadS3FileRequest.BucketName));
 
         return await Task.FromResult(new UploadS3FileResponse());
     }

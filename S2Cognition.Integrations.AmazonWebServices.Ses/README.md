@@ -12,8 +12,7 @@ Subproject of [S2Cognition.Integrations](../readme.md)
     {
         AccessKey = "your AccessKey",
         SecretKey = "your SecretKey",
-        AwsRegion = "your AwsRegion",
-        ServiceUrl = "your ServiceUrl"
+        AwsRegion = "your AwsRegion"
     };
     ```
 4. Initialize the integration:
@@ -21,7 +20,7 @@ Subproject of [S2Cognition.Integrations](../readme.md)
     var integration = serviceProvider.GetRequiredService<IAmazonWebServicesSesIntegration>();
     await integration.Initialize(configuration);
     ```
-5. Call the integration Api's: `await integration.DownloadSesFile(new DownloadSesFileRequest{...});`
+5. Call the integration Api's: `await integration.Send(req);`
 
 ## Public objects
 
@@ -30,5 +29,4 @@ Subproject of [S2Cognition.Integrations](../readme.md)
 
 ## Api's
 
-* `async Task<DownloadSesFileResponse?> DownloadSesFile(DownloadSesFileRequest req)`
-* `async Task<UploadSesFileResponse?> UploadSesFile(UploadSesFileRequest req)`
+* `async Task<SendResponse> Send(SendRequest req)`
