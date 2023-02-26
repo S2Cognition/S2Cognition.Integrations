@@ -84,10 +84,22 @@ Solution: S2Cognition.Integrations
 
 ### Standards
 
-* All methods should be Async when possible.  For example, instead of `public GetUsersResponse GetUsers(GetUsersRequest)`, prefer `public async Task<GetUsersResponse> GetUsers(GetUsersRequest)`.
-* Do not suffix Api's with `Async`.  For example, instead of `public async Task<GetUsersResponse> GetUsersAsync(GetUsersRequest)`, prefer `public async Task<GetUsersResponse> GetUsers(GetUsersRequest)`.
+#### General
 * Do not expose implementation details.  For example, instead of `public async Task<ZoomUserCollection> GetUsers()` where ZoomUserCollection is tightly coupled with the Zoom Sdk, prefer `public async Task<GetUsersResponse> GetUsers(GetUsersRequest)` where `GetUsersResponse` and `GetUsersRequest` are defined in the Data folder.
+* Document the interface using /// comments.
+
+#### API Arguments
 * Always provide a distinct Request and Response object for each Api.   For example, even though the current implementation doesn't have any query options, provide a GetUsersRequest object and require it on the GetUsers call.
 * All Request objects should have meaningful defaults for properties whenever possible.  For example, the GetUsersRequest supports paging, and the PageSize property has a default of 25.
   * Note: Common defaults are defined in S2Cognition.Integrations.Core.Data.Configuration; in this example: `S2Cognition.Integrations.Core.Data.Configuration.DefaultPageSize`.
+
+#### Async
+
+* All methods should be Async when possible.  For example, instead of `public GetUsersResponse GetUsers(GetUsersRequest)`, prefer `public async Task<GetUsersResponse> GetUsers(GetUsersRequest)`.
+* Do not suffix Api's with `Async`.  For example, instead of `public async Task<GetUsersResponse> GetUsersAsync(GetUsersRequest)`, prefer `public async Task<GetUsersResponse> GetUsers(GetUsersRequest)`.
+
+#### Types
 * Collections should be IList<> when order is meaningful, and ICollection<> when order is not meaningful.
+
+#### Exceptions
+* When ensuring proper arguments for an API call, throw an ArgumentException with the name of the property which is invalid.

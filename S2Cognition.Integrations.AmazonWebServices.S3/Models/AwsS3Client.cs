@@ -26,9 +26,11 @@ internal class AwsS3Client : IAwsS3Client
 
     public async Task<DownloadS3FileResponse> DownloadFileAsync(DownloadS3FileRequest req)
     {
-        if (req.BucketName == null ||
-            req.FileName == null)
-            throw new InvalidDataException("Invalid Parameters Exception");
+        if (String.IsNullOrWhiteSpace(req.BucketName))
+            throw new ArgumentException(nameof(DownloadS3FileRequest.BucketName));
+
+        if (String.IsNullOrWhiteSpace(req.FileName))
+            throw new ArgumentException(nameof(DownloadS3FileRequest.FileName));
 
         if (req.RequestType == DownloadFileRequestType.RawData)
         {
@@ -44,10 +46,14 @@ internal class AwsS3Client : IAwsS3Client
     {
         using var transferUtil = new TransferUtility(_client);
 
-        if (req.FileData == null ||
-            req.FileName == null ||
-            req.BucketName == null)
-            throw new InvalidDataException("Invalid Parameters Exception");
+        if ((req.FileData == null) || (req.FileData.Length < 1))
+            throw new ArgumentException(nameof(UploadS3FileRequest.FileData));
+
+        if (String.IsNullOrWhiteSpace(req.FileName))
+            throw new ArgumentException(nameof(UploadS3FileRequest.FileName));
+
+        if (String.IsNullOrWhiteSpace(req.BucketName))
+            throw new ArgumentException(nameof(UploadS3FileRequest.BucketName));
 
         using var memoryStream = new MemoryStream(req.FileData);
 
@@ -58,72 +64,48 @@ internal class AwsS3Client : IAwsS3Client
             Key = req.FileName,
             CannedACL = S3CannedACL.Private,
         };
-        try
-        {
-            await transferUtil.UploadAsync(transferUtilityUploadRequest);
-            return new UploadS3FileResponse();
-        }
-        catch (Exception ex)
-        {
-            throw new InvalidOperationException($"Aws S3 File Upload Failed {ex.Message}");
-        }
 
+        await transferUtil.UploadAsync(transferUtilityUploadRequest);
+        return new UploadS3FileResponse();
     }
 
     private async Task<DownloadS3FileResponse> ProcessSignedURLRequest(DownloadS3FileRequest req)
     {
-        try
+        var response = Native.GetPreSignedURL(new GetPreSignedUrlRequest
         {
-            var response = Native.GetPreSignedURL(new GetPreSignedUrlRequest
-            {
-                Expires = DateTime.UtcNow.AddDays(6),
-                BucketName = req.BucketName,
-                Key = req.FileName
-            });
+            Expires = DateTime.UtcNow.AddDays(6),
+            BucketName = req.BucketName,
+            Key = req.FileName
+        });
 
-            var returnValue = new DownloadS3FileResponse
-            {
-                FileData = null,
-                SignedURL = response
-            };
-
-            return await Task.FromResult(returnValue);
-        }
-        catch (Exception ex)
+        var returnValue = new DownloadS3FileResponse
         {
-            throw new InvalidDataException($"Invalid Response from Server {ex.Message}");
-        }
+            FileData = null,
+            SignedURL = response
+        };
+
+        return await Task.FromResult(returnValue);
     }
 
     private async Task<DownloadS3FileResponse> ProcessRawDataRequest(DownloadS3FileRequest req)
     {
         using var transferUtil = new TransferUtility(_client);
-
-        try
+        var response = await transferUtil.OpenStreamAsync(new TransferUtilityOpenStreamRequest
         {
-            var response = await transferUtil.OpenStreamAsync(new TransferUtilityOpenStreamRequest
-            {
-                BucketName = req.BucketName,
-                Key = req.FileName
-            });
+            BucketName = req.BucketName,
+            Key = req.FileName
+        });
 
-            if (response != null)
-            {
-                using (var memoryStream = new MemoryStream())
-                {
-                    response.CopyTo(memoryStream);
-
-                    return new DownloadS3FileResponse()
-                    {
-                        FileData = memoryStream.ToArray(),
-                        SignedURL = null
-                    };
-                }
-            }
-        }
-        catch (Exception ex)
+        if (response != null)
         {
-            throw new InvalidDataException($"Invalid Response from Server {ex.Message}");
+            using var memoryStream = new MemoryStream();
+            response.CopyTo(memoryStream);
+
+            return new DownloadS3FileResponse()
+            {
+                FileData = memoryStream.ToArray(),
+                SignedURL = null
+            };
         }
 
         return new DownloadS3FileResponse()
