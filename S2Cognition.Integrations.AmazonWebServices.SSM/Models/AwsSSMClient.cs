@@ -1,14 +1,14 @@
 ﻿using Amazon.SimpleSystemsManagement;
 using Amazon.SimpleSystemsManagement.Model;
-using S2Cognition.Integrations.AmazonWebServices.SSM.Data;
+using S2Cognition.Integrations.AmazonWebServices.Ssm.Data;
 
-namespace S2Cognition.Integrations.AmazonWebServices.SSM.Models;
+namespace S2Cognition.Integrations.AmazonWebServices.Ssm.Models;
 
 internal interface IAwsSsmClient
 {
     AmazonSimpleSystemsManagementClient Native { get; }
-    Task<GetSSMParameterResponse> GetParameter(GetSSMParameterRequest req);
-    Task<PutSSMParameterResponse> PutParameter(PutSSMParameterRequest req);
+    Task<GetSsmParameterResponse> GetParameter(GetSsmParameterRequest req);
+    Task<PutSsmParameterResponse> PutParameter(PutSsmParameterRequest req);
 }
 internal class AwsSsmClient : IAwsSsmClient
 {
@@ -21,52 +21,42 @@ internal class AwsSsmClient : IAwsSsmClient
         _client = new AmazonSimpleSystemsManagementClient(config.Native);
     }
 
-    public async Task<GetSSMParameterResponse> GetParameter(GetSSMParameterRequest req)
+    public async Task<GetSsmParameterResponse> GetParameter(GetSsmParameterRequest req)
     {
-        if (req.Name == null)
-            throw new InvalidDataException("Missing Parameters Exception");
+        if (String.IsNullOrWhiteSpace(req.Name))
+            throw new ArgumentException(nameof(GetSsmParameterRequest.Name));
 
         GetParameterResponse response;
 
-        try
+        response = await Native.GetParameterAsync(new GetParameterRequest
         {
-            response = await Native.GetParameterAsync(new GetParameterRequest
-            {
-                Name = req.Name,
-            });
-        }
-        catch (Exception ex)
-        {
-            throw new InvalidOperationException($"Aws Get Parameter Server Error. {ex.Message}");
-        }
+            Name = req.Name,
+        });
 
-        return new GetSSMParameterResponse
+        return new GetSsmParameterResponse
         {
             Value = response.Parameter.Value
         };
     }
 
-    public async Task<PutSSMParameterResponse> PutParameter(PutSSMParameterRequest req)
+    public async Task<PutSsmParameterResponse> PutParameter(PutSsmParameterRequest req)
     {
+        if (String.IsNullOrWhiteSpace(req.Name))
+            throw new ArgumentException(nameof(PutSsmParameterRequest.Name));
 
-        if (req.Name == null ||
-            req.Value == null ||
-            req.Type == null)
-            throw new InvalidDataException("Missing Parameters Exception");
+        if (String.IsNullOrWhiteSpace(req.Value))
+            throw new ArgumentException(nameof(PutSsmParameterRequest.Value));
 
-        try
+        if (String.IsNullOrWhiteSpace(req.Type))
+            throw new ArgumentException(nameof(PutSsmParameterRequest.Type));
+
+        await Native.PutParameterAsync(new PutParameterRequest
         {
-            await Native.PutParameterAsync(new PutParameterRequest
-            {
-                Name = req.Name,
-                Value = req.Value,
-                Type = req.Type
-            });
-            return new PutSSMParameterResponse();
-        }
-        catch (Exception ex)
-        {
-            throw new InvalidOperationException($"Aws Put Parameter Failed. {ex.Message}");
-        }
+            Name = req.Name,
+            Value = req.Value,
+            Type = req.Type
+        });
+        return new PutSsmParameterResponse();
+
     }
 }

@@ -1,15 +1,15 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using S2Cognition.Integrations.AmazonWebServices.Core.Models;
-using S2Cognition.Integrations.AmazonWebServices.SSM.Data;
-using S2Cognition.Integrations.AmazonWebServices.SSM.Models;
+using S2Cognition.Integrations.AmazonWebServices.Ssm.Data;
+using S2Cognition.Integrations.AmazonWebServices.Ssm.Models;
 using S2Cognition.Integrations.Core;
 
-namespace S2Cognition.Integrations.AmazonWebServices.SSM;
+namespace S2Cognition.Integrations.AmazonWebServices.Ssm;
 
 public interface IAmazonWebServicesSsmIntegration : IIntegration<AmazonWebServicesSsmConfiguration>
 {
-    Task<GetSSMParameterResponse> GetSSMParameter(GetSSMParameterRequest req);
-    Task<PutSSMParameterResponse> StoreSSMParameter(PutSSMParameterRequest req);
+    Task<GetSsmParameterResponse> GetSsmParameter(GetSsmParameterRequest req);
+    Task<PutSsmParameterResponse> PutSsmParameter(PutSsmParameterRequest req);
 }
 
 internal class AmazonWebServicesSsmIntegration : Integration<AmazonWebServicesSsmConfiguration>, IAmazonWebServicesSsmIntegration
@@ -41,12 +41,12 @@ internal class AmazonWebServicesSsmIntegration : Integration<AmazonWebServicesSs
     {
     }
 
-    public async Task<GetSSMParameterResponse> GetSSMParameter(GetSSMParameterRequest req)
+    public async Task<GetSsmParameterResponse> GetSsmParameter(GetSsmParameterRequest req)
     {
         return await Client.GetParameter(req);
     }
 
-    public async Task<PutSSMParameterResponse> StoreSSMParameter(PutSSMParameterRequest req)
+    public async Task<PutSsmParameterResponse> PutSsmParameter(PutSsmParameterRequest req)
     {
         return await Client.PutParameter(req);
     }

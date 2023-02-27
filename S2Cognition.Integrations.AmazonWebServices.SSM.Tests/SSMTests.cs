@@ -1,14 +1,14 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using S2Cognition.Integrations.AmazonWebServices.Core.Tests;
-using S2Cognition.Integrations.AmazonWebServices.SSM.Data;
-using S2Cognition.Integrations.AmazonWebServices.SSM.Models;
-using S2Cognition.Integrations.AmazonWebServices.SSM.Tests.Fakes;
+using S2Cognition.Integrations.AmazonWebServices.Ssm.Data;
+using S2Cognition.Integrations.AmazonWebServices.Ssm.Models;
+using S2Cognition.Integrations.AmazonWebServices.Ssm.Tests.Fakes;
 using S2Cognition.Integrations.Core.Tests;
 using Shouldly;
 
-namespace S2Cognition.Integrations.AmazonWebServices.SSM.Tests;
+namespace S2Cognition.Integrations.AmazonWebServices.Ssm.Tests;
 
-public class SSMTests : UnitTestBase
+public class SsmTests : UnitTestBase
 {
     private IAmazonWebServicesSsmIntegration _sut = default!;
     private IFakeAwsSsmClient _client = default!;
@@ -43,44 +43,46 @@ public class SSMTests : UnitTestBase
         _client = clientFactory.Create(config) as IFakeAwsSsmClient ?? throw new InvalidOperationException();
     }
 
-    [Fact]
-    public async Task EnsureGetParameterReturnsExceptionWIthNullParams()
+    [Theory]
+    [InlineData(null, nameof(GetSsmParameterRequest.Name))]
+    public async Task EnsureGetParameterReturnsExceptionWIthNullParams(string name, string expectedError)
     {
-
         _client.ExpectedParameterValue(FakeParameterValue);
 
-        await Should.ThrowAsync<InvalidDataException>(async () => await _sut.GetSSMParameter(new GetSSMParameterRequest
+        var ex = await Should.ThrowAsync<ArgumentException>(async () => await _sut.GetSsmParameter(new GetSsmParameterRequest
         {
-            Name = null
+            Name = name
         }));
 
-        await Task.CompletedTask;
+        ex.Message.ShouldBe(expectedError);
+    }
+
+    [Theory]
+    [InlineData(null, "Value", "string", nameof(PutSsmParameterRequest.Name))]
+    [InlineData("Name", null, "string", nameof(PutSsmParameterRequest.Value))]
+    [InlineData("Name", "Value", null, nameof(PutSsmParameterRequest.Type))]
+    public async Task EnsurePutParameterReturnsExceptionWIthNullParams(string name, string value, string type, string expectedError)
+    {
+        _client.ExpectedParameterValue(FakeParameterValue);
+
+        var ex = await Should.ThrowAsync<ArgumentException>(async () => await _sut.PutSsmParameter(new PutSsmParameterRequest
+        {
+            Name = name,
+            Value = value,
+            Type = type
+        }));
+
+        ex.Message.ShouldBe(expectedError);
     }
 
     [Fact]
-    public async Task EnsureStoreParameterReturnsExceptionWIthNullParams()
-    {
-
-        _client.ExpectedParameterValue(FakeParameterValue);
-
-        await Should.ThrowAsync<InvalidDataException>(async () => await _sut.StoreSSMParameter(new PutSSMParameterRequest
-        {
-            Name = null,
-            Value = null,
-            Type = null
-        }));
-
-        await Task.CompletedTask;
-    }
-
-    [Fact]
-    public async Task EnsureGetSSMParameterReturnsExpectedResult()
+    public async Task EnsureGetSsmParameterReturnsExpectedResult()
     {
         var fakeParameterName = "fake parameter name";
 
         _client.ExpectedParameterValue(FakeParameterValue);
 
-        var response = await _sut.GetSSMParameter(new GetSSMParameterRequest
+        var response = await _sut.GetSsmParameter(new GetSsmParameterRequest
         {
             Name = fakeParameterName
         });
@@ -91,7 +93,7 @@ public class SSMTests : UnitTestBase
     }
 
     [Fact]
-    public async Task EnsurePutSSMParameterReturnsExpectedResult()
+    public async Task EnsurePutSsmParameterReturnsExpectedResult()
     {
         var fakeParameterName = "fake parameter name";
         var fakeParameterValue = "aie-3454-adrUIEP";
@@ -99,7 +101,7 @@ public class SSMTests : UnitTestBase
 
         _client.ExpectedParameterValue(FakeParameterValue);
 
-        var response = await _sut.StoreSSMParameter(new PutSSMParameterRequest
+        var response = await _sut.PutSsmParameter(new PutSsmParameterRequest
         {
             Name = fakeParameterName,
             Value = fakeParameterValue,

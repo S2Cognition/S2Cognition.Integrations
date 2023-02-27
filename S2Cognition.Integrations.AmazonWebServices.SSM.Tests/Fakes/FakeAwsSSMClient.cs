@@ -1,8 +1,8 @@
 ﻿using Amazon.SimpleSystemsManagement;
-using S2Cognition.Integrations.AmazonWebServices.SSM.Data;
-using S2Cognition.Integrations.AmazonWebServices.SSM.Models;
+using S2Cognition.Integrations.AmazonWebServices.Ssm.Data;
+using S2Cognition.Integrations.AmazonWebServices.Ssm.Models;
 
-namespace S2Cognition.Integrations.AmazonWebServices.SSM.Tests.Fakes;
+namespace S2Cognition.Integrations.AmazonWebServices.Ssm.Tests.Fakes;
 
 internal interface IFakeAwsSsmClient
 {
@@ -19,27 +19,29 @@ internal class FakeAwsSsmClient : IAwsSsmClient, IFakeAwsSsmClient
         _parameterValue = getParameterValue;
     }
 
-    public async Task<GetSSMParameterResponse> GetParameter(GetSSMParameterRequest req)
+    public async Task<GetSsmParameterResponse> GetParameter(GetSsmParameterRequest req)
     {
-        if (req.Name == null)
-            throw new InvalidDataException("Missing Parameters Exception");
+        if (String.IsNullOrWhiteSpace(req.Name))
+            throw new ArgumentException(nameof(GetSsmParameterRequest.Name));
 
-        return await Task.FromResult(new GetSSMParameterResponse
+        return await Task.FromResult(new GetSsmParameterResponse
         {
             Value = _parameterValue
         });
-
-
     }
 
-    public async Task<PutSSMParameterResponse> PutParameter(PutSSMParameterRequest req)
+    public async Task<PutSsmParameterResponse> PutParameter(PutSsmParameterRequest req)
     {
-        if (req.Name == null ||
-            req.Value == null ||
-            req.Type == null)
-            throw new InvalidDataException("Missing Parameters Exception");
+        if ((req.Name == null) || (req.Name.Length < 1))
+            throw new ArgumentException(nameof(PutSsmParameterRequest.Name));
 
-        return await Task.FromResult(new PutSSMParameterResponse());
+        if (String.IsNullOrWhiteSpace(req.Value))
+            throw new ArgumentException(nameof(PutSsmParameterRequest.Value));
+
+        if (String.IsNullOrWhiteSpace(req.Type))
+            throw new ArgumentException(nameof(PutSsmParameterRequest.Type));
+
+        return await Task.FromResult(new PutSsmParameterResponse());
 
     }
 }

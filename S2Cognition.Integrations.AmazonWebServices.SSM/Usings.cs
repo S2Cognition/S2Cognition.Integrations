@@ -1,3 +1,3 @@
 ﻿using System.Runtime.CompilerServices;
 
-[assembly: InternalsVisibleTo("S2Cognition.Integrations.AmazonWebServices.SSM.Tests")]
+[assembly: InternalsVisibleTo("S2Cognition.Integrations.AmazonWebServices.Ssm.Tests")]

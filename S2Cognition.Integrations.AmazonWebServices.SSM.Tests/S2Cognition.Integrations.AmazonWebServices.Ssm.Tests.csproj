@@ -24,7 +24,7 @@
   <ItemGroup>
     <ProjectReference Include="..\S2Cognition.Integrations.AmazonWebServices.Core.Tests\S2Cognition.Integrations.AmazonWebServices.Core.Tests.csproj" />
     <ProjectReference Include="..\S2Cognition.Integrations.AmazonWebServices.Core\S2Cognition.Integrations.AmazonWebServices.Core.csproj" />
-    <ProjectReference Include="..\S2Cognition.Integrations.AmazonWebServices.SSM\S2Cognition.Integrations.AmazonWebServices.Ssm.csproj" />
+    <ProjectReference Include="..\S2Cognition.Integrations.AmazonWebServices.Ssm\S2Cognition.Integrations.AmazonWebServices.Ssm.csproj" />
     <ProjectReference Include="..\S2Cognition.Integrations.Core\S2Cognition.Integrations.Core.csproj" />
   </ItemGroup>
 

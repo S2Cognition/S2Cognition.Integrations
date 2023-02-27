@@ -9,5 +9,5 @@ using System.Runtime.CompilerServices;
 [assembly: InternalsVisibleTo("S2Cognition.Integrations.AmazonWebServices.S3.Tests")]
 [assembly: InternalsVisibleTo("S2Cognition.Integrations.AmazonWebServices.Ses")]
 [assembly: InternalsVisibleTo("S2Cognition.Integrations.AmazonWebServices.Ses.Tests")]
-[assembly: InternalsVisibleTo("S2Cognition.Integrations.AmazonWebServices.SSM")]
-[assembly: InternalsVisibleTo("S2Cognition.Integrations.AmazonWebServices.SSM.Tests")]
+[assembly: InternalsVisibleTo("S2Cognition.Integrations.AmazonWebServices.Ssm")]
+[assembly: InternalsVisibleTo("S2Cognition.Integrations.AmazonWebServices.Ssm.Tests")]

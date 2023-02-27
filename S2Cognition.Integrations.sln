@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.31729.503
+# Visual Studio Version 17
+VisualStudioVersion = 17.4.33213.308
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "S2Cognition.Integrations.Zoom.Core", "S2Cognition.Integrations.Zoom.Core\S2Cognition.Integrations.Zoom.Core.csproj", "{5341FDA5-7168-4ACF-8C0B-EA169569C49F}"
 EndProject
@@ -99,7 +99,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "S2Cognition.Integrations.Am
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "S2Cognition.Integrations.AmazonWebServices.Ses.Tests", "S2Cognition.Integrations.AmazonWebServices.Ses.Tests\S2Cognition.Integrations.AmazonWebServices.Ses.Tests.csproj", "{916919CF-8F5E-459B-9C77-2F5DD7B9993F}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "S2Cognition.Integrations.AmazonWebServices.SSM.Tests", "S2Cognition.Integrations.AmazonWebServices.SSM.Tests\S2Cognition.Integrations.AmazonWebServices.SSM.Tests.csproj", "{D32E4DA1-9FB8-4A5C-A132-4FD073520717}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "S2Cognition.Integrations.AmazonWebServices.Ssm.Tests", "S2Cognition.Integrations.AmazonWebServices.SSM.Tests\S2Cognition.Integrations.AmazonWebServices.Ssm.Tests.csproj", "{D32E4DA1-9FB8-4A5C-A132-4FD073520717}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

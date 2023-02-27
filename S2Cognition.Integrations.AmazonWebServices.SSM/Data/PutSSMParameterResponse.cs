@@ -1,6 +1,6 @@
-﻿namespace S2Cognition.Integrations.AmazonWebServices.SSM.Data
+﻿namespace S2Cognition.Integrations.AmazonWebServices.Ssm.Data
 {
-    public class PutSSMParameterResponse
+    public class PutSsmParameterResponse
     {
     }
 }

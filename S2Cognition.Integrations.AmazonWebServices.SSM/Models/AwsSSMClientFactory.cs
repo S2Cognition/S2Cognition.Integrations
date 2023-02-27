@@ -1,6 +1,6 @@
 ﻿
 
-namespace S2Cognition.Integrations.AmazonWebServices.SSM.Models;
+namespace S2Cognition.Integrations.AmazonWebServices.Ssm.Models;
 
 internal interface IAwsSsmClientFactory
 {

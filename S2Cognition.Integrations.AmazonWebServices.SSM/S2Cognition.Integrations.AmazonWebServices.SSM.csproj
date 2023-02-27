@@ -14,7 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="AWSSDK.SimpleSystemsManagement" Version="3.7.103.31" />
+    <PackageReference Include="AWSSDK.SimpleSystemsManagement" Version="3.7.103.32" />
   </ItemGroup>
 
   <ItemGroup>

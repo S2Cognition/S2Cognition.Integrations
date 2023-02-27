@@ -1,6 +1,6 @@
 ﻿using S2Cognition.Integrations.AmazonWebServices.Core.Data;
 
-namespace S2Cognition.Integrations.AmazonWebServices.SSM.Data;
+namespace S2Cognition.Integrations.AmazonWebServices.Ssm.Data;
 
 public class AmazonWebServicesSsmConfiguration : AmazonWebServicesConfiguration
 {
