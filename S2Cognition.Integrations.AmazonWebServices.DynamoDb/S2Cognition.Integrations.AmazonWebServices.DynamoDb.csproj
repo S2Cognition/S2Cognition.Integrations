@@ -7,6 +7,7 @@
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageProjectUrl>https://github.com/S2Cognition/S2Cognition.Integrations</PackageProjectUrl>
   </PropertyGroup>
 
   <ItemGroup>
@@ -21,7 +22,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="AWSSDK.DynamoDBv2" Version="3.7.101.49" />
+    <PackageReference Include="AWSSDK.DynamoDBv2" Version="3.7.101.50" />
   </ItemGroup>
 
   <ItemGroup>

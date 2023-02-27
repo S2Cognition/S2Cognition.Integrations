@@ -45,36 +45,42 @@ public class S3Tests : UnitTestBase
         _client = clientFactory.Create(config) as IFakeAwsS3Client ?? throw new InvalidOperationException();
     }
 
-    [Fact]
-    public async Task EnsureDownloadS3FileReturnsExceptionWIthNullParams()
+    [Theory]
+    [InlineData(null, "FileName", nameof(UploadS3FileRequest.BucketName))]
+    [InlineData("BucketName", null, nameof(UploadS3FileRequest.FileName))]
+    public async Task EnsureDownloadS3FileReturnsExceptionWIthNullParams(string bucketName, string fileName, string expectedError)
     {
 
         _client.ExpectedFileContent(FakeFileContents);
 
-        await Should.ThrowAsync<InvalidDataException>(async () => await _sut.DownloadS3File(new DownloadS3FileRequest
+        var ex = await Should.ThrowAsync<ArgumentException>(async () => await _sut.DownloadS3File(new DownloadS3FileRequest
         {
-            BucketName = null,
-            FileName = null,
+            BucketName = bucketName,
+            FileName = fileName,
             RequestType = DownloadFileRequestType.RawData
         }));
 
-        await Task.CompletedTask;
+        ex.Message.ShouldBe(expectedError);
     }
 
-    [Fact]
-    public async Task EnsureUploadS3FileReturnsExceptionWIthNullParams()
+    [Theory]
+    [InlineData(null, "BucketName", "FileName", nameof(UploadS3FileRequest.FileData))]
+    [InlineData(new byte[] { }, "BucketName", "FileName", nameof(UploadS3FileRequest.FileData))]
+    [InlineData(new byte[] { 1 }, null, "FileName", nameof(UploadS3FileRequest.BucketName))]
+    [InlineData(new byte[] { 1 }, "BucketName", null, nameof(UploadS3FileRequest.FileName))]
+    public async Task EnsureUploadS3FileReturnsExceptionWIthNullParams(byte[] fileData, string bucketName, string fileName, string expectedError)
     {
 
         _client.ExpectedFileContent(FakeFileContents);
 
-        await Should.ThrowAsync<InvalidDataException>(async () => await _sut.UploadS3File(new UploadS3FileRequest
+        var ex = await Should.ThrowAsync<ArgumentException>(async () => await _sut.UploadS3File(new UploadS3FileRequest
         {
-            FileData = null,
-            BucketName = null,
-            FileName = null
+            FileData = fileData,
+            BucketName = bucketName,
+            FileName = fileName
         }));
 
-        await Task.CompletedTask;
+        ex.Message.ShouldBe(expectedError);
     }
 
     [Fact]

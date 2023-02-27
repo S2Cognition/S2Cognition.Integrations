@@ -17,10 +17,10 @@ Subproject of [S2Cognition.Integrations](../readme.md)
     ```
 4. Initialize the integration:
     ```
-    var zoomIntegration = serviceProvider.GetRequiredService<IZoomIntegration>();
-    await zoomIntegration.Initialize(configuration);
+    var integration = serviceProvider.GetRequiredService<IZoomIntegration>();
+    await integration.Initialize(configuration);
     ```
-5. Call the integration Api's: `var users = await zoomIntegration.GetUsers();`
+5. Call the integration Api's: `var users = await integration.GetUsers();`
 
 ## Public objects
 
