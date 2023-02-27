@@ -6,87 +6,107 @@ using S2Cognition.Integrations.AmazonWebServices.SSM.Tests.Fakes;
 using S2Cognition.Integrations.Core.Tests;
 using Shouldly;
 
-namespace S2Cognition.Integrations.AmazonWebServices.SSM.Tests
+namespace S2Cognition.Integrations.AmazonWebServices.SSM.Tests;
+
+public class SSMTests : UnitTestBase
 {
-    public class SSMTests : UnitTestBase
+    private IAmazonWebServicesSsmIntegration _sut = default!;
+    private IFakeAwsSsmClient _client = default!;
+    private static string FakeParameterValue => "re9345-23DKL39kddg";
+
+    protected override async Task IocSetup(IServiceCollection sc)
     {
-        private IAmazonWebServicesSsmIntegration _sut = default!;
-        private IFakeAwsSsmClient _client = default!;
-        private static string FakeParameterValue => "re9345-23DKL39kddg";
+        sc.AddAmazonWebServicesSsmIntegration();
+        sc.AddFakeAmazonWebServices();
+        sc.AddFakeAmazonWebServicesSsm();
 
-        protected override async Task IocSetup(IServiceCollection sc)
+        await Task.CompletedTask;
+    }
+
+    protected override async Task TestSetup()
+    {
+        var configuration = new AmazonWebServicesSsmConfiguration(_ioc)
         {
-            sc.AddAmazonWebServicesSsmIntegration();
-            sc.AddFakeAmazonWebServices();
-            sc.AddFakeAmazonWebServicesSsm();
+            AccessKey = "fake AccessKey",
+            SecretKey = "fake SecretKey",
+            AwsRegion = "fake AwsRegion"
+        };
 
-            await Task.CompletedTask;
-        }
+        _sut = _ioc.GetRequiredService<IAmazonWebServicesSsmIntegration>();
 
-        protected override async Task TestSetup()
+        await _sut.Initialize(configuration);
+
+        var configFactory = _ioc.GetRequiredService<IAwsSsmConfigFactory>();
+        var config = configFactory.Create();
+
+        var clientFactory = _ioc.GetRequiredService<IAwsSsmClientFactory>();
+        _client = clientFactory.Create(config) as IFakeAwsSsmClient ?? throw new InvalidOperationException();
+    }
+
+    [Fact]
+    public async Task EnsureGetParameterReturnsExceptionWIthNullParams()
+    {
+
+        _client.ExpectedParameterValue(FakeParameterValue);
+
+        await Should.ThrowAsync<InvalidDataException>(async () => await _sut.GetSSMParameter(new GetSSMParameterRequest
         {
-            var configuration = new AmazonWebServicesSsmConfiguration(_ioc)
-            {
-                AccessKey = "fake AccessKey",
-                SecretKey = "fake SecretKey",
-                AwsRegion = "fake AwsRegion"
-            };
+            Name = null
+        }));
 
-            _sut = _ioc.GetRequiredService<IAmazonWebServicesSsmIntegration>();
+        await Task.CompletedTask;
+    }
 
-            await _sut.Initialize(configuration);
+    [Fact]
+    public async Task EnsureStoreParameterReturnsExceptionWIthNullParams()
+    {
 
-            var configFactory = _ioc.GetRequiredService<IAwsSsmConfigFactory>();
-            var config = configFactory.Create();
+        _client.ExpectedParameterValue(FakeParameterValue);
 
-            var clientFactory = _ioc.GetRequiredService<IAwsSsmClientFactory>();
-            _client = clientFactory.Create(config) as IFakeAwsSsmClient ?? throw new InvalidOperationException();
-        }
-
-        [Fact]
-        public async Task EnsureGetParameterReturnsExceptionWIthNullParams()
+        await Should.ThrowAsync<InvalidDataException>(async () => await _sut.StoreSSMParameter(new PutSSMParameterRequest
         {
+            Name = null,
+            Value = null,
+            Type = null
+        }));
 
-            _client.ExpectedParameterValue(FakeParameterValue);
+        await Task.CompletedTask;
+    }
 
-            await Should.ThrowAsync<InvalidDataException>(async () => await _sut.GetSSMParameter(new GetSSMParameterRequest
-            {
-                Name = null
-            }));
+    [Fact]
+    public async Task EnsureGetSSMParameterReturnsExpectedResult()
+    {
+        var fakeParameterName = "fake parameter name";
 
-            await Task.CompletedTask;
-        }
+        _client.ExpectedParameterValue(FakeParameterValue);
 
-        [Fact]
-        public async Task EnsureStoreParameterReturnsExceptionWIthNullParams()
+        var response = await _sut.GetSSMParameter(new GetSSMParameterRequest
         {
+            Name = fakeParameterName
+        });
 
-            _client.ExpectedParameterValue(FakeParameterValue);
+        response.ShouldNotBeNull();
+        response.Value.ShouldNotBeNull();
+        response.Value.ShouldBeEquivalentTo(FakeParameterValue);
+    }
 
-            await Should.ThrowAsync<InvalidDataException>(async () => await _sut.StoreSSMParameter(new PutSSMParameterRequest
-            {
-                Name = null,
-                Value = null,
-                Type = null
-            }));
+    [Fact]
+    public async Task EnsurePutSSMParameterReturnsExpectedResult()
+    {
+        var fakeParameterName = "fake parameter name";
+        var fakeParameterValue = "aie-3454-adrUIEP";
+        var fakeParameterType = "string";
 
-            await Task.CompletedTask;
-        }
+        _client.ExpectedParameterValue(FakeParameterValue);
 
-        [Fact]
-        public async Task EnsureGetSSMParameterReturnsExpectedResult()
+        var response = await _sut.StoreSSMParameter(new PutSSMParameterRequest
         {
-            var fakeParameterName = "fake parameter name";
+            Name = fakeParameterName,
+            Value = fakeParameterValue,
+            Type = fakeParameterType
+        });
 
-            _client.ExpectedParameterValue(FakeParameterValue);
-
-            var response = await _sut.GetSSMParameter(new GetSSMParameterRequest
-            {
-                Name = fakeParameterName
-            });
-
-            response.ShouldNotBeNull();
-
-        }
+        response.ShouldNotBeNull();
     }
 }
+
