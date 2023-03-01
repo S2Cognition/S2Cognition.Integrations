@@ -29,7 +29,8 @@ public class SsmTests : UnitTestBase
         {
             AccessKey = "fake AccessKey",
             SecretKey = "fake SecretKey",
-            AwsRegion = "fake AwsRegion"
+            AwsRegion = "fake AwsRegion",
+            Environment = EnvironmentType.Development
         };
 
         _sut = _ioc.GetRequiredService<IAmazonWebServicesSsmIntegration>();

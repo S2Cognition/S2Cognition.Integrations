@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Amazon.SimpleSystemsManagement.Model;
+using Microsoft.Extensions.DependencyInjection;
 using S2Cognition.Integrations.AmazonWebServices.Core.Models;
 using S2Cognition.Integrations.AmazonWebServices.Ssm.Data;
 using S2Cognition.Integrations.AmazonWebServices.Ssm.Models;
@@ -43,11 +44,40 @@ internal class AmazonWebServicesSsmIntegration : Integration<AmazonWebServicesSs
 
     public async Task<GetSsmParameterResponse> GetSsmParameter(GetSsmParameterRequest req)
     {
-        return await Client.GetParameter(req);
+        if (String.IsNullOrWhiteSpace(req.Name))
+            throw new ArgumentException(nameof(GetSsmParameterRequest.Name));
+
+        var response = await Client.GetParameter(new GetParameterRequest
+        {
+            Name = req.Name
+        });
+
+        return new GetSsmParameterResponse
+        {
+            Value = response.Parameter.Value
+        };
     }
 
     public async Task<PutSsmParameterResponse> PutSsmParameter(PutSsmParameterRequest req)
     {
-        return await Client.PutParameter(req);
+        if (String.IsNullOrWhiteSpace(req.Name))
+            throw new ArgumentException(nameof(PutSsmParameterRequest.Name));
+
+        if (String.IsNullOrWhiteSpace(req.Value))
+            throw new ArgumentException(nameof(PutSsmParameterRequest.Value));
+
+        if (String.IsNullOrWhiteSpace(req.Type))
+            throw new ArgumentException(nameof(PutSsmParameterRequest.Type));
+
+        req.Name = $"{req.Name}-{Configuration.Environment}";
+
+        await Client.PutParameter(new PutParameterRequest
+        {
+            Name = req.Name,
+            Value = req.Value,
+            Type = req.Type
+        });
+
+        return new PutSsmParameterResponse();
     }
 }

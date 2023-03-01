@@ -1,15 +1,15 @@
 ﻿using Amazon.SimpleSystemsManagement;
 using Amazon.SimpleSystemsManagement.Model;
-using S2Cognition.Integrations.AmazonWebServices.Ssm.Data;
 
 namespace S2Cognition.Integrations.AmazonWebServices.Ssm.Models;
 
 internal interface IAwsSsmClient
 {
     AmazonSimpleSystemsManagementClient Native { get; }
-    Task<GetSsmParameterResponse> GetParameter(GetSsmParameterRequest req);
-    Task<PutSsmParameterResponse> PutParameter(PutSsmParameterRequest req);
+    Task<GetParameterResponse> GetParameter(GetParameterRequest req);
+    Task<PutParameterResponse> PutParameter(PutParameterRequest req);
 }
+
 internal class AwsSsmClient : IAwsSsmClient
 {
     private readonly AmazonSimpleSystemsManagementClient _client;
@@ -21,42 +21,13 @@ internal class AwsSsmClient : IAwsSsmClient
         _client = new AmazonSimpleSystemsManagementClient(config.Native);
     }
 
-    public async Task<GetSsmParameterResponse> GetParameter(GetSsmParameterRequest req)
+    public async Task<GetParameterResponse> GetParameter(GetParameterRequest req)
     {
-        if (String.IsNullOrWhiteSpace(req.Name))
-            throw new ArgumentException(nameof(GetSsmParameterRequest.Name));
-
-        GetParameterResponse response;
-
-        response = await Native.GetParameterAsync(new GetParameterRequest
-        {
-            Name = req.Name,
-        });
-
-        return new GetSsmParameterResponse
-        {
-            Value = response.Parameter.Value
-        };
+        return await Native.GetParameterAsync(req);
     }
 
-    public async Task<PutSsmParameterResponse> PutParameter(PutSsmParameterRequest req)
+    public async Task<PutParameterResponse> PutParameter(PutParameterRequest req)
     {
-        if (String.IsNullOrWhiteSpace(req.Name))
-            throw new ArgumentException(nameof(PutSsmParameterRequest.Name));
-
-        if (String.IsNullOrWhiteSpace(req.Value))
-            throw new ArgumentException(nameof(PutSsmParameterRequest.Value));
-
-        if (String.IsNullOrWhiteSpace(req.Type))
-            throw new ArgumentException(nameof(PutSsmParameterRequest.Type));
-
-        await Native.PutParameterAsync(new PutParameterRequest
-        {
-            Name = req.Name,
-            Value = req.Value,
-            Type = req.Type
-        });
-        return new PutSsmParameterResponse();
-
+        return await Native.PutParameterAsync(req);
     }
 }

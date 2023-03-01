@@ -19,9 +19,11 @@ internal class AwsSsmConfig : IAwsSsmConfig
         set
         {
             _serviceUrl = value;
-            _config.ServiceURL = value;
+            Native.ServiceURL = value;
         }
     }
+
+
     private IAwsRegionEndpoint? _regionEndpoint;
     public IAwsRegionEndpoint? RegionEndpoint
     {
@@ -30,15 +32,14 @@ internal class AwsSsmConfig : IAwsSsmConfig
         set
         {
             _regionEndpoint = value;
-            _config.RegionEndpoint = value?.Native;
+            Native.RegionEndpoint = value?.Native;
         }
     }
 
-    private readonly AmazonSimpleSystemsManagementConfig _config;
-    public AmazonSimpleSystemsManagementConfig Native => _config;
+    public AmazonSimpleSystemsManagementConfig Native { get; }
 
     internal AwsSsmConfig()
     {
-        _config = new AmazonSimpleSystemsManagementConfig { ServiceURL = ServiceUrl, RegionEndpoint = RegionEndpoint?.Native };
+        Native = new AmazonSimpleSystemsManagementConfig { ServiceURL = ServiceUrl, RegionEndpoint = RegionEndpoint?.Native };
     }
 }

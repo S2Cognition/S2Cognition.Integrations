@@ -1,5 +1,5 @@
 ﻿using Amazon.SimpleSystemsManagement;
-using S2Cognition.Integrations.AmazonWebServices.Ssm.Data;
+using Amazon.SimpleSystemsManagement.Model;
 using S2Cognition.Integrations.AmazonWebServices.Ssm.Models;
 
 namespace S2Cognition.Integrations.AmazonWebServices.Ssm.Tests.Fakes;
@@ -19,29 +19,19 @@ internal class FakeAwsSsmClient : IAwsSsmClient, IFakeAwsSsmClient
         _parameterValue = getParameterValue;
     }
 
-    public async Task<GetSsmParameterResponse> GetParameter(GetSsmParameterRequest req)
+    public async Task<GetParameterResponse> GetParameter(GetParameterRequest req)
     {
-        if (String.IsNullOrWhiteSpace(req.Name))
-            throw new ArgumentException(nameof(GetSsmParameterRequest.Name));
-
-        return await Task.FromResult(new GetSsmParameterResponse
+        return await Task.FromResult(new GetParameterResponse
         {
-            Value = _parameterValue
+            Parameter = new Parameter
+            {
+                Value = _parameterValue
+            }
         });
     }
 
-    public async Task<PutSsmParameterResponse> PutParameter(PutSsmParameterRequest req)
+    public async Task<PutParameterResponse> PutParameter(PutParameterRequest req)
     {
-        if ((req.Name == null) || (req.Name.Length < 1))
-            throw new ArgumentException(nameof(PutSsmParameterRequest.Name));
-
-        if (String.IsNullOrWhiteSpace(req.Value))
-            throw new ArgumentException(nameof(PutSsmParameterRequest.Value));
-
-        if (String.IsNullOrWhiteSpace(req.Type))
-            throw new ArgumentException(nameof(PutSsmParameterRequest.Type));
-
-        return await Task.FromResult(new PutSsmParameterResponse());
-
+        return await Task.FromResult(new PutParameterResponse());
     }
 }
