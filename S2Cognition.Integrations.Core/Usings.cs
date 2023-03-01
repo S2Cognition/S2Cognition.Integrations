@@ -16,3 +16,5 @@ using System.Runtime.CompilerServices;
 [assembly: InternalsVisibleTo("S2Cognition.Integrations.Zoom.Core.Tests")]
 [assembly: InternalsVisibleTo("S2Cognition.Integrations.S3")]
 [assembly: InternalsVisibleTo("S2Cognition.Integrations.S3.Tests")]
+[assembly: InternalsVisibleTo("S2Cognition.Integrations.Ses")]
+[assembly: InternalsVisibleTo("S2Cognition.Integrations.Ses.Tests")]

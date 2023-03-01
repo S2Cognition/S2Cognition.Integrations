@@ -14,6 +14,7 @@
   <ItemGroup>
     <ProjectReference Include="..\S2Cognition.Integrations.AmazonWebServices.S3\S2Cognition.Integrations.AmazonWebServices.S3.csproj" />
     <ProjectReference Include="..\S2Cognition.Integrations.AmazonWebServices.CloudWatch\S2Cognition.Integrations.AmazonWebServices.CloudWatch.csproj" />
+    <ProjectReference Include="..\S2Cognition.Integrations.AmazonWebServices.Ses\S2Cognition.Integrations.AmazonWebServices.Ses.csproj" />
     <ProjectReference Include="..\S2Cognition.Integrations.Core\S2Cognition.Integrations.Core.csproj" />
     <ProjectReference Include="..\S2Cognition.Integrations.NetSuite.Core\S2Cognition.Integrations.NetSuite.Core.csproj" />
   </ItemGroup>

@@ -8,7 +8,7 @@ using System.Text.RegularExpressions;
 
 namespace S2Cognition.Integrations.AmazonWebServices.Ses;
 
-public interface IAmazonWebServicesSesIntegration: IIntegration<AmazonWebServicesSesConfiguration>
+public interface IAmazonWebServicesSesIntegration : IIntegration<AmazonWebServicesSesConfiguration>
 {
     /// <summary>
     /// Sends an email.
@@ -46,7 +46,6 @@ public partial class AmazonWebServicesSesIntegration : Integration<AmazonWebServ
             return _client;
         }
     }
-
     internal AmazonWebServicesSesIntegration(IServiceProvider serviceProvider)
         : base(serviceProvider)
     {

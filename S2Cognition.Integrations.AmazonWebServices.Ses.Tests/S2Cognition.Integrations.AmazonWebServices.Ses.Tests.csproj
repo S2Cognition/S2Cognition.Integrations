@@ -9,16 +9,26 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.3.2" />
+    <PackageReference Include="AWSSDK.Core" Version="3.7.105.10" />
+    <PackageReference Include="AWSSDK.SimpleEmailV2" Version="3.7.101.74" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.5.0" />
     <PackageReference Include="xunit" Version="2.4.2" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.4.5">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
-    <PackageReference Include="coverlet.collector" Version="3.1.2">
+    <PackageReference Include="coverlet.collector" Version="3.2.0">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\S2Cognition.Integrations.AmazonWebServices.Core.Tests\S2Cognition.Integrations.AmazonWebServices.Core.Tests.csproj" />
+    <ProjectReference Include="..\S2Cognition.Integrations.AmazonWebServices.Core\S2Cognition.Integrations.AmazonWebServices.Core.csproj" />
+    <ProjectReference Include="..\S2Cognition.Integrations.AmazonWebServices.S3\S2Cognition.Integrations.AmazonWebServices.S3.csproj" />
+    <ProjectReference Include="..\S2Cognition.Integrations.AmazonWebServices.Ses\S2Cognition.Integrations.AmazonWebServices.Ses.csproj" />
+    <ProjectReference Include="..\S2Cognition.Integrations.Core\S2Cognition.Integrations.Core.csproj" />
   </ItemGroup>
 
 </Project>
