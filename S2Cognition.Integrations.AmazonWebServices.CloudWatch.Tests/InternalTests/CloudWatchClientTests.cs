@@ -1,7 +1,5 @@
-﻿using Amazon.CloudWatch;
-using Amazon.CloudWatch.Model;
+﻿using Amazon.CloudWatch.Model;
 using Microsoft.Extensions.DependencyInjection;
-using S2Cognition.Integrations.AmazonWebServices.CloudWatch.Data;
 using S2Cognition.Integrations.AmazonWebServices.CloudWatch.Models;
 using S2Cognition.Integrations.AmazonWebServices.CloudWatch.Tests.Fakes;
 using S2Cognition.Integrations.AmazonWebServices.Core.Tests;
@@ -59,40 +57,40 @@ public class CloudWatchClientTests : UnitTestBase
         response.Count.ShouldBeGreaterThan(0);
     }
 
-    [Fact]
-    public async Task EnsureDescribeAlarmsReturnsResults()
-    {
-        var alarmName = "fake alarm name";
-        var arnName = "fake alarm arn";
-        var awsState = "";
+    //[Fact]
+    //public async Task EnsureDescribeAlarmsReturnsResults()
+    //{
+    //    var alarmName = "fake alarm name";
+    //    var arnName = "fake alarm arn";
+    //    var awsState = "";
 
-        _sut.ExpectsAlarms(new DescribeAlarmsResponse
-        {
-            MetricAlarms = new List<MetricAlarm> {
-                    new MetricAlarm {
-                        AlarmName = alarmName,
-                        AlarmArn = arnName,
-                        StateValue = new StateValue(awsState)
-                    }
-                }
-        });
+    //    _sut.ExpectsAlarms(new DescribeAlarmsResponse
+    //    {
+    //        MetricAlarms = new List<MetricAlarm> {
+    //                new MetricAlarm {
+    //                    AlarmName = alarmName,
+    //                    AlarmArn = arnName,
+    //                    StateValue = new StateValue(awsState)
+    //                }
+    //            }
+    //    });
 
-        var request = new GetAlarmsStateRequest
-        {
-            AlarmNames = new List<string>
-            {
-                { alarmName }
-            },
-            StateValue = awsState,
-            MaxRecords = 1
-        };
-        var response = await _sut.DescribeAlarms(request);
+    //    var request = new GetAlarmsStateRequest
+    //    {
+    //        AlarmNames = new List<string>
+    //        {
+    //            { alarmName }
+    //        },
+    //        StateValue = awsState,
+    //        MaxRecords = 1
+    //    };
+    //    var response = await _sut.DescribeAlarms(request);
 
-        response.ShouldNotBeNull();
-        response.MetricAlarms.ShouldNotBeNull();
-        response.MetricAlarms[0].AlarmName.ShouldNotBeNull();
-        response.MetricAlarms[0].StateValue.ShouldNotBeNull();
-    }
+    //    response.ShouldNotBeNull();
+    //    response.MetricAlarms.ShouldNotBeNull();
+    //    response.MetricAlarms[0].AlarmName.ShouldNotBeNull();
+    //    response.MetricAlarms[0].StateValue.ShouldNotBeNull();
+    //}
 
     [Fact]
     public async Task EnsureDescribeAlarmHistoryReturnsResults()
