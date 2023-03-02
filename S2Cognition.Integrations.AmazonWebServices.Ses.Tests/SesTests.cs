@@ -42,10 +42,12 @@ public class SesTests : UnitTestBase
     }
 
     [Theory]
-    [InlineData(null, "Recipient", "Subject", "Body", nameof(SendRequest.Sender))]
-    [InlineData("Sender", null, "Subject", "Body", nameof(SendRequest.Recipient))]
-    [InlineData("Sender", "Recipient", null, "Body", nameof(SendRequest.Subject))]
-    [InlineData("Sender", "Recipient", "Subject", null, nameof(SendRequest.Body))]
+    [InlineData(null, "recipient@test.com", "Subject", "Body", nameof(SendRequest.Sender))]
+    [InlineData("sender@test.com", null, "Subject", "Body", nameof(SendRequest.Recipient))]
+    [InlineData("sender@test.com", "recipient@test.com", null, "Body", nameof(SendRequest.Subject))]
+    [InlineData("sender@test.com", "recipient@test.com", "Subject", null, nameof(SendRequest.Body))]
+    [InlineData("sender@test", "recipient@test.com", "Subject", "Body", nameof(SendRequest.Sender))]
+    [InlineData("sender@test.com", "recipient@", "Subject", "Body", nameof(SendRequest.Recipient))]
 
     public async Task EnsureSendReturnsExceptionWIthNullParams(string sender, string recipient, string subject, string body, string expectedError)
     {
@@ -77,7 +79,6 @@ public class SesTests : UnitTestBase
         });
 
         response.ShouldNotBeNull();
-
     }
 
 }
