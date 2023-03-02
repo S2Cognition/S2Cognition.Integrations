@@ -65,6 +65,7 @@ public class S3Tests : UnitTestBase
 
     [Theory]
     [InlineData(null, "BucketName", "FileName", nameof(UploadS3FileRequest.FileData))]
+    [InlineData(new byte[] { }, "BucketName", "FileName", nameof(UploadS3FileRequest.FileData))]
     [InlineData(new byte[] { 1 }, null, "FileName", nameof(UploadS3FileRequest.BucketName))]
     [InlineData(new byte[] { 1 }, "BucketName", null, nameof(UploadS3FileRequest.FileName))]
     public async Task EnsureUploadS3FileReturnsExceptionWIthNullParams(byte[] fileData, string bucketName, string fileName, string expectedError)
