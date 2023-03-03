@@ -13,7 +13,6 @@ public interface IAmazonWebServicesCloudWatchIntegration : IIntegration<AmazonWe
     Task<GetAlarmsStateResponse> GetAlarmsState(GetAlarmsStateRequest req);
 }
 
-
 internal class AmazonWebServicesCloudWatchIntegration : Integration<AmazonWebServicesCloudWatchConfiguration>, IAmazonWebServicesCloudWatchIntegration
 {
     private IAwsCloudWatchClient? _client;

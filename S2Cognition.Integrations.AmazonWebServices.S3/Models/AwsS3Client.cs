@@ -7,11 +7,9 @@ namespace S2Cognition.Integrations.AmazonWebServices.S3.Models;
 
 internal interface IAwsS3Client
 {
-
     Task<DownloadS3FileResponse> DownloadFileAsync(DownloadS3FileRequest req);
     Task<UploadS3FileResponse> UploadFileAsync(UploadS3FileRequest req);
     AmazonS3Client Native { get; }
-
 }
 internal class AwsS3Client : IAwsS3Client
 {
