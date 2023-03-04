@@ -59,6 +59,9 @@ internal class NetSuiteMiscellaneousIntegration : NetSuiteSubIntegrationBase, IN
         var response = await client.Search(options);
         await CheckResponseForErrors(response);
 
+        if (response == null)
+            throw new InvalidOperationException();
+
         var customRecord = response.searchResult.recordList
             .OfType<CustomRecord>()
             .Select(record => new

@@ -36,6 +36,9 @@ internal class NetSuiteProspectsIntegration : NetSuiteSubIntegrationBase, INetSu
         var response = await client.Search(options);
         await CheckResponseForErrors(response);
 
+        if (response == null)
+            throw new InvalidOperationException();
+
         var prospects = response.searchResult.recordList
             .OfType<Customer>()
             .Select(record => new ProspectRecord

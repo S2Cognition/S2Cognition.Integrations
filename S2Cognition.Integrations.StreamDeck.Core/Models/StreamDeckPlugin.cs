@@ -315,8 +315,11 @@ internal class StreamDeckPlugin<T>
 
     private static string GetProjectName(StreamDeckConfig cfg)
     {
-        if (string.IsNullOrWhiteSpace(cfg.ActionName))
-            throw new InvalidOperationException();
+        if (cfg == null)
+            throw new ArgumentException(nameof(StreamDeckConfig));
+
+        if ((cfg.ActionName==null) || String.IsNullOrWhiteSpace(cfg.ActionName))
+            throw new ArgumentException(nameof(StreamDeckConfig.ActionName));
 
         return cfg.ActionName.Replace(" ", string.Empty);
     }
@@ -2127,11 +2130,14 @@ const setSettings = (value, param) => {{
     {
         Console.WriteLine(">>> Release deployment starting");
 
-        if (string.IsNullOrWhiteSpace(cfg.ActionId))
-            throw new InvalidOperationException();
+        if (cfg == null)
+            throw new ArgumentException(nameof(StreamDeckConfig));
 
-        if (string.IsNullOrWhiteSpace(cfg.DistributionTool))
-            throw new InvalidOperationException();
+        if ((cfg.ActionId == null) || string.IsNullOrWhiteSpace(cfg.ActionId))
+            throw new ArgumentException(nameof(StreamDeckConfig.ActionId));
+
+        if ((cfg.DistributionTool == null) || string.IsNullOrWhiteSpace(cfg.DistributionTool))
+            throw new ArgumentException(nameof(StreamDeckConfig.DistributionTool));
 
         var dir = Directory.GetCurrentDirectory();
         var distTool = Path.Combine(dir, cfg.DistributionTool);

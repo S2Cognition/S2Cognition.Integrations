@@ -1,43 +1,44 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>net7.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>net7.0</TargetFramework>
+		<LangVersion>Latest</LangVersion>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <Compile Remove="InternalTests\**" />
-    <EmbeddedResource Remove="InternalTests\**" />
-    <None Remove="InternalTests\**" />
-  </ItemGroup>
+	<ItemGroup>
+		<Compile Remove="InternalTests\**" />
+		<EmbeddedResource Remove="InternalTests\**" />
+		<None Remove="InternalTests\**" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <PackageReference Include="AWSSDK.Core" Version="3.7.105.10" />
-    <PackageReference Include="AWSSDK.S3" Version="3.7.103.17" />
-    <PackageReference Include="coverlet.collector" Version="3.2.0">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.5.0" />
-    <PackageReference Include="xunit" Version="2.4.2" />
-    <PackageReference Include="xunit.runner.visualstudio" Version="2.4.5">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="AWSSDK.Core" Version="3.7.105.13" />
+		<PackageReference Include="AWSSDK.S3" Version="3.7.103.21" />
+		<PackageReference Include="coverlet.collector" Version="3.2.0">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+		<PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.5.0" />
+		<PackageReference Include="xunit" Version="2.4.2" />
+		<PackageReference Include="xunit.runner.visualstudio" Version="2.4.5">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+	</ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\S2Cognition.Integrations.AmazonWebServices.Core.Tests\S2Cognition.Integrations.AmazonWebServices.Core.Tests.csproj" />
-    <ProjectReference Include="..\S2Cognition.Integrations.AmazonWebServices.Core\S2Cognition.Integrations.AmazonWebServices.Core.csproj" />
-    <ProjectReference Include="..\S2Cognition.Integrations.AmazonWebServices.S3\S2Cognition.Integrations.AmazonWebServices.S3.csproj" />
-    <ProjectReference Include="..\S2Cognition.Integrations.Core\S2Cognition.Integrations.Core.csproj" />
-  </ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\S2Cognition.Integrations.AmazonWebServices.Core.Tests\S2Cognition.Integrations.AmazonWebServices.Core.Tests.csproj" />
+		<ProjectReference Include="..\S2Cognition.Integrations.AmazonWebServices.Core\S2Cognition.Integrations.AmazonWebServices.Core.csproj" />
+		<ProjectReference Include="..\S2Cognition.Integrations.AmazonWebServices.S3\S2Cognition.Integrations.AmazonWebServices.S3.csproj" />
+		<ProjectReference Include="..\S2Cognition.Integrations.Core\S2Cognition.Integrations.Core.csproj" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <Reference Include="AWSSDK.Core">
-      <HintPath>..\S2Cognition.Integrations.AmazonWebServices.Core\ThirdParty\AWSSDK.Core.dll</HintPath>
-    </Reference>
-  </ItemGroup>
+	<ItemGroup>
+		<Reference Include="AWSSDK.Core">
+			<HintPath>..\S2Cognition.Integrations.AmazonWebServices.Core\ThirdParty\AWSSDK.Core.dll</HintPath>
+		</Reference>
+	</ItemGroup>
 
 </Project>

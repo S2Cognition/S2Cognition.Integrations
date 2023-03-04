@@ -88,10 +88,15 @@ internal class NetSuiteService : NetSuitePortTypeClient, INetSuiteService
 
     private async Task<TokenPassport> GetTokenPassport()
     {
-        if (String.IsNullOrWhiteSpace(_configuration.AccountId)
+        if ((_configuration.AccountId == null)
+            || String.IsNullOrWhiteSpace(_configuration.AccountId)
+            || (_configuration.ConsumerKey == null)
             || String.IsNullOrWhiteSpace(_configuration.ConsumerKey)
+            || (_configuration.ConsumerSecret == null)
             || String.IsNullOrWhiteSpace(_configuration.ConsumerSecret)
+            || (_configuration.TokenId == null)
             || String.IsNullOrWhiteSpace(_configuration.TokenId)
+            || (_configuration.TokenSecret == null)
             || String.IsNullOrWhiteSpace(_configuration.TokenSecret))
         {
             throw new InvalidOperationException("NetSuiteCrm configuration is invalid");
@@ -115,13 +120,23 @@ internal class NetSuiteService : NetSuitePortTypeClient, INetSuiteService
 
     private static string ComputeNonce()
     {
-        var data = 123400 + RandomNumberGenerator.GetInt32(10000000 - 123400);
+        var bytes = new byte[4];
+        RandomNumberGenerator.Create().GetBytes(bytes);
+        var n = (bytes[0]&0x7F) | (bytes[1] << 8) | (bytes[2] << 16) | (bytes[3] << 24);
+
+        var maxExclusive = 10000000 - 123400;
+        var data = 123400 + (n % maxExclusive);
+        
         return data.ToString();
     }
 
     private static long ComputeTimestamp()
     {
-        return (long)DateTime.UtcNow.Subtract(DateTime.UnixEpoch).TotalSeconds;
+        // from https://source.dot.net/
+        var daysTo1970 = 719162L;
+        var ticksPerDay = 864000000000L;
+        var unixEpoch = new DateTime(daysTo1970 * ticksPerDay, DateTimeKind.Utc);
+        return (long)DateTime.UtcNow.Subtract(unixEpoch).TotalSeconds;
     }
 
     private static TokenPassportSignature ComputeSignature(string compId, string consumerKey, string consumerSecret, string tokenId, string tokenSecret, string nonce, long timestamp)

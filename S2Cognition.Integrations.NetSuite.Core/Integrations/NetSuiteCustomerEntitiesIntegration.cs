@@ -30,6 +30,9 @@ internal class NetSuiteCustomerEntitiesIntegration : NetSuiteSubIntegrationBase,
         var response = await client.Search(options);
         await CheckResponseForErrors(response);
 
+        if (response == null)
+            throw new InvalidOperationException();
+
         var pickList = response.searchResult.recordList
             .OfType<CustomerCategory>()
             .Select(record => new PickListRecord
@@ -58,6 +61,9 @@ internal class NetSuiteCustomerEntitiesIntegration : NetSuiteSubIntegrationBase,
 
         var response = await client.Search(options);
         await CheckResponseForErrors(response);
+
+        if (response == null)
+            throw new InvalidOperationException();
 
         var pickList = response.searchResult.recordList
             .OfType<CustomerStatus>()

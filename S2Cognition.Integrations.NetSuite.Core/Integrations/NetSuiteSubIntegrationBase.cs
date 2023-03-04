@@ -45,7 +45,7 @@ internal class NetSuiteSubIntegrationBase
         return await SystemTask.FromResult(errorMessage.ToString());
     }
 
-    protected static async SystemTask CheckResponseForErrors([NotNull] addResponse? response)
+    protected static async SystemTask CheckResponseForErrors(addResponse? response)
     {
         if (response == null
             || !response.writeResponse.status.isSuccessSpecified
@@ -55,7 +55,7 @@ internal class NetSuiteSubIntegrationBase
         }
     }
 
-    protected static async SystemTask CheckResponseForErrors([NotNull] searchResponse? response)
+    protected static async SystemTask CheckResponseForErrors(searchResponse? response)
     {
         if (response == null
             || !response.searchResult.status.isSuccessSpecified

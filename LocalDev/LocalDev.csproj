@@ -1,23 +1,24 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <OutputType>Exe</OutputType>
-    <TargetFramework>net7.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
-  </PropertyGroup>
+	<PropertyGroup>
+		<OutputType>Exe</OutputType>
+		<TargetFramework>net7.0</TargetFramework>
+		<LangVersion>Latest</LangVersion>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Shouldly" Version="4.1.0" />
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="Shouldly" Version="4.1.0" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\S2Cognition.Integrations.AmazonWebServices.S3\S2Cognition.Integrations.AmazonWebServices.S3.csproj" />
-    <ProjectReference Include="..\S2Cognition.Integrations.AmazonWebServices.CloudWatch\S2Cognition.Integrations.AmazonWebServices.CloudWatch.csproj" />
-    <ProjectReference Include="..\S2Cognition.Integrations.AmazonWebServices.Ses\S2Cognition.Integrations.AmazonWebServices.Ses.csproj" />
-    <ProjectReference Include="..\S2Cognition.Integrations.AmazonWebServices.Ssm\S2Cognition.Integrations.AmazonWebServices.Ssm.csproj" />
-    <ProjectReference Include="..\S2Cognition.Integrations.Core\S2Cognition.Integrations.Core.csproj" />
-    <ProjectReference Include="..\S2Cognition.Integrations.NetSuite.Core\S2Cognition.Integrations.NetSuite.Core.csproj" />
-  </ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\S2Cognition.Integrations.AmazonWebServices.S3\S2Cognition.Integrations.AmazonWebServices.S3.csproj" />
+		<ProjectReference Include="..\S2Cognition.Integrations.AmazonWebServices.CloudWatch\S2Cognition.Integrations.AmazonWebServices.CloudWatch.csproj" />
+		<ProjectReference Include="..\S2Cognition.Integrations.AmazonWebServices.Ses\S2Cognition.Integrations.AmazonWebServices.Ses.csproj" />
+		<ProjectReference Include="..\S2Cognition.Integrations.AmazonWebServices.Ssm\S2Cognition.Integrations.AmazonWebServices.Ssm.csproj" />
+		<ProjectReference Include="..\S2Cognition.Integrations.Core\S2Cognition.Integrations.Core.csproj" />
+		<ProjectReference Include="..\S2Cognition.Integrations.NetSuite.Core\S2Cognition.Integrations.NetSuite.Core.csproj" />
+	</ItemGroup>
 
 </Project>

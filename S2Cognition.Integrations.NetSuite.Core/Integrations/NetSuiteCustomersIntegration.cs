@@ -91,6 +91,9 @@ internal class NetSuiteCustomersIntegration : NetSuiteSubIntegrationBase, INetSu
         var response = await client.Search(options);
         await CheckResponseForErrors(response);
 
+        if (response == null)
+            throw new InvalidOperationException();
+
         var recordCount = response.searchResult.totalRecordsSpecified ? (int?)response.searchResult.totalRecords : null;
         var customers = response.searchResult.recordList
             .OfType<Customer>()

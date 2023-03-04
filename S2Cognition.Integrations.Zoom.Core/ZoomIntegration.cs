@@ -30,8 +30,12 @@ internal class ZoomIntegration : Integration<ZoomConfiguration>, IZoomIntegratio
 
     private async Task<string> Authenticate()
     {
-        if ((_authenticationToken != null) && !String.IsNullOrWhiteSpace(_authenticationToken.AccessToken))
+        if ((_authenticationToken != null)
+            && (_authenticationToken.AccessToken != null)
+            && !String.IsNullOrWhiteSpace(_authenticationToken.AccessToken))
+        {
             return _authenticationToken.AccessToken;
+        }
 
         var ioc = Configuration.IoC;
 
@@ -44,8 +48,12 @@ internal class ZoomIntegration : Integration<ZoomConfiguration>, IZoomIntegratio
         var route = $"https://zoom.us/oauth/token?grant_type=account_credentials&account_id={Configuration.AccountId}";
         _authenticationToken = await client.Post<ZoomAuthenticationResponse>(route);
 
-        if ((_authenticationToken == null) || String.IsNullOrWhiteSpace(_authenticationToken.AccessToken))
+        if ((_authenticationToken == null)
+            || (_authenticationToken.AccessToken == null)
+            || String.IsNullOrWhiteSpace(_authenticationToken.AccessToken))
+        {
             throw new InvalidOperationException();
+        }
 
         return _authenticationToken.AccessToken;
     }

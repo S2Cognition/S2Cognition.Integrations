@@ -2,6 +2,7 @@
 using Amazon.S3.Model;
 using Amazon.S3.Transfer;
 using S2Cognition.Integrations.AmazonWebServices.S3.Data;
+using System.Diagnostics;
 
 namespace S2Cognition.Integrations.AmazonWebServices.S3.Models;
 
@@ -38,7 +39,11 @@ internal class AwsS3Client : IAwsS3Client
     {
         using var transferUtil = new TransferUtility(_client);
 
-        using var memoryStream = new MemoryStream(req.FileData);
+        var data = req.FileData;
+        if ((data == null) || (data.Length < 1))
+            throw new ArgumentException(nameof(UploadS3FileRequest.FileData));
+
+        using var memoryStream = new MemoryStream(data);
 
         var transferUtilityUploadRequest = new TransferUtilityUploadRequest
         {

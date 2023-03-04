@@ -144,8 +144,11 @@ internal class MondayIntegration :  Integration<MondayConfiguration>, IMondayInt
 
                 foreach (var cv in item.ColumnValues ?? Array.Empty<ColumnValue>())
                 {
-                    if (!String.IsNullOrWhiteSpace(cv.Id)
+                    if ((cv.Id != null)
+                        && !String.IsNullOrWhiteSpace(cv.Id)
+                        && (cv.Name != null)
                         && !String.IsNullOrWhiteSpace(cv.Name)
+                        && (cv.Value != null)
                         && !String.IsNullOrWhiteSpace(cv.Value))
                     {
                         record.SetColumn(cv.Id, cv.Name, cv.Value);

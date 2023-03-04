@@ -17,11 +17,14 @@ try
         Write-Host 
         Write-Host "        -apiKey"
         Write-Host "            The script will accept the ApiKey for the push to Nuget."
+        Write-Host 
         Write-Host "        -pushNuget"
         Write-Host "            If supplied, will increment the version of the generated Nuget packages"
         Write-Host "            and push the generated packages to Nuget."
+        Write-Host 
         Write-Host "        -help"
         Write-Host "            Display help for options available to the script."
+        Write-Host 
         exit;
     }
 

@@ -92,7 +92,7 @@ internal class GraphQlHttpClient : IGraphQlHttpClient
         {
             if (_client == null)
             {
-                if (String.IsNullOrWhiteSpace(_baseUrl))
+                if ((_baseUrl == null) || String.IsNullOrWhiteSpace(_baseUrl))
                     throw new InvalidOperationException();
 
                 if (_serializer == null)

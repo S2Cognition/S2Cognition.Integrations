@@ -1,30 +1,31 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>net7.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
-	  <PackageReadmeFile>README.md</PackageReadmeFile>
-	  <PackageLicenseFile>LICENSE</PackageLicenseFile>
-	  <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
-	  <PackageProjectUrl>https://github.com/S2Cognition/S2Cognition.Integrations</PackageProjectUrl>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>netstandard2.0</TargetFramework>
+		<LangVersion>Latest</LangVersion>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
+		<PackageLicenseFile>LICENSE</PackageLicenseFile>
+		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+		<PackageProjectUrl>https://github.com/S2Cognition/S2Cognition.Integrations</PackageProjectUrl>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <None Include="..\LICENSE" Link="LICENSE">
-      <PackagePath>\</PackagePath>
-      <Pack>True</Pack>
-    </None>
-  </ItemGroup>
+	<ItemGroup>
+		<None Include="..\LICENSE" Link="LICENSE">
+			<PackagePath>\</PackagePath>
+			<Pack>True</Pack>
+		</None>
+	</ItemGroup>
 
-  <ItemGroup>
-    <PackageReference Include="AWSSDK.SimpleSystemsManagement" Version="3.7.103.32" />
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="AWSSDK.SimpleSystemsManagement" Version="3.7.103.37" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\S2Cognition.Integrations.AmazonWebServices.Core\S2Cognition.Integrations.AmazonWebServices.Core.csproj" />
-    <ProjectReference Include="..\S2Cognition.Integrations.Core\S2Cognition.Integrations.Core.csproj" />
-  </ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\S2Cognition.Integrations.AmazonWebServices.Core\S2Cognition.Integrations.AmazonWebServices.Core.csproj" />
+		<ProjectReference Include="..\S2Cognition.Integrations.Core\S2Cognition.Integrations.Core.csproj" />
+	</ItemGroup>
 
 	<ItemGroup>
 		<None Update="README.md">

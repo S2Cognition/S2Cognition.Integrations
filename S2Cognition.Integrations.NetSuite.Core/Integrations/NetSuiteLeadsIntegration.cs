@@ -38,6 +38,9 @@ internal class NetSuiteLeadsIntegration : NetSuiteSubIntegrationBase, INetSuiteL
         var response = await client.Search(options);
         await CheckResponseForErrors(response);
 
+        if (response == null)
+            throw new InvalidOperationException();
+
         var leads = response.searchResult.recordList
             .OfType<Customer>()
             .Select(record => new LeadRecord
