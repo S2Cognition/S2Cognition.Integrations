@@ -10,9 +10,8 @@ namespace S2Cognition.Integrations.AmazonWebServices.CloudWatch;
 
 public interface IAmazonWebServicesCloudWatchIntegration : IIntegration<AmazonWebServicesCloudWatchConfiguration>
 {
-    Task<GetAlarmsStateResponse> GetAlarmsState(GetAlarmsStateRequest request);
+    Task<GetAlarmsStateResponse> GetAlarmsState(GetAlarmsStateRequest req);
 }
-
 
 internal class AmazonWebServicesCloudWatchIntegration : Integration<AmazonWebServicesCloudWatchConfiguration>, IAmazonWebServicesCloudWatchIntegration
 {
@@ -43,14 +42,26 @@ internal class AmazonWebServicesCloudWatchIntegration : Integration<AmazonWebSer
     {
     }
 
-    public async Task<GetAlarmsStateResponse> GetAlarmsState(GetAlarmsStateRequest request)
+    public async Task<GetAlarmsStateResponse> GetAlarmsState(GetAlarmsStateRequest req)
     {
-        var response = new List<GetAlarmStateDetails>();
-        DescribeAlarmsResponse returnedAlarmsDetails;
+        var request = new DescribeAlarmsRequest();
 
-        returnedAlarmsDetails = await Client.DescribeAlarms(request);
+        if (req.AlarmNames != null)
+            request.AlarmNames = req.AlarmNames;
+
+        if (req.AlarmNamePrefix != null)
+            request.AlarmNamePrefix = req.AlarmNamePrefix;
+
+        if (req.StateValue != null)
+            request.StateValue = req.StateValue;
+
+        if (req.MaxRecords.HasValue)
+            request.MaxRecords = req.MaxRecords.Value;
+
+        var returnedAlarmsDetails = await Client.DescribeAlarms(request);
 
         AlarmState alarmState;
+        var response = new List<GetAlarmStateDetails>();
 
         do
         {

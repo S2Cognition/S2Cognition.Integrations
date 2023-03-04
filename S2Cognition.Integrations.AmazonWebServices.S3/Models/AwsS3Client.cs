@@ -24,12 +24,6 @@ internal class AwsS3Client : IAwsS3Client
 
     public async Task<DownloadS3FileResponse> DownloadFileAsync(DownloadS3FileRequest req)
     {
-        if (String.IsNullOrWhiteSpace(req.BucketName))
-            throw new ArgumentException(nameof(DownloadS3FileRequest.BucketName));
-
-        if (String.IsNullOrWhiteSpace(req.FileName))
-            throw new ArgumentException(nameof(DownloadS3FileRequest.FileName));
-
         if (req.RequestType == DownloadFileRequestType.RawData)
         {
             return await ProcessRawDataRequest(req);
@@ -43,15 +37,6 @@ internal class AwsS3Client : IAwsS3Client
     public async Task<UploadS3FileResponse> UploadFileAsync(UploadS3FileRequest req)
     {
         using var transferUtil = new TransferUtility(_client);
-
-        if ((req.FileData == null) || (req.FileData.Length < 1))
-            throw new ArgumentException(nameof(UploadS3FileRequest.FileData));
-
-        if (String.IsNullOrWhiteSpace(req.FileName))
-            throw new ArgumentException(nameof(UploadS3FileRequest.FileName));
-
-        if (String.IsNullOrWhiteSpace(req.BucketName))
-            throw new ArgumentException(nameof(UploadS3FileRequest.BucketName));
 
         using var memoryStream = new MemoryStream(req.FileData);
 

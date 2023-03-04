@@ -27,6 +27,11 @@ Subproject of [S2Cognition.Integrations](../readme.md)
 * Configuration Object: `AmazonWebServicesSesConfiguration`
 * Integration Service: `IAmazonWebServicesSesIntegration`
 
+## Interface Objects
+
+* Request Object: `SendRequest.cs`
+* Response Object: `SendResponse.cs`
+
 ## Api's
 
 * `async Task<SendResponse> Send(SendRequest req)`

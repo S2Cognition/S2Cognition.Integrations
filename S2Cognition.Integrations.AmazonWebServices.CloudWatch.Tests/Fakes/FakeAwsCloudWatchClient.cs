@@ -1,6 +1,5 @@
 ﻿using Amazon.CloudWatch;
 using Amazon.CloudWatch.Model;
-using S2Cognition.Integrations.AmazonWebServices.CloudWatch.Data;
 using S2Cognition.Integrations.AmazonWebServices.CloudWatch.Models;
 
 namespace S2Cognition.Integrations.AmazonWebServices.CloudWatch.Tests.Fakes;
@@ -36,7 +35,7 @@ internal class FakeAwsCloudWatchClient : IAwsCloudWatchClient, IFakeAwsCloudWatc
         _expectedAlarms = expectedAlarms;
     }
 
-    public async Task<DescribeAlarmsResponse> DescribeAlarms(GetAlarmsStateRequest req)
+    public async Task<DescribeAlarmsResponse> DescribeAlarms(DescribeAlarmsRequest req)
     {
         if (_expectedAlarms == null)
             throw new InvalidOperationException("Expectations were not set on fake.");

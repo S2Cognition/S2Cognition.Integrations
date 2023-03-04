@@ -6,7 +6,7 @@ namespace S2Cognition.Integrations.AmazonWebServices.Ses;
 
 public static class ServiceCollectionExtensions
 {
-    public static IServiceCollection AddAmazonWebServicesS3Integration(this IServiceCollection sc)
+    public static IServiceCollection AddAmazonWebServicesSesIntegration(this IServiceCollection sc)
     {
         return sc.AddSingleton<IAmazonWebServicesSesIntegration>(_ => new AmazonWebServicesSesIntegration(_))
             .AddSingleton<IAwsSesConfigFactory>(_ => new AwsSesConfigFactory())
