@@ -22,9 +22,9 @@ internal class AmazonWebServicesSsmIntegration : Integration<AmazonWebServicesSs
         {
             if (_client == null)
             {
-                var factory = _ioc.GetRequiredService<IAwsSsmClientFactory>();
+                var factory = _serviceProvider.GetRequiredService<IAwsSsmClientFactory>();
 
-                var regionFactory = _ioc.GetRequiredService<IAwsRegionFactory>();
+                var regionFactory = _serviceProvider.GetRequiredService<IAwsRegionFactory>();
 
                 _client = factory.Create(new AwsSsmConfig
                 {

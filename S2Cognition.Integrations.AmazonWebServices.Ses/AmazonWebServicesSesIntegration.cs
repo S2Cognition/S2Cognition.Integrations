@@ -42,8 +42,8 @@ public class AmazonWebServicesSesIntegration : Integration<AmazonWebServicesSesC
         {
             if (_client == null)
             {
-                var factory = _ioc.GetRequiredService<IAwsSesClientFactory>();
-                var regionFactory = _ioc.GetRequiredService<IAwsRegionFactory>();
+                var factory = _serviceProvider.GetRequiredService<IAwsSesClientFactory>();
+                var regionFactory = _serviceProvider.GetRequiredService<IAwsRegionFactory>();
 
                 _client = factory.Create(new AwsSesConfig
                 {

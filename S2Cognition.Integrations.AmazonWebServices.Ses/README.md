@@ -29,8 +29,9 @@ Subproject of [S2Cognition.Integrations](../readme.md)
 
 ## Interface Objects
 
-* Request Object: `SendRequest.cs`
-* Response Object: `SendResponse.cs`
+* `SendResponse Send(SendRequest)`
+  * Request Object: `SendRequest`
+  * Response Object: `SendResponse`
 
 ## Api's
 

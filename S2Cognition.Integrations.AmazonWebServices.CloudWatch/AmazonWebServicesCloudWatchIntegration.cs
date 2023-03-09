@@ -22,9 +22,9 @@ internal class AmazonWebServicesCloudWatchIntegration : Integration<AmazonWebSer
         {
             if (_client == null)
             {
-                var factory = _ioc.GetRequiredService<IAwsCloudWatchClientFactory>();
+                var factory = _serviceProvider.GetRequiredService<IAwsCloudWatchClientFactory>();
 
-                var regionFactory = _ioc.GetRequiredService<IAwsRegionFactory>();
+                var regionFactory = _serviceProvider.GetRequiredService<IAwsRegionFactory>();
 
                 _client = factory.Create(new AwsCloudWatchConfig
                 {

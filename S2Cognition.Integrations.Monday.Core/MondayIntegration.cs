@@ -25,7 +25,7 @@ internal class MondayIntegration :  Integration<MondayConfiguration>, IMondayInt
         {
             if (_client == null)
             {
-                var graphQlClientFactory = _ioc.GetRequiredService<IGraphQlHttpClientFactory>();
+                var graphQlClientFactory = _serviceProvider.GetRequiredService<IGraphQlHttpClientFactory>();
                 var graphQlClient = graphQlClientFactory.Create();
 
                 graphQlClient.BaseUrl = "https://api.monday.com/v2/";

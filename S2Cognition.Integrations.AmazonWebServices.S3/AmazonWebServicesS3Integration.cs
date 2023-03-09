@@ -40,8 +40,8 @@ internal class AmazonWebServicesS3Integration : Integration<AmazonWebServicesS3C
         {
             if (_client == null)
             {
-                var factory = _ioc.GetRequiredService<IAwsS3ClientFactory>();
-                var regionFactory = _ioc.GetRequiredService<IAwsRegionFactory>();
+                var factory = _serviceProvider.GetRequiredService<IAwsS3ClientFactory>();
+                var regionFactory = _serviceProvider.GetRequiredService<IAwsRegionFactory>();
 
                 _client = factory.Create(new AwsS3Config
                 {

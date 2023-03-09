@@ -30,7 +30,7 @@ internal class AmazonWebServicesDynamoDbIntegration : Integration<AmazonWebServi
     {
         if (_context == null)
         {
-            var clientConfigFactory = _ioc.GetRequiredService<IAwsDynamoDbConfigFactory>();
+            var clientConfigFactory = _serviceProvider.GetRequiredService<IAwsDynamoDbConfigFactory>();
             var clientConfig = clientConfigFactory.Create();
 
             if (!String.IsNullOrWhiteSpace(Configuration.ServiceUrl))
@@ -38,14 +38,14 @@ internal class AmazonWebServicesDynamoDbIntegration : Integration<AmazonWebServi
 
             if (!String.IsNullOrWhiteSpace(Configuration.AwsRegion))
             {
-                var regionUtil = _ioc.GetRequiredService<IAwsRegionFactory>();
+                var regionUtil = _serviceProvider.GetRequiredService<IAwsRegionFactory>();
                 clientConfig.RegionEndpoint = await regionUtil.Create(Configuration.AwsRegion);
             }
 
-            var clientFactory = _ioc.GetRequiredService<IAwsDynamoDbClientFactory>();
+            var clientFactory = _serviceProvider.GetRequiredService<IAwsDynamoDbClientFactory>();
             var client = clientFactory.Create(clientConfig);
 
-            var contextFactory = _ioc.GetRequiredService<IAwsDynamoDbContextFactory>();
+            var contextFactory = _serviceProvider.GetRequiredService<IAwsDynamoDbContextFactory>();
             _context = contextFactory.Create(client);
         }
 

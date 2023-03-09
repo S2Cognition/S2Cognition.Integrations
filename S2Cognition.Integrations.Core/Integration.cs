@@ -14,16 +14,16 @@ public interface IIntegration<in T>
 public class Integration<T> : IIntegration<T>
     where T : IConfiguration
 {
-    protected readonly IServiceProvider _ioc;
+    protected readonly IServiceProvider _serviceProvider;
 
     private T? _configuration = default;
     private IDateTimeUtils? _dateTime = default;
 
     private bool _isInitialized = false;
 
-    public Integration(IServiceProvider ioc)
+    public Integration(IServiceProvider serviceProvider)
     {
-        _ioc = ioc;
+        _serviceProvider = serviceProvider;
     }
 
     protected internal T Configuration
@@ -41,7 +41,7 @@ public class Integration<T> : IIntegration<T>
     {
         get
         {
-            _dateTime ??= _ioc.GetRequiredService<IDateTimeUtils>();
+            _dateTime ??= _serviceProvider.GetRequiredService<IDateTimeUtils>();
             return _dateTime;
         }
     }

@@ -1,8 +1,4 @@
-﻿using S2Cognition.Integrations.Core.Models;
-using S2Cognition.Integrations.Core.Tests.Fakes;
-using System.Diagnostics.CodeAnalysis;
-
-namespace S2Cognition.Integrations.Core.Tests;
+﻿namespace S2Cognition.Integrations.Core.Tests;
 
 [SuppressMessage("Major Code Smell", "S3881:\"IDisposable\" should be implemented correctly", Justification = "Not needed for test teardown")]
 public class UnitTestBase : IDisposable
